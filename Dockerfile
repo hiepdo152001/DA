@@ -15,7 +15,7 @@ RUN install-php-extensions gd pdo_mysql mysqli zip
 # install node js
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 
-RUN apt-get install -y nodejs
+RUN apt-get install -y nodejs npm
 
 RUN npm install -g npm@latest
 
