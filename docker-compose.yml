@@ -5,7 +5,7 @@ services:
     image: nginx
     container_name: c-nginx
     ports:
-      - "8080:80"
+      - "8000:80"
     volumes:
       - ./:/var/www/html
       - ./docker/nginx/default_000.conf:/etc/nginx/conf.d/default.conf
@@ -55,7 +55,7 @@ services:
       - "3307:3306"
     volumes:
       - ./docker/db:/var/lib/mysql
-    environment: 
+    environment:
       MYSQL_DATABASE: laravel
       MYSQL_USER: admin
       MYSQL_PASSWORD: 123
@@ -74,7 +74,7 @@ services:
       PMA_USER: admin
       PMA_PASSWORD: 123
       PMA_ARBITRARY: 1
-      
+
   mailhog:
     image: mailhog/mailhog
     container_name: m-mailhog
