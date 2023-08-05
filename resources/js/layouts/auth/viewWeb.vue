@@ -1,66 +1,4 @@
 <template>
-    <!-- <div id="app">
-        <div class="login-page">
-            <div class="wallpaper-register"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-                        <div class="card login" v-if="!registerActive">
-                            <form @submit.prevent="login">
-                                <div class="form-group">
-                                    <label class="form-label" for="email"
-                                        >Email</label
-                                    >
-                                    <input
-                                        type="email"
-                                        class="form-control"
-                                        v-model="formlogin.email"
-                                        required
-                                    />
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="password"
-                                        >Password</label
-                                    >
-                                    <input
-                                        type="password"
-                                        class="form-control"
-                                        v-model="formlogin.password"
-                                        required
-                                    />
-                                </div>
-                                <div class="alert alert-danger" v-if="check">
-                                    {{ check }}
-                                </div>
-                                <div class="text-center">
-                                    <button
-                                        type="submit"
-                                        class="btn btn-primary"
-                                    >
-                                        Đăng nhập
-                                    </button>
-                                </div>
-                                <div class="flex items-center justify-end mt-4">
-                                    <a
-                                        href="http://localhost:8080/auth/google/url"
-                                    >
-                                        <img
-                                            src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png"
-                                            style="margin-left: 3em"
-                                        />
-                                    </a>
-                                </div>
-                            </form>
-                            <div
-                                class="mt-4"
-                                style="border: 1px solid gray"
-                            ></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <div class="login-container">
         <div class="login-header">
             <a href="/">KMA Shope</a>
@@ -215,7 +153,6 @@ html {
 }
 
 .login-container {
-    background-image: url("./netflix_login_bgr.jpg");
     background-size: cover;
     height: 1086px;
     position: relative;

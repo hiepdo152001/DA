@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\Models\social_accounts;
+use App\Models\User;
 
 class AuthServices
 {
-    public function check($social_id)
+    public function check($email)
     {
-        $check = social_accounts::where('social_id', $social_id);
+        $check = User::where('email', $email)->value('email');
         return $check;
     }
 }
