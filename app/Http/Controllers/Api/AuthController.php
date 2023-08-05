@@ -35,7 +35,7 @@ class AuthController extends Controller
     {
         try {
             $googleUser = Socialite::driver('google')->user();
-            $check = $this->authServices->check($googleUser->id);
+            $check = $this->authServices->check($googleUser->email);
             if (!$check) {
                 $user = User::create([
                     'email' => $googleUser->email,
