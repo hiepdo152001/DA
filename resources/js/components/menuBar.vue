@@ -14,7 +14,7 @@
                                 </a>
                             </li>
                             <li class="li-niveau1 advtm_menu_21">
-                                <a href="/" title="" class="a-niveau1">
+                                <a s="a-niveau1">
                                     <span
                                         class="advtm_menu_span advtm_menu_span_21"
                                     >
@@ -31,7 +31,6 @@
                             </li>
                             <li class="li-niveau1 advtm_menu_10 sub">
                                 <a
-                                    href="https://giaycaochonam.com/news/giay-tang-chieu-cao-nam/gioi-thieu-ve-giay-tang-chieu-cao-nam-t-men-32.html"
                                     title="GIỚI THIỆU"
                                     class="adtm_unclickable a-niveau1"
                                     ><span
@@ -43,7 +42,7 @@
 
                             <li class="li-niveau1 advtm_menu_10 sub">
                                 <a
-                                    href="/news/giay-cao-nam.html"
+                                    
                                     title="TIN TỨC"
                                     class="adtm_unclickable a-niveau1"
                                     ><span
@@ -55,7 +54,7 @@
 
                             <li class="li-niveau1 advtm_menu_10 sub">
                                 <a
-                                    href="/news/huong-dan-mua-hang/huong-dan-mua-hang-11.html"
+                                    
                                     title="HD MUA HÀNG"
                                     class="adtm_unclickable a-niveau1"
                                     ><span
@@ -67,7 +66,7 @@
 
                             <li class="li-niveau1 advtm_menu_10 sub">
                                 <a
-                                    href="http://giaycaochonam.com/shops/group/6cm.html"
+                                    
                                     title="↑ 6CM"
                                     class="adtm_unclickable a-niveau1"
                                     ><span
@@ -79,7 +78,6 @@
 
                             <li class="li-niveau1 advtm_menu_10 sub">
                                 <a
-                                    href="http://giaycaochonam.com/shops/group/7cm.html"
                                     title="↑ 7CM"
                                     class="adtm_unclickable a-niveau1"
                                     ><span
@@ -91,7 +89,6 @@
 
                             <li class="li-niveau1 advtm_menu_10 sub">
                                 <a
-                                    href="http://giaycaochonam.com/shops/group/8cm.html"
                                     title="↑ 8CM"
                                     class="adtm_unclickable a-niveau1"
                                     ><span
@@ -103,7 +100,6 @@
 
                             <li class="li-niveau1 advtm_menu_10 sub">
                                 <a
-                                    href="http://giaycaochonam.com/shops/group/9-10cm.html"
                                     title="↑ 9-10CM"
                                     class="adtm_unclickable a-niveau1"
                                     ><span
