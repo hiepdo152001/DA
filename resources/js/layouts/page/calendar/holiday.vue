@@ -1,17 +1,12 @@
 <template>
-    <div class="panel">
+    <div class="panel" style="margin: 45px 30px 0px 30px;">
       <div class="panel-hdr">
-        <h2 class="title" style="padding-top: 10px">Yêu cầu của tôi</h2>
-        <div>
-          <h2 style="padding: 10px 20px 0px 0px">
-            Số ngày phép còn lại:
-          </h2>
-        </div>
+        <h2 class="title" style="padding-top: 10px">Sự kiện của tôi</h2>
       </div>
   
       <div class="panel-container">
         <div class="panel-content">
-            <router-link :to="{name:'createHld'}">
+            <router-link :to="{name:'sys-createHld'}">
             <button class="btn btn-primary waves-effect waves-themed" style="background-color: #886ab5;">
               + Thêm sự kiện
             </button>
@@ -27,7 +22,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="holiday in data" class="contact-row">
+              <tr v-for="holiday in data.data" class="contact-row">
                 <td>{{ holiday.title }}</td>
                 <td>{{ holiday.time_start }} ~ {{ holiday.time_end }}</td>
                 <td>
@@ -38,8 +33,8 @@
                     data-placement="top"
                     title="View"
                   >
-                  <router-link :to="{name:'holidayview',params: { id: holiday.id }}">
-                    <i class="bi bi-eye-fill"></i>
+                  <router-link :to="{name:'sys-holidayview', params: { id: holiday.id }}">
+                    <i class="bi bi-eye-fill" style="color: black;"></i>
                   </router-link>
                   </button>
                   <button
@@ -50,13 +45,17 @@
                     title="Delete"
                     v-on:click="handleDelete(holiday.id)"
                   >
-                    <i class="bi bi-trash-fill"></i>
+                    <i class="bi bi-trash-fill" style="color: red;"></i>
                   </button> 
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+        <div class="page">
+            <Bootstrap5Pagination :data="data" @pagination-change-page="get" />
+        </div>
+
       </div>
     </div>
   </template>
@@ -64,9 +63,13 @@
   <script>
   import { reactive, ref, onMounted } from "vue";
   import axios from "axios";
+  import { Bootstrap5Pagination } from "laravel-vue-pagination";
 
   export default{
     name:"holiday",
+    components:{
+      Bootstrap5Pagination
+    },
     data(){
       const data=ref([]);
       return{
@@ -74,7 +77,7 @@
       }
     },
     mounted(){
-      axios.get(`http://localhost:8000/api/calendar/holiday`).then(response=>{
+      axios.get(`http://localhost:8000/api/calendar/holiday?page=1`).then(response=>{
         this.data=response.data.data;
       });
     },
@@ -88,6 +91,12 @@
             }
           });
         }
+      },
+      get(page=1){
+        axios.get(`http://localhost:8000/api/calendar/holiday?page=${page}`).then(response=>{
+          console.log()
+        this.data=response.data.data;
+      });
       }
     }
   }

@@ -17,16 +17,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/auth/google/url', [AuthController::class, 'googleLoginUrl']);
 Route::get('/auth/google/callback', [AuthController::class, 'loginCallback']);
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/home', function () {
-    return view('welcome');
-});
 
-// Auth::routes();
+Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/login',function(){
+    return view('welcome');
+})->name('login');;
 // Route::get('/login', function () {
 //     return view('auth/login');
-// });
+// })->name('login');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
+->name('home');
+Route::get('/admin-hcm', [App\Http\Controllers\HomeController::class, 'index'])->name('admin')->middleware('checkRole:admin');
+Route::get('/system', [App\Http\Controllers\HomeController::class, 'index'])->name('systemAdmin')->middleware('checkRole:systemAdmin');
+Route::get('/user', [App\Http\Controllers\HomeController::class, 'index'])->name('calendars')->middleware('checkRole:user');
+
+
+

@@ -5,6 +5,7 @@
       mode="inline"
     >
       <a-menu-item key="lich-lam-viec">
+        <i class="bi bi-boxes"></i>
         <span>Thống kê</span>
       </a-menu-item>
   

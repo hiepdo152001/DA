@@ -1,6 +1,7 @@
 <template>
-    <div class="topsite small_hide">
-        <ul class="container">
+    <div class="topsite small_hide d-flex">
+        <div class="col-md-11">
+            <ul class="container">
             <li class="col-md-3 rea1">
                 <span class="glyphicon glyphicon-link"></span>
                 BẢO HÀNH 12 THÁNG 1 ĐỔI 1
@@ -60,6 +61,64 @@
                 </div>
             </li>
         </ul>
+        </div>
+        <div class="dropdown col-md-1" style="padding-right: 40px; padding-top: 3px;">
+      <div class="btn custom-dropdown" type="button" data-toggle="dropdown" style="padding: 0px;">
+        <img style="width: 35px;" class="profile-image rounded-circle" :src=user.avatar>
+      </div>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <div
+          class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top" 
+          style="background: linear-gradient(250deg, #3e93d6, #8a75aa);"
+        >
+        <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white" >
+            <span class="mr-2">
+              <img
+                v-if="user.avatar"
+                class="profile-image rounded-circle"
+                :src="user.avatar"
+                alt=""
+              />
+              <img
+                v-else
+                class="profile-image rounded-circle"
+                alt=""
+              />
+            </span>
+            <div class="info-card-text">
+              <div class="fs-lg text-truncate text-truncate-lg">
+                {{ user.name }}
+              </div>
+              <span class="text-truncate text-truncate-md opacity-80">
+                {{ user.email }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <li>
+          <router-link :to="{ name: 'test' }">
+            <a class="dropdown-item">Profile</a>
+          </router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: '' }">
+            <a class="dropdown-item">Đổi mật khẩu</a>
+          </router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: '' }">
+            <a class="dropdown-item">Danh sách yêu cầu</a>
+          </router-link>
+        </li>
+        <li style="padding-left: 20px">
+          <!-- <form>
+            <form @submit.prevent="logout">
+              <button type="submit" class="dropdown-item">Logout</button>
+            </form>
+          </form> -->
+        </li>
+      </ul>
+    </div>
     </div>
     <div class="menu-fixed">
         <div class="fullsize-menubar small_show bar-top">
@@ -132,6 +191,7 @@
             </div>
         </div>
     </div>
+
     <div class="clearfix"></div>
     <div class="mobile pushy" :class="{ 'pushy-left': check === false }">
         <nav class="navigation">
@@ -212,29 +272,46 @@
     </div>
 </template>
 <script>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
+import axios from "axios";
 export default {
-    setup() {
+    name:"top",
+    data(){
         const check = ref(false);
-        onMounted(async () => {
-            check.value = false;
-        });
-        const bam = () => {
-            if (check.value === true) {
-                check.value = false;
-            } else {
-                check.value = true;
-            }
-        };
+        const user=ref([]);
         return {
-            bam,
             check,
-        };
+            user
+        }
     },
+    mounted(){
+        this.check = false;
+        axios.get(`http://localhost:8000/api/user`).then(response=>{
+            this.user=response.data.data;
+            console.log(this.user.avatar);
+            
+        });
+
+    },
+    methods:{
+        bam(){
+            if (this.check === true) {
+                this.check = false;
+            } else {
+                this.check= true;
+            }
+        }
+    }
+   
 };
 </script>
-<style src="../assets/style.css"></style>
 <style>
+.text-truncate{
+  font-size: 14px;
+  color: white;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
 .container {
     padding-right: 5px;
     padding-left: 5px;

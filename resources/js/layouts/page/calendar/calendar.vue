@@ -1,6 +1,6 @@
 <template>
-  <div class="panel">
-    <div class="p-5">
+  <div class="panel" style="margin: 60px 30px 0px 30px;">
+    <div class="p-4">
       <div class="check-in-out" :class="{ 'd-none': off }">
         <button
           class="btn btn-danger btn-sm"
@@ -31,6 +31,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listGridPlugin from "@fullcalendar/list";
 import interactionGridPlugin from "@fullcalendar/interaction";
+import rrule from "@fullcalendar/rrule";
 import ApiService from "../../../service/calendarService.js";
 import axios from "axios";
 import AppService from "../../../service/ApiService";
@@ -46,7 +47,8 @@ export default {
     const off = ref(false);
     onMounted(async () => {
       const calendarApi = calendarRef.value.getApi();
-      AppService.get('http://localhost:8000/api/calendar/holiday').then(response=>{
+      AppService.get('http://localhost:8000/api/calendar/holiday/all').then(response=>{
+        console.log(response.data);
         ApiService.holiday(options,calendarApi,response.data);
       })
       
@@ -69,6 +71,7 @@ export default {
         timeGridPlugin,
         listGridPlugin,
         interactionGridPlugin,
+        rrule
       ],
       initialView: "dayGridMonth",
       headerToolbar: {
@@ -117,36 +120,26 @@ export default {
       calendarRef,
       showCheckOutButton,
       off,
-      // checkClick,
     };
   },
 };
 </script>
 
 <style>
-.panel {
-  display: -webkit-box;
-  display: -ms-flexbox;
+/* .fc-daygrid-day-events {
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  position: relative;
-  background-color: #fff;
-  -webkit-box-shadow: 0px 0px 13px 0px rgba(62, 44, 90, 0.08);
-  box-shadow: 0px 0px 13px 0px rgba(62, 44, 90, 0.08);
-  margin-bottom: 1.5rem;
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  border-bottom: 1px solid #e0e0e0;
-  border-radius: 4px;
-  -webkit-transition: border 500ms ease-out;
-  transition: border 500ms ease-out;
+  flex-wrap: wrap;
+}
+.fc-daygrid-event-harness{
+  flex: 1;
+  
+}
+.fc-daygrid-event-harness:nth-child(3) {
+  flex-basis: 100%;
 }
 .fc-event-title {
-  font-weight: 600;
-}
+ 
+} */
 .fc .fc-scrollgrid-liquid {
   height: 85% !important;
 }
@@ -204,4 +197,5 @@ export default {
 .fc .fc-scrollgrid-liquid {
   height: 100% !important;
 }
+
 </style>

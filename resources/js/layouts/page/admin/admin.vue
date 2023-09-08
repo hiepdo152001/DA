@@ -1,9 +1,9 @@
 <template>
     <div class="row d-flex">
-    <div class="col-sm-2" style=" background-color: rgb(33, 57, 124);">
+    <div class="col-sm-2" >
     <menuAdmin/>
     </div>
-    <div class="col-12 col-sm-10">
+    <div class="col-sm-10">
         <router-view></router-view>
     </div>
 </div>

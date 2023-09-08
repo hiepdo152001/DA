@@ -1,5 +1,5 @@
 <template>
-     <div class="panel">
+    <div class="panel">
      <div class="panel">
      <div class="panel-hdr">
           <h2 class="title" style="padding-top: 10px">Yêu cầu của tôi</h2>
@@ -11,10 +11,10 @@
      </div>
      <div class="panel-content">
           <div class="col-md-6">
-          <div class="alert alert-danger" >
+          <!-- <div class="alert alert-danger" >
           
-          </div>
-          <form >
+          </div> -->
+          <form v-on:submit.prevent="CreateReq">
                <div class="form-row">
                <div class="col-md-9" style="margin-top: 15px">
                <label class="form-label" for="time_start">Nội dung</label>
@@ -22,6 +22,7 @@
                     class="form-control kind-select"
                     aria-label="Default select example"
                     required
+                    v-model="data.content"
                     @change="onChange($event)"
                >
                     <option value="days_on">Nghỉ phép có lương</option>
@@ -41,6 +42,7 @@
                     class="form-check-input"
                     type="checkbox"
                     role="switch"
+                    v-model="data.type"
                     id="flexSwitchCheckChecked"
                     checked
                     />
@@ -56,6 +58,7 @@
                <input
                     class="form-control"
                     type="datetime-local"
+                    v-model="data.time_start"
                />
                </div>
                <div
@@ -65,34 +68,27 @@
                <input
                     class="form-control"
                     type="datetime-local"
+                    v-model="data.time_end"
                />
                </div>
                </div>
                <div class="col-md-8">
-               <div class="form-group">
-               <label for="phone">Số điện thoại</label>
-               <input
-                    type="text"
-                    class="form-control"
-                    required
-               />
+                    <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input
+                         type="text"
+                         class="form-control"
+                         required
+                         v-model="data.phone"
+                    />
+                    </div>
                </div>
-               </div>
-               <div class="form-group col-md-8">
-               <label for="project">Dự án</label>
-               <input
-               type="text"
-               class="form-control"
-               
-               required
-               />
-               </div>
-
                <div class="form-group col-md-8">
                <label for="reason" class="form-label">Lý do</label>
                <textarea
                class="form-control"
                id="validationTextarea"
+               v-model="data.reason"
                required
                placeholder='Cần nêu lý do cụ thể, không viết "Lý do cá nhân".'
                ></textarea>
@@ -214,22 +210,56 @@
 
      </div>
 </template>
+     
+
 <script>
 import { reactive, ref, onMounted } from "vue";
-import ApiService from "../../../service/calendarService.js";
+import ApiService from "../../../../service/calendarService"
+import { useRouter } from "vue-router";
+
+import axios from "axios";
 export default {
+     name:'req',
      data() {
+          const data=reactive({
+               content:"",
+               type:"",
+               time_start:"",
+               time_end:"",
+               reason:"",
+               phone:""
+          });
+          const router= useRouter();
+          const id = router.currentRoute.value.params.id;
+          const active="days_on";
           return {
-               active: "days_on",
+                active,
+                data,
+                id
           };
      },
+     mounted(){
+      if(this.id){
+        axios.get(`http://localhost:8000/api/calendar/requests/${this.id}`)
+        .then(response=>{
+                    this.data=response.data.data;
+                });
+        }
+        }
+     ,
      methods: {
           onChange(event) {
                this.active = ApiService.Onchange(event, this.active);
           },
+          CreateReq(){
+            const idParam = this.id ? [this.data, this.id] : [this.data];
+            this.$emit('CreateReq', ...idParam);
+               
+          }
      },
 }
 </script>
+
 <style>
 h2 {
   font-size: 14px !important;

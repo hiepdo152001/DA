@@ -79,13 +79,13 @@
        };
      },
      mounted(){
-      if(this.id){
-        axios.get(`http://localhost:8000/api/calendar/holiday/${this.id}`)
-        .then(response=>{
-                    this.data=response.data.data;
-                });
+        if(this.id){
+          axios.get(`http://localhost:8000/api/calendar/holiday/${this.id}`)
+          .then(response=>{
+                      this.data=response.data.data;
+                  });
         }
-        }
+      }
      ,
      methods: {
        submitHoliday() {

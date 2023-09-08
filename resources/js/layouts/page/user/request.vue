@@ -1,5 +1,5 @@
 <template>
-    <div class="panel">
+    <div class="panel" style="margin: 50px 30px;">
       <div class="panel-hdr">
         <h2 class="title" style="padding-top: 10px">Yêu cầu của tôi</h2>
         <div>
@@ -11,14 +11,14 @@
   
       <div class="panel-container">
         <div class="panel-content">
-            <router-link :to="{name:'createReq'}">
+            <router-link :to="{name:'createReq-user'}">
             <button class="btn btn-primary waves-effect waves-themed" style="background-color: #886ab5;">
               + Thêm yêu cầu
             </button>
         </router-link>
         </div>
         <div class="panel-content">
-          <table class="table table-bordered" style="margin-top: 30px">
+          <table class="table table-bordered " style="margin-top: 30px">
             <thead>
               <tr>
                 <th>Nội dung</th>
@@ -29,6 +29,36 @@
               </tr>
             </thead>
             <tbody>
+              <tr v-for="datas in data" :key="datas.id">
+                <td v-if="datas.content ==='days_on'">Nghỉ phép có lương</td>
+                <td v-if="datas.content ==='days_off'">Nghỉ phép không lương</td>
+                <td v-if="datas.status ===1 "><span class="status status-processing">Đang xử lý</span></td>
+                <td> Admin</td>
+                <td>{{ datas.time_start }} ~ {{ datas.time_end }}</td>
+                <td>
+                  <button
+                    class="btn"
+                    type="button"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="View"
+                  >
+                  <router-link :to="{name:'view-request-user', params: { id: datas.id }}">
+                    <i class="bi bi-eye-fill" style="color: black;"></i>
+                  </router-link>
+                  </button>
+                  <button
+                    class="btn"
+                    type="button"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Delete"
+                    v-on:click="handleDelete(datas.id)"
+                  >
+                    <i class="bi bi-trash-fill" style="color: red;"></i>
+                  </button> 
+                </td>
+              </tr>
               
             </tbody>
           </table>
@@ -38,7 +68,21 @@
   </template>
   
   <script>
-  
+import axios from 'axios';
+import { ref } from 'vue';
+  export default{
+    data(){
+      const data=ref([])
+      return {
+        data
+      }
+    },
+    mounted(){
+      axios.get(`http://localhost:8000/api/calendar/requests`).then(res=>{
+      this.data=res.data.data;
+      });
+    }
+  }
     
   </script>
   
@@ -47,11 +91,23 @@
     border-radius: 15px;
     width: 75%;
     margin: auto;
-    padding: 4px 0px;
+    padding: 4px 10px;
     text-align: center;
     font-weight: 600;
+    color: white;
   }
-  
+  .status-processing {
+  background-color:  #a26304;
+  }
+
+  .status-completed {
+    background-color: #4caf50;
+    
+  }
+
+  .status-pending {
+    background-color: #2196f3;
+  }
   .page-content .panel {
     margin-bottom: 1.5rem;
   }
@@ -105,10 +161,8 @@
   .panel-hdr > :first-child {
     padding-left: 1rem;
   }
-  .table {
-    margin-top: 30px;
-    width: 100%;
-    border-collapse: collapse;
+  .table-bordered td{
+    text-align: center;
   }
   .panel .panel-container .panel-content {
     padding: 0px 10px;
@@ -144,7 +198,6 @@
   }
   
   .table-bordered td {
-    text-align: center;
     font-weight: 600;
     padding: 12px;
   }
@@ -152,16 +205,5 @@
     border-collapse: collapse;
 }
   
-  .status-processing {
-    color: #ff9800;
-  }
-  
-  .status-completed {
-    color: #4caf50;
-  }
-  
-  .status-pending {
-    color: #2196f3;
-  }
   </style>
   
