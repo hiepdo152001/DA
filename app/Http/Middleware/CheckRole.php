@@ -18,6 +18,6 @@ class CheckRole
                 return $next($request);
             }
         }
-        return redirect()->intended('/home');
+        return redirect()->intended('/login');
     }
 }

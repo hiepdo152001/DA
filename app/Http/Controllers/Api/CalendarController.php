@@ -22,7 +22,8 @@ class CalendarController extends Controller
         $this->calendarService = $calendarService;
     }
 
-    public function index(){
+    public function index()
+    {
         return view('welcome');
     }
     public function create()

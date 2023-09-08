@@ -111,9 +111,9 @@ class CalendarService
 
         $work_time = $this->setTime($time_keep->time_in, $time_keep->time_out);
 
-        // $time_keep->work_time = $work_time;
+        $time_keep->work_time = $work_time;
 
-        // $time_keep->save();
+        $time_keep->save();
 
         return $time_keep;
     }

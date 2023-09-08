@@ -21,6 +21,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'address',
+        'birth_day',
+        'phone',
+        'cccd',
+        'avatar',
+        'branch_id',
+        'role_id',
     ];
 
     /**
@@ -42,4 +49,12 @@ class User extends Authenticatable
     //     'email_verified_at' => 'datetime',
     //     'password' => 'hashed',
     // ];
+    public function timeKeep()
+    {
+        return $this->hasMany(time_keep::class, 'user_id', 'id');
+    }
+    public function contacts()
+    {
+        return $this->hasMany(contact::class, 'user_id', 'id');
+    }
 }

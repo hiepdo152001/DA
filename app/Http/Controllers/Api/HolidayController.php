@@ -43,5 +43,11 @@ class HolidayController extends Controller
          'data'=>$holidays
         ],200);
      }
+     public function all(){
+      $holidays= $this->holidayService->all();
+      return response()->json([
+       'data'=>$holidays
+      ],200);
+   }
     
 }

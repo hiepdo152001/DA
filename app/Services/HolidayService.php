@@ -28,9 +28,15 @@ class HolidayService
     }
 
     public function get($id){
-        if($id===null){
-            return holiday::all();
+        if($id===null ){
+            return holiday::paginate(3);
         }
+       
         return holiday::find($id);
+    }
+
+    public function all(){
+       
+        return holiday::all();
     }
 }
