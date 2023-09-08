@@ -9,9 +9,11 @@ use App\Services\AuthServices;
 use App\Services\SocialService;
 use App\Services\UserService;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
 
 
@@ -65,5 +67,43 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+    public function profile()
+    {
+        $user = $this->getCurrentLoggedIn();
+
+        if (!isset($user)) {
+            return response()->json([
+                'message' => 'not found login '
+            ], 500);
+        }
+
+        return response()->json([
+            'data' => $user
+        ], 200);
+    }
+    
+    public function get(Request $request){
+        $search = $request->input('search');
+        $users= $this->userService->get($search);
+        return response()->json([
+            $users
+        ]);
+    }
+
+    public function getById($id)
+    {
+        $user = $this->userService->getById($id);
+
+        if ($user === null) {
+            return response()->json([
+                'status' =>  false,
+                'message' => 'user_id not found',
+            ], 404);
+        }
+
+        return response()->json([
+            'data' => $user
+        ], 202);
     }
 }
