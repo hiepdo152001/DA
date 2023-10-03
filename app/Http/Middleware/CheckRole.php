@@ -9,15 +9,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
 {
-    public function handle($request, Closure $next, $role)
-    {
-
-        if ($request->user() ) {
-            $roles=roles::where('id',$request->user()->role_id)->value('name');
-            if($roles===$role){
-                return $next($request);
-            }
+    public function handle($request, Closure $next, ...$roles)
+{
+    if ($request->user()) {
+        $userRole = roles::where('id', $request->user()->role_id)->value('name');
+        if (in_array($userRole, $roles)) {
+            return $next($request);
         }
-        return redirect()->intended('/login');
     }
+    
+    return redirect('/login');
+}
 }
