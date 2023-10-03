@@ -97,10 +97,37 @@ class UserService
         return User::paginate(3);
     }
 
+    public function getManager($branch_id)
+    {
+        $user = User::where('branch_id', $branch_id)
+            ->where('role_id', 5)
+            ->first();
+        return $user;
+    }
+
     public function getById($id)
     {
         $user = User::find($id);
         return $user;
     }
+
+    public function editAvatar($id,$avatar){
+        $user = $this->getById($id);
+            if (Storage::exists('avatar/' . $id . 'avatar.jpg')) {
+                Storage::delete('avatar/' . $id . 'avatar.jpg');
+            }
+            Storage::putFileAs('avatar', $avatar, $id. 'avatar.jpg');
+
+            $user->avatar = 'http://localhost:9000/mybucket/avatar/' . $id . 'avatar.jpg';
+            $user->save();
+       return $user;
+    }
+
+    public function edit($id, array $payload){
+        $user = $this->getById($id);
+        $user->update($payload);
+        return $user;
+    }
+    
     
 }
