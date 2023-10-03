@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Contact;
 use App\Models\User;
+use App\Notifications\RequestNotify;
 use DateTime;
 use Illuminate\Support\Facades\Hash;
 
@@ -46,6 +47,10 @@ class ContactService
             'type'=>1,
             'status' => 1,
         ]);
+        $user= $this->userService->getById($userId);
+        $manager=$this->userService->getManager($user->branch_id);
+        $manager->notify(new RequestNotify($contact,$manager));
+
         return $contact;
     }
 
@@ -54,9 +59,31 @@ class ContactService
         return Contact::where('user_id',$id)->get();
     }
 
+    public function getManager($branch_id,$role_id){
+        if($role_id===3){
+            return Contact::select('contacts.*', 'users.name as user_name')
+                    ->join('users', 'users.id', '=', 'contacts.user_id')
+                    ->where('contacts.status',2)
+                    ->where('users.branch_id',$branch_id)
+                    ->orWhere('contacts.status',1)
+                    ->where('users.role_id',4)
+                    ->where('users.branch_id',$branch_id)
+                    ->get();
+        }
+        return Contact::select('contacts.*', 'users.name as user_name')
+                    ->join('users', 'users.id', '=', 'contacts.user_id')
+                    ->where('contacts.status',1)
+                    ->where('users.branch_id',$branch_id)
+                    ->where('users.role_id',5)
+                    ->get();
+    }
+
     public function getById($id)
     {
-        return Contact::find($id);
+        return Contact::select('contacts.*', 'users.name as user_name')
+                    ->join('users', 'users.id', '=', 'contacts.user_id')
+                    ->where('contacts.id', $id)
+                    ->first();
     }
 
     public function edit($id, array $payload)
@@ -94,41 +121,21 @@ class ContactService
         return $user->name;
     }
 
-    // public function get($department_id, $status)
-    // {
-    //     $contacts = Contact::select('contacts.*')
-    //         ->join('users', 'users.id', '=', 'contacts.user_id')
-    //         ->where('contacts.status', $status)
-    //         ->where('users.department_id', $department_id)
-    //         ->get();
-    //     $users = User::with('contacts')->get();
-    //     foreach ($contacts as $contact) {
-    //         foreach ($users as $user) {
-    //             if ($contact->user_id === $user->id) {
-    //                 $contact->user_name = $user->name;
-    //             }
-    //         }
-    //     }
-    //     return $contacts;
-    // }
+    
 
     public function handleRequest($newContact, $user, $month)
     {
-        if ($newContact->content === 'days_on') {
-
-            return $this->dayOns($newContact, $month);
-        } elseif ($newContact->content === 'days_off') {
-            return [];
-        } elseif ($newContact->content === 'special_take_leave') {
-            $days = $this->userService->getTime($newContact->time_start, $newContact->time_end);
-            return ['flag' => round($days, 2), 'month' => $month];
-        } elseif ($newContact->content === 'over_time') {
-            return $this->overTime($newContact, $month);
-        } elseif ($newContact->content === 'forgot_to_check') {
-            return $this->forgotToCheck($newContact);
-        } elseif ($newContact->content === 'device_recall') {
-            return $this->deviceRecall($newContact);
+        switch ($newContact->content) {
+            case 'days_on':
+                return $this->dayOns($newContact, $month);
+            case 'days_off':
+                return [];
+            case 'over_time':
+                return $this->overTime($newContact, $month);
+            default:
+                return [];
         }
+        
     }
 
     public function dayOns($newContact, $month)
