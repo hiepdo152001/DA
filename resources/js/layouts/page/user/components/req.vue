@@ -1,6 +1,5 @@
 <template>
-    <div class="panel">
-     <div class="panel">
+     <div class="panel" style="margin: 50px 30px;">
      <div class="panel-hdr">
           <h2 class="title" style="padding-top: 10px">Yêu cầu của tôi</h2>
           <div>
@@ -11,9 +10,6 @@
      </div>
      <div class="panel-content">
           <div class="col-md-6">
-          <!-- <div class="alert alert-danger" >
-          
-          </div> -->
           <form v-on:submit.prevent="CreateReq">
                <div class="form-row">
                <div class="col-md-9" style="margin-top: 15px">
@@ -24,16 +20,11 @@
                     required
                     v-model="data.content"
                     @change="onChange($event)"
+                    :disabled="check === 1"
                >
                     <option value="days_on">Nghỉ phép có lương</option>
                     <option value="days_off">Nghỉ phép không lương</option>
                     <option value="over_time">Làm thêm giờ</option>
-                    <option value="forgot_to_check">
-                    Cập nhật thời gian làm việc
-                    </option>
-                    <option value="special_take_leave">
-                    Nghỉ việc riêng có lương
-                    </option>
                </select>
                </div>
                <div class="col-md-3">
@@ -59,6 +50,7 @@
                     class="form-control"
                     type="datetime-local"
                     v-model="data.time_start"
+                    v-bind:readonly="check === 1"
                />
                </div>
                <div
@@ -69,6 +61,7 @@
                     class="form-control"
                     type="datetime-local"
                     v-model="data.time_end"
+                    v-bind:readonly="check === 1"
                />
                </div>
                </div>
@@ -80,6 +73,7 @@
                          class="form-control"
                          required
                          v-model="data.phone"
+                         v-bind:readonly="check === 1"
                     />
                     </div>
                </div>
@@ -89,11 +83,27 @@
                class="form-control"
                id="validationTextarea"
                v-model="data.reason"
+               v-bind:readonly="check === 1"
                required
                placeholder='Cần nêu lý do cụ thể, không viết "Lý do cá nhân".'
                ></textarea>
                </div>
-               <div class="col-md-6" style="margin-bottom: 10px">
+               <div v-if="check === 1 && user.role_id <= 4 && data.user_id !== user.id  " class="col-md-6" style=" margin-bottom: 15px;">
+               <label class="form-label" for="time_start">Trạng thái</label>
+               <select
+                    class="form-control kind-select"
+                    aria-label="Default select example"
+                    required
+                    v-model="data.status"
+               >
+                    <option value="1">Đang xử lý</option>
+                    <option value="2">Xác nhận</option>
+                    <option v-if="data.status !==1" value="3">Chấp nhận</option>
+                    <option value="4">Từ chối</option>
+                    <option value="5">Hủy</option>
+               </select>
+               </div>
+               <div class="col-md-7" style="margin-bottom: 10px">
                <button
                type="submit"
                class="btn btn-success waves-effect waves-themed"
@@ -208,7 +218,6 @@
      </div>
      </div>
 
-     </div>
 </template>
      
 
@@ -227,24 +236,43 @@ export default {
                time_start:"",
                time_end:"",
                reason:"",
-               phone:""
+               phone:"",
+               status:"",
           });
           const router= useRouter();
+          const user=ref([]);
+          const check = ref(0); 
+          
           const id = router.currentRoute.value.params.id;
           const active="days_on";
           return {
                 active,
                 data,
-                id
+                id,
+                check,
+                user,
+                router
           };
      },
      mounted(){
-      if(this.id){
-        axios.get(`http://localhost:8000/api/calendar/requests/${this.id}`)
-        .then(response=>{
-                    this.data=response.data.data;
-                });
-        }
+          axios.get(`http://localhost:8000/api/user`)
+          .then(response=>{
+                    this.user=response.data.data;
+          });
+          if(this.id){
+          axios.get(`http://localhost:8000/api/calendar/requests/${this.id}`)
+          .then(response=>{
+               this.data=response.data.data;
+               if (this.$route.fullPath.includes("edit-request")) {
+                    console.log(response.data.data.user_id);
+                    if(response.data.data.status !==1 || this.user.id !== response.data.data.user_id){
+                         this.check = 1; 
+                    }
+               
+               }
+     });
+
+     }
         }
      ,
      methods: {

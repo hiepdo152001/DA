@@ -64,16 +64,16 @@
         </div>
         <div class="dropdown col-md-1" style="padding-right: 40px; padding-top: 3px;">
       <div class="btn custom-dropdown" type="button" data-toggle="dropdown" style="padding: 0px;">
-        <img style="width: 35px;" class="profile-image rounded-circle" :src=user.avatar>
+        <img style="width: 35px;height: 35px;" class="profile-image rounded-circle" :src=user.avatar>
       </div>
-      <ul class="dropdown-menu dropdown-menu-right">
+      <ul class="dropdown-menu dropdown-menu-right" style="padding: 0px;">
         <div
           class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top" 
           style="background: linear-gradient(250deg, #3e93d6, #8a75aa);"
         >
         <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white" >
             <span class="mr-2">
-              <img
+              <img style="width: 50px; height: 50px;"
                 v-if="user.avatar"
                 class="profile-image rounded-circle"
                 :src="user.avatar"
@@ -111,11 +111,11 @@
           </router-link>
         </li>
         <li style="padding-left: 20px">
-          <!-- <form>
+          <form>
             <form @submit.prevent="logout">
               <button type="submit" class="dropdown-item">Logout</button>
             </form>
-          </form> -->
+          </form>
         </li>
       </ul>
     </div>
@@ -300,7 +300,12 @@ export default {
             } else {
                 this.check= true;
             }
-        }
+        },
+        logout(){
+        axios.get(`http://localhost:8000/api/logout`).then(response=>{
+          location.reload('');
+        });
+      }
     }
    
 };

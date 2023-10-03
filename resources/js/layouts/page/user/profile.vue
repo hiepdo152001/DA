@@ -1,5 +1,6 @@
 <template>
-    <profile-component :user="user" />
+    <!-- <profile-component :user="user" /> -->
+    test
 </template>
 <script>
 import { ref } from "vue";
@@ -12,16 +13,13 @@ export default {
     },
     data(){
         const user=ref([]);
-        const test=ref();
         return {
             user,
-            test
         }
     },
     mounted() {
     axios.get(`http://localhost:8000/api/user`).then(response => {
         this.user = response.data.data;
-        this.test=this.user.id;
     });
 },
    

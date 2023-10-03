@@ -1,7 +1,7 @@
 <template>
      <div class="panel">
        <div class="panel-hdr">
-         <h2 class="title" style="padding-top: 10px">Yêu cầu của tôi</h2>
+         <h2 class="title" style="padding-top: 10px">Sự kiện của tôi</h2>
          <div>
            <h2 style="padding: 10px 20px 0px 0px">
              Số ngày phép còn lại:

@@ -1,20 +1,83 @@
 <template>
-<req v-on:CreateReq="CreateReq" />
+  <div class="panel" style="margin: 50px 30px;">
+  <div class="panel-hdr">
+    <h2>Chi tiết yêu cầu</h2>
+  </div>
+  <div class="panel-container">
+    <div class="panel-content">
+          </div>
+    <div class="panel-content">
+      <div class="panel-content" style="margin-bottom: 30px;">
+        <router-link :to="{name:'edit-request-user', params: { id: req.id }}">
+            <button class="btn btn-primary waves-effect waves-themed" style="background-color: #886ab5;">
+              <i title="edit" class="bi bi-pencil-fill"></i>
+            </button>
+        </router-link>
+      </div>
+      <table class="table  table-bordered table-hover create-req">
+        <tbody>
+          <tr>
+              <td><strong>Người tạo</strong></td>
+              <td>{{req.user_name}} </td>
+            </tr>
+          <tr>
+            <status :datas="req" />
+          </tr>
+            <tr>
+              <td><strong>Thời hạn</strong></td>
+              <td>{{req.time_start}} ~ {{req.time_end}}</td>
+            </tr>
+          <tr>
+            <td><strong>Số điện thoại</strong></td>
+            <td>{{ req.phone }}</td>
+          </tr>
+          <tr>
+            <td><strong>Dự án</strong></td>
+            <td>D1-Intern</td>
+          </tr>
+          <tr>
+            <td><strong>Lý do</strong></td>
+            <td><p>{{ req.reason }}</p></td>
+          </tr>
+        </tbody>
+      </table>
+      
+    </div>
+  </div>
+</div>
 </template>
 <script>
 import axios from 'axios';
 import req from './components/req.vue';
+import { ref } from 'vue';
+import { useRouter } from "vue-router";
+import status from '../../../components/status.vue';
+
 export default{
   name:'view-req',
-  components:{
-    req
-  },
-  methods:{
-    CreateReq(data,id){
-        axios.put(`http://localhost:8000/api/calendar/requests/${id}`,data).then(res=>{
-               })
+  data(){
+    const req=ref([]);
+    const router=useRouter();
+    const id = router.currentRoute.value.params.id;
+    return {
+      req,
+      id
     }
-  }
+  },
+  components:{
+      status
+  },
+ mounted(){
+  axios.get(`http://localhost:8000/api/calendar/requests/${this.id}`)
+        .then(response=>{
+                    this.req=response.data.data;
+                });
+  }   
 
-}
+  }
 </script>
+<style>
+.create-req td{
+  padding: 15px!important;
+}
+</style>

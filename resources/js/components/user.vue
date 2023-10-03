@@ -15,9 +15,16 @@
         <tr v-for="u in users" class="contact-row">
           <td>{{ u.name }}</td>
           <td>{{ u.email }}</td>
+
           <td v-if=" u.branch_id == 1 "> Hồ Chí Minh</td>
           <td v-if=" u.branch_id == 2 "> Đà Nẵng</td>
-          <td></td>
+          <td v-if="u.role_id === null"> </td>
+          <td v-if="u.role_id === 1">Quản trị hệ thống  </td>
+          <td v-if="u.role_id === 2">Quản trị  </td>
+          <td v-if="u.role_id === 3">Quản trị nhân lực  </td>
+          <td v-if="u.role_id === 4">Quản lý  </td>
+          <td v-if="u.role_id === 5"> Nhân viên </td>
+          <td v-if="u.role_id === 6"> Khách </td>
           <td></td>
           <td>
             <button
@@ -48,8 +55,5 @@ export default{
             required: true,
         },
     },
-    mounted(){
-      console.log(this.users);
-    }
 }
 </script>

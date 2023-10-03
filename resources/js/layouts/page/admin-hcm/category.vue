@@ -1,14 +1,14 @@
 <template>
     <div class="panel" style="margin: 45px 30px 0px 30px;">
       <div class="panel-hdr">
-        <h2 class="title" style="padding-top: 10px">Sự kiện của tôi</h2>
+        <h2 class="title" style="padding-top: 10px">Danh mục của tôi</h2>
       </div>
   
       <div class="panel-container">
         <div class="panel-content">
-            <router-link :to="{name:'sys-createHld'}">
+            <router-link :to="{name:'view-category'}">
             <button class="btn btn-primary waves-effect waves-themed" style="background-color: #886ab5;">
-              + Thêm sự kiện
+              + Thêm danh mục
             </button>
         </router-link>
         </div>
@@ -16,15 +16,18 @@
           <table class="table table-bordered" style="margin-top: 30px">
             <thead>
               <tr>
-                <th>Nội dung</th>
-                <th>Thời gian</th>
+                <th>ID</th>
+                <th>Tên danh mục</th>
+                <th>Trạng thái</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="holiday in data.data" class="contact-row">
-                <td>{{ holiday.title }}</td>
-                <td>{{ holiday.time_start }} ~ {{ holiday.time_end }}</td>
+              <tr v-for="category in data.data" class="contact-row">
+                <td>{{ category.id }}</td>
+                <td>{{ category.name }}</td>
+                <td v-if="category.status ===1">Hoạt động</td>
+                <td v-if="category.status ===2">Hủy bỏ</td>
                 <td>
                   <button
                     class="btn btn-primary btn-sm waves-effect waves-themed"
@@ -33,7 +36,7 @@
                     data-placement="top"
                     title="View"
                   >
-                  <router-link :to="{name:'sys-holidayview', params: { id: holiday.id }}">
+                  <router-link :to="{name:'sys-holidayview', params: { id: category.id }}">
                     <i class="bi bi-eye-fill" style="color: black;"></i>
                   </router-link>
                   </button>
@@ -43,7 +46,7 @@
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Delete"
-                    v-on:click="handleDelete(holiday.id)"
+                    v-on:click="handleDelete(category.id)"
                   >
                     <i class="bi bi-trash-fill" style="color: red;"></i>
                   </button> 
@@ -66,7 +69,7 @@
   import { Bootstrap5Pagination } from "laravel-vue-pagination";
 
   export default{
-    name:"holiday",
+    name:"category",
     components:{
       Bootstrap5Pagination
     },
@@ -77,24 +80,25 @@
       }
     },
     mounted(){
-      axios.get(`http://localhost:8000/api/calendar/holiday?page=1`).then(response=>{
+      axios.get(`http://localhost:8000/api/category?page=1`).then(response=>{
+        console.log(response.data.data);
         this.data=response.data.data;
+
       });
     },
     methods:{
       handleDelete(id){
         if(confirm("delete holiday ????")){
-          axios.delete(`http://localhost:8000/api/calendar/holiday/${id}`).then(response=>{
-            const index = this.data.findIndex(item => item.id === id);// tim index cua phan tu co id === id
+          axios.delete(`http://localhost:8000/api/category/${id}`).then(response=>{
+            const index = this.data.findIndex(item => item.id === id);
             if (index !== -1) {
-              this.data.splice(index, 1); // xoa index do
+              this.data.splice(index, 1); 
             }
           });
         }
       },
       get(page=1){
-        axios.get(`http://localhost:8000/api/calendar/holiday?page=${page}`).then(response=>{
-          console.log()
+        axios.get(`http://localhost:8000/api/category?page=${page}`).then(response=>{
         this.data=response.data.data;
       });
       }

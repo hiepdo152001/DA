@@ -16,6 +16,7 @@ export default {
      methods: {
           CreateReq(data){
                axios.post(`http://localhost:8000/api/calendar/requests`,data).then(res=>{
+                this.$router.push({ path: '/user/request' });
                })
           }
      },

@@ -1,5 +1,5 @@
 <template>
-  <div class="panel" style="margin: 60px 30px 0px 30px;">
+  <div class="panel" style="margin: 50px 30px 0px 30px;">
     <div class="p-4">
       <div class="check-in-out" :class="{ 'd-none': off }">
         <button
@@ -48,7 +48,6 @@ export default {
     onMounted(async () => {
       const calendarApi = calendarRef.value.getApi();
       AppService.get('http://localhost:8000/api/calendar/holiday/all').then(response=>{
-        console.log(response.data);
         ApiService.holiday(options,calendarApi,response.data);
       })
       

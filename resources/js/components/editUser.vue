@@ -52,33 +52,29 @@
                     <label class="form-label">Giới tính</label>
                   </div>
                   <div class="frame-wrap d-flex">
-                    <div class="form-check" style="margin-right: 20px">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                        value="Nam"
-                        form.gender
-                      />
-                      <label class="form-check-label" for="flexRadioDefault1"
-                        >Nam</label
-                      >
+                      <div class="form-check" style="margin-right: 20px">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="flexRadioDefault"
+                          id="flexRadioDefault1"
+                          v-model="form.gender"
+                          :value="1"
+                        />
+                        <label class="form-check-label" for="flexRadioDefault1">Nam</label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="flexRadioDefault"
+                          id="flexRadioDefault2"
+                          v-model="form.gender"
+                          :value="2"
+                        />
+                        <label class="form-check-label" for="flexRadioDefault2">Nữ</label>
+                      </div>
                     </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault2"
-                        value="Nữ"
-                        v-model="form.gender"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault2"
-                        >Nữ
-                      </label>
-                    </div>
-                  </div>
                 </div>
               </div>
   
@@ -106,10 +102,11 @@
                     aria-label="Default select example"
                     v-model="form.role_id"
                   >
-                    <option  value="user">User</option>
-                    <option value="systemAdmin">System Admin</option>
-                    <option value="admin">Admin</option>
-                    <option value="manager">Manager</option>
+                    <option  value="1">User</option>
+                    <option value="2">Admin</option>
+                    <option value="3">System Admin</option>
+                    <option value="4">Guest</option>
+                    <option value="5">Manager</option>
                   </select>
                 </div>
                 <div class="col-md-4">
@@ -120,50 +117,7 @@
                     class="form-control datetimepicker"
                     type="date"
                     required
-                  />
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Địa chỉ thường trú</label>
-                  </div>
-                  <input
-                    type="text"
-                    class="form-control"
-                    required
-                  />
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Địa chỉ tạm trú</label>
-                  </div>
-                  <input
-                    type="text"
-                    class="form-control"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Số CCCD</label>
-                  </div>
-                  <input
-                    type="text"
-                    class="form-control"
-                    required
-                  />
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Ngày cấp</label>
-                  </div>
-                  <input
-                    class="form-control datetimepicker"
-                    type="date"
-                    required
+                    v-model="form.birth_day"
                   />
                 </div>
               </div>
@@ -176,54 +130,7 @@
                     type="text"
                     class="form-control"
                     required
-                  />
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Project</label>
-                  </div>
-                  <input
-                    class="form-control"
-                    type="text"
-                    required
-                    
-                  />
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Nơi cấp</label>
-                  </div>
-                  <input
-                    type="text"
-                    class="form-control"
-                    required
-                    
-                  />
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Mã số thuế</label>
-                  </div>
-                  <input
-                    type="text"
-                    class="form-control"
-                    required
-                    
-                  />
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Số ngày phép</label>
-                  </div>
-                  <input
-                    type="number"
-                    class="form-control"
-                    required
-                    
+                    v-model="form.phone"
                   />
                 </div>
               </div>
@@ -252,53 +159,79 @@
   import { useRouter } from "vue-router";
   import axios from "axios";
   export default {
-    name:'edit-user',
-    data(){
-        const form = reactive({
-        'name':"",
-        'email':"",
-        'address':"",
-        'birth_day':"",
-        'phone':"",
-        'cccd':"",
-        'avatar':"",
-        'branch_id':"",
-        'role_id':"",
-
+  name: 'edit-user',
+  data() {
+    const form = reactive({
+      'name': "",
+      'email': "",
+      'gender': "",
+      'address': "",
+      'birth_day': "",
+      'phone': "",
+      'cccd': "",
+      'avatar': "",
+      'branch_id': "",
+      'role_id': "",
+    });
+    const fileInput = ref(null);
+    const router = useRouter();
+    const id = router.currentRoute.value.params.id;
+    const selectedFile = ref(null); // Sử dụng selectedFile để lưu tệp được chọn
+    return {
+      form,
+      fileInput,
+      id,
+      selectedFile, // Đổi tên thành selectedFile
+    }
+  },
+  mounted() {
+    axios.get(`http://localhost:8000/api/user/by/${this.id}`)
+      .then(response => {
+        const user = response.data.data;
+        console.log(user);
+        Object.assign(this.form, {
+          ...user,
+          birth_day: user.birth_day.substring(0, 10),
+        });
+        this.form.gender = user.gender;
+        console.log(this.form.gender);
       });
-      const fileInput = ref(null);
-      const router= useRouter();
-      const id = router.currentRoute.value.params.id;
-      return {
-        form,
-        fileInput,
-        id
+  },
+  methods: {
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      this.selectedFile = file;
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.form.avatar = reader.result;
+        };
+        reader.readAsDataURL(file);
       }
     },
-    mounted(){
-        axios.get(`http://localhost:8000/api/user/by/${this.id}`)
-        .then(response=>{
-                    const user=response.data.data;
-                    console.log(user);
-                    Object.assign(this.form, {
-                    ...user,
-                    });
-        });
+    updateProfile() {
+      axios.put(`http://localhost:8000/api/user/${this.id}`, this.form)
+          .then(res => {
+            console.log(res);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      if (this.selectedFile) {
+        let formData = new FormData();
+        formData.append("image_data", this.selectedFile);
+        axios.post(`http://localhost:8000/api/user/${this.id}`, formData, )
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+      
     },
-    methods:{
-      handleFileUpload(event) {
-        const selectedFile = event.target.files[0];
-        if (selectedFile) {
-            this.fileInput = selectedFile;
-
-            const reader = new FileReader();
-            reader.onload = () => {
-              this.form.avatar = reader.result;
-            };
-            reader.readAsDataURL(selectedFile);
-        }
-    },
-    }
+  }
 }
+
   </script>
   

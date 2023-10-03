@@ -4,7 +4,7 @@
       <div style="height: 30px;background-color: brown;">
       </div>
       <div class="info-card">
-            <img style="width: 50px;" class="profile-image rounded-circle" :src="user.avatar" >
+            <img style="width: 50px;height: 50px;" class="profile-image rounded-circle" :src="user.avatar" >
         <div class="info-card-text">
             <div>
               <span class="text-info ">{{ user.name }} </span>

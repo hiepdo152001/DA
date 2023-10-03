@@ -36,7 +36,7 @@
     </div>
     <div class="dropdown" style="padding-right: 40px;">
       <div class="btn custom-dropdown" type="button" data-toggle="dropdown">
-        <img style="width: 50px;" class="profile-images rounded-circle" :src=user.avatar >
+        <img style="width: 50px;height: 50px;" class="profile-images rounded-circle" :src=user.avatar >
       </div>
       <ul class="dropdown-menu dropdown-menu-right" style="padding: 0px;">
         <div
@@ -45,7 +45,7 @@
         >
         <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white" >
             <span class="mr-2">
-              <img
+              <img style="width: 50px;height: 50px;"
                 v-if="user.avatar"
                 class="profile-image rounded-circle"
                 :src="user.avatar"
@@ -109,11 +109,16 @@ export default {
     mounted(){
         axios.get(`http://localhost:8000/api/user`).then(response=>{
             this.user=response.data.data;
-            console.log(this.user);
-            
         });
 
     },
+    methods:{
+      logout(){
+        axios.get(`http://localhost:8000/api/logout`).then(response=>{
+          location.reload('');
+        });
+      }
+    }
    
 };
 </script>
