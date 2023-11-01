@@ -1,5 +1,11 @@
 const route = [
     {
+        path: "/login",
+        name: 'login',
+        component: () => import("../layouts/auth/viewWeb.vue"),
+      
+    },
+    {
         path: "/home",
         name: 'home',
         component: () => import("../layouts/page/home/home.vue"),
@@ -36,30 +42,81 @@ const route = [
                 name: 'view-request-user',
                 component: () => import("../layouts/page/user/viewRequest.vue"),
             },
+            {
+                path: "edit-request/:id",
+                name: 'edit-request-user',
+                component: () => import("../layouts/page/user/editRequest.vue"),
+            },
+            {
+                path: "request-member",
+                name: 'request-member',
+                component: () => import("../layouts/page/user/reqMember.vue"),
+            },
 
         ]
     },
-    {
-        path: "/login",
-        name: 'login',
-        component: () => import("../layouts/auth/viewWeb.vue"),
-      
-    },
+    
     {
         path: "/admin-hcm",
         name: 'admin-h',
-        component: () => import("../layouts/page/admin/admin.vue"),
+        component: () => import("../layouts/page/admin-hcm/admin.vue"),
         children:[
             {
+                path: "",
+                name: 'admin-calendar',
+                component: () => import("../layouts/page/calendar/calendar.vue"),
+            },
+            {
+                path: "users",
+                name: 'admin-hcm-list-user',
+                component: () => import("../layouts/page/admin-hcm/listUser.vue"),
+            },
+            {
                 path: "statistical",
-                name: 'statistical',
-                component: () => import("../layouts/page/admin/statistical.vue"),
+                name: 'statistical-hcm',
+                component: () => import("../layouts/page/admin-hcm/statistical.vue"),
               
             },
             {
-                path: "calendar",
-                name: 'calendar',
-                component: () => import("../layouts/page/calendar/view.vue"),
+                path: "product",
+                name: 'product',
+                component: () => import("../layouts/page/admin-hcm/product.vue"),
+             
+            },
+            {
+                path: "category",
+                name: 'category',
+                component: () => import("../layouts/page/admin-hcm/category.vue"),
+             
+            },
+            {
+                path: "category/view",
+                name: 'view-category',
+                component: () => import("../layouts/page/admin-hcm/categoryView.vue"),
+             
+            },
+            {
+                path: "product/add",
+                name: 'product-add',
+                component: () => import("../layouts/page/admin-hcm/addProduct.vue"),
+             
+            },
+            {
+                path: "product/import",
+                name: 'import-product',
+                component: () => import("../layouts/page/admin-hcm/importProduct.vue"),
+             
+            },
+            {
+                path: "product/view/:id",
+                name: 'view-product',
+                component: () => import("../layouts/page/admin-hcm/viewProduct.vue"),
+             
+            },
+            {
+                path: "product/edit/:id",
+                name: 'edit-product',
+                component: () => import("../layouts/page/admin-hcm/editProduct.vue"),
              
             },
         ]
@@ -68,14 +125,14 @@ const route = [
     {
         path: "/admin-dn",
         name: 'admin-d',
-        component: () => import("../layouts/page/admin/admin.vue"),
+        component: () => import("../layouts/page/admin-dn/admin.vue"),
         children:[
-            {
-                path: "statistical",
-                name: 'statistical',
-                component: () => import("../layouts/page/admin/statistical.vue"),
+            // {
+            //     path: "statistical",
+            //     name: 'statistical',
+            //     component: () => import("../layouts/page/admin/statistical.vue"),
               
-            },
+            // },
             {
                 path: "calendar",
                 name: 'calendar',
@@ -122,21 +179,11 @@ const route = [
                 ]
             },
             {
-                path: "statistical",
-                name: 'statistical',
-                component: () => import("../layouts/page/admin/statistical.vue"),
-            },
-            {
                 path: "admin-dn",
                 name: 'admin-dn',
-                component: () => import("../layouts/page/admin/admin.vue"),
+                component: () => import("../layouts/page/admin-dn/admin.vue"),
                 children:[
-                    {
-                        path: "statistical",
-                        name: 'statistical',
-                        component: () => import("../layouts/page/admin/statistical.vue"),
-                      
-                    },
+                    
                     {
                         path: "calendar",
                         name: 'calendar',
@@ -148,14 +195,9 @@ const route = [
             {
                 path: "admin-hcm",
                 name: 'admin-hcm',
-                component: () => import("../layouts/page/admin/admin.vue"),
+                component: () => import("../layouts/page/admin-hcm/admin.vue"),
                 children:[
-                    {
-                        path: "statistical",
-                        name: 'statistical',
-                        component: () => import("../layouts/page/admin/statistical.vue"),
-                      
-                    },
+                    
                     // {
                     //     path: "calendar",
                     //     name: 'calendar',
@@ -165,7 +207,7 @@ const route = [
                 ]
             },
             {
-                path: "calendar",
+                path: "",
                 name: 'sys-calendar-view',
                 component: () => import("../layouts/page/calendar/view.vue"),
                 children:[

@@ -36,7 +36,8 @@
                 <th>ID</th>
                 <th>Ảnh</th>
                 <th>Tên</th>
-                <th>Giá</th>
+                <th>Giá Nhập</th>
+                <th>Giá Bán</th>
                 <th>Miêu tả</th>
                 <th></th>
               </tr>
@@ -48,6 +49,7 @@
                   <img :src="product.avatar" alt="" style="width: 50px;height: 50px;">
                 </td>
                 <td>{{ product.name }}</td>
+                <td>{{ product.import_price }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.description }}</td>
                 <td>
@@ -58,7 +60,7 @@
                     data-placement="top"
                     title="View"
                   >
-                  <router-link :to="{name:'sys-holidayview', params: { id: product.id }}">
+                  <router-link :to="{name:'view-product', params: { id: product.id }}">
                     <i class="bi bi-eye-fill" style="color: black;"></i>
                   </router-link>
                   </button>
@@ -99,7 +101,6 @@
     },
     mounted(){
       axios.get('http://localhost:8000/api/product?page=1').then(response =>{
-        console.log(response);
         this.products=response.data.data;
       });
       },

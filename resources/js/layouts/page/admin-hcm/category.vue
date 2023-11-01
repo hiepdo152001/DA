@@ -81,7 +81,6 @@
     },
     mounted(){
       axios.get(`http://localhost:8000/api/category?page=1`).then(response=>{
-        console.log(response.data.data);
         this.data=response.data.data;
 
       });

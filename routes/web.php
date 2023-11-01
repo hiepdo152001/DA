@@ -22,16 +22,13 @@ Auth::routes();
 
 Route::get('/login',function(){
     return view('welcome');
-})->name('login');;
-// Route::get('/login', function () {
-//     return view('auth/login');
-// })->name('login');
+})->name('login');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 ->name('home');
 Route::get('/admin-hcm', [App\Http\Controllers\HomeController::class, 'index'])->name('admin')->middleware('checkRole:admin');
 Route::get('/system', [App\Http\Controllers\HomeController::class, 'index'])->name('systemAdmin')->middleware('checkRole:systemAdmin');
-Route::get('/user', [App\Http\Controllers\HomeController::class, 'index'])->name('calendars')->middleware('checkRole:user');
+Route::get('/user', [App\Http\Controllers\HomeController::class, 'index'])->name('calendars')->middleware('checkRole:user,manager,hr');
 
 
 

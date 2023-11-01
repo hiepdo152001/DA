@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Symfony\Component\HttpFoundation\RequestMatcher\SchemeRequestMatcher;
 
 return new class extends Migration
 {
@@ -12,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('category',function(Blueprint $table){
-          $table->integer('status');
+        Schema::create('book_product',function(Blueprint $table){
+            $table->id();
+            $table->unsignedBigInteger('book_id');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('amount');
+            $table->timestamps();
         });
     }
 

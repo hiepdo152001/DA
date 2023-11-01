@@ -27,7 +27,7 @@
                       <br />
                       <input type="file" ref="fileInput" @change="handleFileUpload" />
                   </div>
-                  <div class="col-sm-8" v-if="nameParth === 'product-add'" >
+                  <div class="col-sm-8"  >
                       <div>
                       <label class="form-label">Ảnh chi tiết</label>
                       </div>
@@ -74,77 +74,25 @@
                   </div>
                        <input v-model="form.import_price" class="form-control" type="number" min="1">
                 </div>
-                <div class="col-md-5" v-if="nameParth === 'product-add' " >
+                <div class="col-md-5" >
                   <div>
                     <label class="form-label">Giá Bán(vnđ)</label>
                   </div>
                        <input v-model="form.price" class="form-control" type="number" min="1">
                 </div>
+                <div class="col-md-5 p-0 mt-4" >
+                  <div>
+                    <label class="form-label">Số lượng</label>
+                  </div>
+                       <input v-model="form.amount" class="form-control" type="number" min="1">
+                </div>
               </div>
-              <div class="col-md-4 p-0 mt-4" v-if="nameParth === 'product-add'">
+              <div class="col-md-4  mt-4" >
                   <div>
                     <label class="form-label">Miêu tả chi tiết</label>
                   </div>
                        <textarea v-model="form.description" class="form-control" type="text" ></textarea>
               </div>
-             
-              <!-- <h3>Size</h3> -->
-              <!-- <div class="form-group">
-                <div>
-                  <div class="col-sm-6">
-                  <div class="size-price">
-                  <div class="col-sm-4" style="padding-left: 0px;">
-                    <div>
-                      <label class="form-label">Size</label>
-                    </div>
-                    <input
-                      type="text"
-                      class="form-control"
-                      required
-                      v-model="form.phone"
-                    />
-                    </div>
-                  </div>
-                  <div class="col-sm-8" style="padding-right: 0px;">
-                    <div>
-                      <label class="form-label">Số lượng</label>
-                    </div>
-                    <input
-                      type="text"
-                      class="form-control"
-                      required
-                      v-model="form.phone"
-                    />
-                    </div>
-                  </div>
-                  <div class="col-sm-6">
-                  <div class="size-price">
-                  <div class="col-sm-4" style="padding-left: 0px;">
-                    <div>
-                      <label class="form-label">Size</label>
-                    </div>
-                    <input
-                      type="text"
-                      class="form-control"
-                      required
-                      v-model="form.phone"
-                    />
-                    </div>
-                  </div>
-                  <div class="col-sm-8" style="padding-right: 0px;">
-                    <div>
-                      <label class="form-label">Số lượng</label>
-                    </div>
-                    <input
-                      type="text"
-                      class="form-control"
-                      required
-                      v-model="form.phone"
-                    />
-                    </div>
-                  </div>
-                </div>
-              </div> -->
               </div>
               <div style="padding-bottom: 40px">
                 <div class="col-md-1">
@@ -170,7 +118,7 @@
   import { useRouter } from "vue-router";
   import axios from "axios";
   export default {
-  name: 'edit-user',
+  name: 'add-prouct',
   data() {
     const form = reactive({
       'name': "",
@@ -179,6 +127,7 @@
       'category_id':"",
       'import_price':"",
       'price':"",
+      'amount':"",
       'avatarList':[],
       'branch_id': "",
     });
@@ -204,7 +153,6 @@
   },
   mounted() {
     this.nameParth=this.router.currentRoute.name;
-    console.log(this.nameParth);
     axios.get(`http://localhost:8000/api/category`)
       .then(response => {
         this.category = response.data.data;
@@ -247,22 +195,28 @@
       if(this.selectedFile){
         let formAvt=new FormData();
         formAvt.append("imageAvt",this.selectedFile);
-        formAvt.append("name", this.form.name);
-        formAvt.append("avatar", this.form.avatar);
-        formAvt.append("category_id", this.form.category_id);
-        formAvt.append("import_price", this.form.import_price);
-        formAvt.append("price", this.form.price);
-        formAvt.append("branch_id", this.form.branch_id);
-        formAvt.append("description",this.form.description);
-        if(this.listDetail){
-          if (this.listDetail) {
+        Object.keys(this.form).forEach(key => {
+          formAvt.append(key, this.form[key]);
+        });
+        if(this.router.currentRoute.href.includes('admin-hcm')){
+          formAvt.append("branch_id",1);
+        }
+        if(this.router.currentRoute.href.includes('admin-hn')){
+          formAvt.append("branch_id",2);
+        }
+        if(this.listDetail.length > 0){
+            formAvt.append("check", 1);
             const fileListArray = Array.from(this.listDetail);
             fileListArray.forEach((file, index) => {
               formAvt.append(`avatarDetail[${index}]`, file);
             });
-          }
         }
-        axios.post('http://localhost:8000/api/product',formAvt);
+        if(this.listDetail.length === 0){
+          formAvt.append("check", 0);
+        }
+        axios.post('http://localhost:8000/api/product',formAvt).then(response=>{
+          console.log(response);
+        });
       }
       
       

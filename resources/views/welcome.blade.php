@@ -67,4 +67,119 @@
 .page-link{
     color: black !important;
 }
+.bi{
+    color: white!important;
+}
+.waves-themed{
+    background-color: #886ab5 !important;
+    margin-right: 5px;
+}
+  .status {
+    border-radius: 15px;
+    width: 75%;
+    margin: auto;
+    padding: 4px 10px;
+    text-align: center;
+    font-weight: 600;
+    color: white;
+    font-size: 12px;
+  }
+  
+  .page-content .panel {
+    margin-bottom: 1.5rem;
+  }
+  .panel {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    position: relative;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 0px 13px 0px rgba(62, 44, 90, 0.08);
+    box-shadow: 0px 0px 13px 0px rgba(62, 44, 90, 0.08);
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 4px;
+    -webkit-transition: border 500ms ease-out;
+    transition: border 500ms ease-out;
+  }
+  .panel-hdr {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+  
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background: #fff;
+    min-height: 3rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 4px 4px 0 0;
+    -webkit-transition: background-color 0.4s ease-out;
+    transition: background-color 0.4s ease-out;
+  }
+  .panel .panel-container {
+    position: relative;
+    border-radius: 0 0 4px 4px;
+  }
+  .panel-container {
+    margin-top: 30px;
+  }
+  .panel .panel-container .panel-content:only-child,
+  .panel .panel-container .panel-content:last-child {
+    border-radius: 0 0 4px 4px;
+  }
+  .panel-hdr > :first-child {
+    padding-left: 1rem;
+  }
+  .table-bordered td{
+    text-align: center;
+  }
+  .panel .panel-container .panel-content {
+    padding: 0px 10px;
+  }
+  .contacts {
+    margin: 20px;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .contact-row {
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .contact-row:hover {
+    background-color: #f5f5f5;
+  }
+  
+.table-bordered th {
+    font-size: 12px;
+    text-align: center;
+    font-weight: 700;
+    padding: 12px!important;
+    border: 1px solid #e9e9e9;
+  }
+  
+  .table-bordered td {
+    font-weight: 600;
+    padding: 12px;
+  }
+  .table-bordered {
+    border-collapse: collapse;
+}
+  
 </style>

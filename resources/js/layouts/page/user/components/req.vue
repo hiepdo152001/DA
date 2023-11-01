@@ -264,7 +264,6 @@ export default {
           .then(response=>{
                this.data=response.data.data;
                if (this.$route.fullPath.includes("edit-request")) {
-                    console.log(response.data.data.user_id);
                     if(response.data.data.status !==1 || this.user.id !== response.data.data.user_id){
                          this.check = 1; 
                     }

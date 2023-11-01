@@ -13,14 +13,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('branch')->insert([
+        DB::table('size')->insert([
           'id'=>1,
-          'name'=> 'HCM'
+          'name'=> '36'
         ]);
         
-        DB::table('branch')->insert([
+        DB::table('size')->insert([
             'id'=>2,
-            'name'=> 'HN'
+            'name'=> '37'
           ]);
     }
 }
