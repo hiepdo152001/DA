@@ -1,6 +1,5 @@
 <template>
-    <!-- <profile-component :user="user" /> -->
-    test
+    <profile-component :user="user" />
 </template>
 <script>
 import { ref } from "vue";

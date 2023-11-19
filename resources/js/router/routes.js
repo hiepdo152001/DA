@@ -67,9 +67,9 @@ const route = [
                 component: () => import("../layouts/page/calendar/calendar.vue"),
             },
             {
-                path: "users",
+                path: "",
                 name: 'admin-hcm-list-user',
-                component: () => import("../layouts/page/admin-hcm/listUser.vue"),
+                component: () => import("../layouts/page/systemAdmin/user/list.vue"),
             },
             {
                 path: "statistical",
@@ -119,28 +119,43 @@ const route = [
                 component: () => import("../layouts/page/admin-hcm/editProduct.vue"),
              
             },
-        ]
-      
-    },
-    {
-        path: "/admin-dn",
-        name: 'admin-d',
-        component: () => import("../layouts/page/admin-dn/admin.vue"),
-        children:[
-            // {
-            //     path: "statistical",
-            //     name: 'statistical',
-            //     component: () => import("../layouts/page/admin/statistical.vue"),
-              
-            // },
             {
-                path: "calendar",
-                name: 'calendar',
-                component: () => import("../layouts/page/calendar/view.vue"),
-             
+                path: "profile",
+                name: 'user-proflie',
+                component: () => import("../layouts/page/admin-hcm/profile.vue"),
             },
-        ]
-      
+            {
+                path: "edit/:id",
+                name: 'sys-edit-user',
+                component: () => import("../components/editUser.vue"),
+            },
+            {
+                path: "view/:id",
+                name: 'sys-user-view',
+                component: () => import("../layouts/page/admin-hcm/profile.vue"),
+                
+            },
+            {
+                path: "",
+                name: 'sys-calendar',
+                component: () => import("../layouts/page/calendar/calendar.vue"),
+            },
+            {
+                path: "holiday",
+                name: 'sys-holiday',
+                component: () => import("../layouts/page/calendar/holiday.vue"),
+            },
+            {
+                path: "view/:id",
+                name: 'sys-holidayview',
+                component: () => import("../layouts/page/calendar/holidayView.vue"),
+            },
+            {
+                path: "createHld",
+                name: 'sys-createHld',
+                component: () => import("../layouts/page/calendar/createHld.vue"),
+            },
+        ],
     },
     {
         path: "/system",
@@ -152,45 +167,12 @@ const route = [
                 name: 'sys-user',
                 component: () => import("../layouts/page/systemAdmin/user/manager.vue"),
                 children:[
-                    {
-                        path: "",
-                        name: 'view-user',
-                        component: () => import("../layouts/page/systemAdmin/user/list.vue"),
-                    }
-                    ,
-                    {
-                        path: "pro",
-                        name: 'test-sys',
-                        component: () => import("../layouts/page/user/profile.vue"),
-                    },
-                    {
-                        path: "view/:id",
-                        name: 'sys-user-view',
-                        component: () => import("../layouts/page/systemAdmin/user/profile.vue"),
-                    }
-                    ,
-                    {
-                        path: "edit/:id",
-                        name: 'sys-edit-user',
-                        component: () => import("../components/editUser.vue"),
-                    }
+                    
+        
+                    
                     
                    
                 ]
-            },
-            {
-                path: "admin-dn",
-                name: 'admin-dn',
-                component: () => import("../layouts/page/admin-dn/admin.vue"),
-                children:[
-                    
-                    {
-                        path: "calendar",
-                        name: 'calendar',
-                        component: () => import("../layouts/page/calendar/view.vue"),
-                    },
-                ]
-              
             },
             {
                 path: "admin-hcm",
@@ -212,26 +194,6 @@ const route = [
                 component: () => import("../layouts/page/calendar/view.vue"),
                 children:[
                    
-                    {
-                        path: "",
-                        name: 'sys-calendar',
-                        component: () => import("../layouts/page/calendar/calendar.vue"),
-                    },
-                    {
-                        path: "holiday",
-                        name: 'sys-holiday',
-                        component: () => import("../layouts/page/calendar/holiday.vue"),
-                    },
-                    {
-                        path: "view/:id",
-                        name: 'sys-holidayview',
-                        component: () => import("../layouts/page/calendar/holidayView.vue"),
-                    },
-                    {
-                        path: "createHld",
-                        name: 'sys-createHld',
-                        component: () => import("../layouts/page/calendar/createHld.vue"),
-                    },
                 ]
              
             },

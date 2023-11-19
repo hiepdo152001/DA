@@ -2,7 +2,7 @@
 <profile-component :user="user"/>
 </template>
 <script>
-import ProfileComponent from '../../../../components/profile.vue';
+import ProfileComponent from '../../../components/profile.vue';
 import { useRouter } from "vue-router";
 import { ref } from 'vue';
 import axios from 'axios';

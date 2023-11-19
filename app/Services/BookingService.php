@@ -7,44 +7,69 @@ use App\Models\import_booking;
 use App\Models\products;
 use Hamcrest\Type\IsInteger;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class BookingService
 {
-    public function create($payload,$user){
-        dd($payload);
+
+    public function create($payload, $user)
+    {
         $bill = new import_booking;
-        $bill->fill($payload); 
+        $bill->fill($payload);
         $bill->branch_id = $user->branch_id;
         $bill->user_id = $user->id;
         $bill->status = 0;
-        $bill->save(); 
-
-        if(count($payload['product_id']) >0){
-            for($i=0; $i< count($payload['product_id']);$i++){
-                if(is_integer($payload['product_id'][$i])){
-                    $product = products::where('id',$payload['product_id'][$i])->first();
-                    if ($product) {
-                        $bill->products()->attach($product->id);
-                        $product->name = $payload['name'][$i];
-                        $product->amount = $payload['amount'][$i];
-                        $product->import_price = $payload['import_price'][$i];
-                        $product->save();
-                        
-                    } else {
-                    // Sản phẩm chưa tồn tại trong bảng product, tạo mới và thêm vào cả bảng product và bảng trung gian
-                    $newProduct = new products;
-                    $newProduct->name =  $payload['name'][$i];
-                    $newProduct->amount= $payload['amount'][$i];
-                    $newProduct->import_price= $payload['import_price'][$i];
-                    $newProduct->save();
-                    $bill->products()->attach($newProduct->id);
-                    }
+        $bill->save();
+    
+        if (isset($payload['product_id']) && count($payload['product_id']) > 0) {
+            $productsData = [];
+    
+            foreach ($payload['product_id'] as $index => $productId) {
+                if (is_integer($productId)) {
+                    $amount = $payload['amount'][$index];
+                    $importPrice = $payload['import_price'][$index];
+    
+                    $productsData[] = [
+                        'id' => $productId,
+                        'name' => $payload['name'][$index],
+                        'amount' => $amount,
+                        'import_price' => $importPrice,
+                    ];
                 }
             }
+    
+            $this->syncProducts($bill, $productsData);
         }
-
-        
     }
+    
+    protected function syncProducts($bill, $productsData)
+    {
+        $syncData = [];
+    
+        foreach ($productsData as $productData) {
+            $product = products::find($productData['id']);
+    
+            if ($product) {
+                // Nếu sản phẩm đã tồn tại, cập nhật thông tin
+                $product->update($productData);
+            } else {
+                // Nếu sản phẩm chưa tồn tại, tạo mới
+                $newProduct = new products($productData);
+                $newProduct->save();
+                $product = $newProduct;
+            }
+    
+            $syncData[$product->id] = [
+                'amount' => $productData['amount'],
+                'import_price' => $productData['import_price'],
+            ];
+        }
+    
+        $bill->book_products()->sync($syncData);
+    }
+    
+
+    
 
     public function update($id,$payload){
         $holiday=import_booking::findOrFail($id);

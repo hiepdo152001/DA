@@ -23,8 +23,12 @@ class import_booking extends Model
         'total_price',
     ];
     
-    public function products(){
-        return $this->belongsToMany(products::class,'book_product');
+    public function book_products()
+    {
+        return $this->belongsToMany(products::class, 'book_product', 'book_id', 'product_id')
+            ->withPivot(['amount', 'import_price']);
     }
+
+    
 
 }

@@ -83,18 +83,31 @@ class UserService
         return $dayOn;
     }
 
-    public function get($search){
+    public function get($search,$user){
+        if($user-> branch_id === null){
+            return User::paginate(3);
+        }
+        else{
+
+        
         if (!empty($search)) {
-            $users=User::where('id', $search)
-                ->orWhere('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%')
+            $users = User::where('branch_id', $user->branch_id)
+                ->where(function ($query) use ($search) {
+                    $query->where('id', $search)
+                        ->orWhere('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+                })
                 ->paginate(3);
-            if($users->isEmpty()){
-                return User::paginate(3);
+        
+            if ($users->isEmpty()) {
+                return User::where('branch_id', $user->branch_id)->paginate(3);
             }
+        
             return $users;
         }
-        return User::paginate(3);
+        
+        return User::where('branch_id', $user->branch_id)->paginate(3);
+        }
     }
 
     public function getManager($branch_id)
@@ -126,6 +139,25 @@ class UserService
     public function edit($id, array $payload){
         $user = $this->getById($id);
         $user->update($payload);
+        return $user;
+    }
+
+    public function deActive($id)
+    {
+        $user = User::find($id);
+        if ($user === null) {
+            return $user;
+        }
+        $user->status = 0;
+        $user->save();
+        return $user;
+    }
+
+    public function active($id)
+    {
+        $user = User::find($id);
+        $user->status = 1;
+        $user->save();
         return $user;
     }
     

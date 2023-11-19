@@ -20,7 +20,7 @@
             </div>
             </form>
         </div>
-        <user-component :users="users.data"/>
+        <user-component :users="users.data" />
         <div class="page">
             <Bootstrap5Pagination :data="users" @pagination-change-page="getUsers" />
         </div>
@@ -64,6 +64,7 @@ methods:{
         {params: { search: this.input.search }},
         ).then(response=>{
             this.users=response.data[0];
+            console.log(this.users);
         });
     }
 }

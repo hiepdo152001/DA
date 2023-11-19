@@ -6,7 +6,7 @@
           <h2 >Thông tin cá nhân</h2>
         </div>
         <div class="col-6">
-          <router-link :to="{ name: 'sys-edit-user',params: { id: user.id } }">
+          <router-link :to="{ name: 'sys-edit-user',params: { id: {id} } }">
             <button
               class="btn  btn-sm waves-effect waves-themed"
               style="margin: 15px 0px 0px 25px;color: #fff;
@@ -99,6 +99,10 @@ export default {
     props:{
         user:{
             type: Object,
+            required: true,
+        },
+        id:{
+          type: Number,
             required: true,
         }
     }

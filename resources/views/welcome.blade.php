@@ -68,7 +68,7 @@
     color: black !important;
 }
 .bi{
-    color: white!important;
+    color: black!important;
 }
 .waves-themed{
     background-color: #886ab5 !important;

@@ -29,6 +29,7 @@ class User extends Authenticatable
         'avatar',
         'branch_id',
         'role_id',
+        'status',
     ];
 
     /**

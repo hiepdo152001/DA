@@ -17,5 +17,14 @@ class book_product extends Model
         'import_price',
         'sum'
     ];
+    
+    public function import_booking()
+    {
+        return $this->belongsTo(import_booking::class, 'book_id');
+    }
 
+    public function product()
+    {
+        return $this->belongsTo(products::class, 'product_id');
+    }
 }

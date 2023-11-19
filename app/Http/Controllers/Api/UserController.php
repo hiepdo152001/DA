@@ -61,8 +61,9 @@ class UserController extends Controller
     }
     
     public function get(Request $request){
+        $user=$this->getCurrentLoggedIn();
         $search = $request->input('search');
-        $users= $this->userService->get($search);
+        $users= $this->userService->get($search,$user);
         return response()->json([
             $users
         ]);
@@ -111,6 +112,29 @@ class UserController extends Controller
                 'message' => 'Không có tệp avatar được tải lên'
             ], 400);
         }
+    }
+
+    public function deactive($id)
+    {
+        $user = $this->userService->deActive($id);
+        if ($user === null) {
+            return response()->json([
+                "message" => "user not found",
+            ], 404);
+        }
+        return response()->json([$user], 202);
+    }
+
+    // active
+    public function active($id)
+    {
+        $user = $this->userService->active($id);
+        if ($user === false) {
+            return response()->json([
+                "message" => "user not found",
+            ], 404);
+        }
+        return response()->json([$user], 202);
     }
 
 }

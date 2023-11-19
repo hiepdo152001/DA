@@ -25,12 +25,25 @@
                 v-model:selectedKeys="selectedKeys"
                 mode="inline"
               >
-                <a-menu-item key="lich-lam-viec">
-                  <router-link :to="{ name: 'admin-calendar' }">
-                    <i class="bi bi-calendar" style="margin-right: 10px;"></i>
-                          <span>Lịch</span>
-                  </router-link>
-                </a-menu-item>
+                <a-sub-menu key="menu-request" >
+                  <template #icon>
+                    <i class="bi bi-boxes" ></i>
+                  </template>
+                  <template #title>Quản lý lịch làm việc</template>
+                  <a-menu-item key="lich-lam-viec">
+                    <router-link :to="{ name: 'sys-calendar' }">
+                      <i class="bi bi-calendar " style="margin-right: 10px;"></i>
+                            <span>Lịch làm việc</span>
+                    </router-link>
+                  </a-menu-item>
+              
+                  <a-menu-item key="holiday" >
+                    <router-link :to="{ name: 'sys-holiday' }">
+                      <i class="bi bi-gift " style="margin-right: 10px;"></i>
+                            <span>Sự kiện</span>
+                    </router-link>
+                  </a-menu-item>
+              </a-sub-menu>
                 <a-menu-item key="users" >
                   <router-link :to="{ name: 'admin-hcm-list-user' }">
                     <i class="bi bi-person" style="margin-right: 10px;"></i>
@@ -40,31 +53,37 @@
                 <a-menu-item key="statistical" >
                   <router-link :to="{ name: 'statistical-hcm' }">
                     <i class="bi bi-boxes" style="margin-right: 10px;"></i>
-                    <span>Thống kê</span>
+                    <span>Thống kê báo cáo</span>
                   </router-link>
                 </a-menu-item>
                 <a-sub-menu key="menu-request" >
                   <template #icon>
                     <i class="bi bi-boxes" ></i>
                   </template>
-                  <template #title>Quản lý sản phẩm</template>
+                  <template #title>Quản lý hàng hóa</template>
                   <a-menu-item key="yeu-cau-cua-toi">
                     <router-link :to="{name: 'category'}">
                       <i class="bi bi-list" style="color: black!important;margin-right: 10px;"></i>
-                    <span>Danh mục</span>
+                    <span>Quản lý danh mục</span>
                     </router-link>
                   </a-menu-item>
                   <a-menu-item key="member-request">
                     <router-link :to="{name: 'product'}">
                       <i class="bi bi-box" style="color: black!important;margin-right: 10px;"></i>
-                    <span>Sản phẩm</span>
+                    <span>Quản lý sản phẩm</span>
                     </router-link>
                   </a-menu-item>
-                </a-sub-menu>
-                <a-menu-item key="inout-product" >
+                  <a-menu-item key="inout-product" >
                   <router-link :to="{ name: 'import-product' }">
-                    <i class="bi bi-boxes" style="margin-right: 10px;"></i>
+                    <i class="bi bi-boxes" style="color: black!important;margin-right: 10px;"></i>
                     <span>Quản lý nhập hàng</span>
+                  </router-link>
+                </a-menu-item>
+                </a-sub-menu>
+                <a-menu-item key="yeu-cau-cua-toi">
+                  <router-link :to="{name: 'category'}">
+                    <i class="bi bi-list" style="color: black!important;margin-right: 10px;"></i>
+                  <span>Quản lý bán hàng</span>
                   </router-link>
                 </a-menu-item>
               </a-menu>
@@ -108,7 +127,7 @@
               </div>
             </div>
             <li>
-              <router-link :to="{ name: 'test-sys'}">
+              <router-link :to="{ name: 'user-proflie'}">
                 <a class="dropdown-item">Thông tin cá nhân</a>
               </router-link>
             </li>
@@ -160,7 +179,7 @@
     methods:{
       logout(){
         axios.get(`http://localhost:8000/api/logout`).then(response=>{
-          location.reload('admin-hcm');
+          location.reload('login');
         });
       }
     }
