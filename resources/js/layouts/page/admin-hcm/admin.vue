@@ -25,11 +25,11 @@
                 v-model:selectedKeys="selectedKeys"
                 mode="inline"
               >
-                <a-sub-menu key="menu-request" >
+              <a-sub-menu key="menu-request" :class="{ 'd-none': user.role_id !== 1 }">
                   <template #icon>
-                    <i class="bi bi-boxes" ></i>
+                    <i class="bi bi-calendar " style="margin-right: 10px; color: black !important;"></i>
                   </template>
-                  <template #title>Quản lý lịch làm việc</template>
+                  <template #title >Quản lý lịch làm việc</template>
                   <a-menu-item key="lich-lam-viec">
                     <router-link :to="{ name: 'sys-calendar' }">
                       <i class="bi bi-calendar " style="margin-right: 10px;"></i>
@@ -58,7 +58,7 @@
                 </a-menu-item>
                 <a-sub-menu key="menu-request" >
                   <template #icon>
-                    <i class="bi bi-boxes" ></i>
+                    <i class="bi bi-boxes" style="color: black !important;" ></i>
                   </template>
                   <template #title>Quản lý hàng hóa</template>
                   <a-menu-item key="yeu-cau-cua-toi">
@@ -174,6 +174,7 @@
       mounted(){
         axios.get(`http://localhost:8000/api/user`).then(response=>{
               this.user=response.data.data;
+              console.log(this.user);
           });
       },
     methods:{
@@ -242,6 +243,9 @@
     }
     .ant-menu-submenu-open .ant-menu-title-content, .ant-menu-submenu-arrow{
       color: black !important;
+    }
+    .ant-menu-title-content{
+      color: black !important;;
     }
 </style>
     

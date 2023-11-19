@@ -67,9 +67,7 @@
 .page-link{
     color: black !important;
 }
-.bi{
-    color: black!important;
-}
+
 .waves-themed{
     background-color: #886ab5 !important;
     margin-right: 5px;
