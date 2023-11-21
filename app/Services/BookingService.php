@@ -13,34 +13,41 @@ class BookingService
 {
 
     public function create($payload, $user)
-    {
-        $bill = new import_booking;
-        $bill->fill($payload);
-        $bill->branch_id = $user->branch_id;
-        $bill->user_id = $user->id;
-        $bill->status = 0;
-        $bill->save();
-    
-        if (isset($payload['product_id']) && count($payload['product_id']) > 0) {
-            $productsData = [];
-    
-            foreach ($payload['product_id'] as $index => $productId) {
-                if (is_integer($productId)) {
-                    $amount = $payload['amount'][$index];
-                    $importPrice = $payload['import_price'][$index];
-    
-                    $productsData[] = [
-                        'id' => $productId,
-                        'name' => $payload['name'][$index],
-                        'amount' => $amount,
-                        'import_price' => $importPrice,
-                    ];
-                }
+{
+    $bill = new import_booking;
+    $bill->fill($payload);
+    $bill->branch_id = $user->branch_id;
+    $bill->user_id = $user->id;
+    $bill->status = 0;
+    $bill->save();
+    if (isset($payload['product_id']) && count($payload['product_id']) > 0) {
+        $productsData = [];
+
+        foreach ($payload['product_id'] as $index => $productId) {
+            if (is_integer($productId)) {
+                $product =  products::where('id', $productId)
+                ->where('branch_id', $user->branch_id)
+                ->first();
+                $product->amount = abs(intval($product->amount) + intval($payload['amount'][$index]));
+                $product -> import_price = ($product -> import_price + $payload['import_price'][$index]) /2;
+                $product->save();
             }
-    
-            $this->syncProducts($bill, $productsData);
+            else{
+              $pro = products::create([
+                    'name'=> $payload['product_name'][$index],
+                    'import_price'=> $payload['import_price'][$index],
+                    'amount'=> $payload['amount'][$index],
+                    'branch_id'=> $user->branch_id,
+                    'status'=> 0,
+                ]);
+                $pro-> avatar = 'http://localhost:9000/mybucket/product/avatar/'. $pro->id . 'avatar.jpg';
+                $pro->save();
+            }
         }
+
+       
     }
+}
     
     protected function syncProducts($bill, $productsData)
     {
