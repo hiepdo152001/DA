@@ -28,8 +28,7 @@ class products extends Model
 
     public function importBookings()
     {
-        return $this->belongsToMany(import_booking::class, 'book_product', 'product_id', 'book_id')
-            ->withPivot('amount', 'import_price', 'sum');
+        return $this->belongsToMany(import_booking::class, 'book_product');
     }
     
 }

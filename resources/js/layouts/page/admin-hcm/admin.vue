@@ -74,7 +74,7 @@
                     </router-link>
                   </a-menu-item>
                   <a-menu-item key="inout-product" >
-                  <router-link :to="{ name: 'import-product' }">
+                  <router-link :to="{ name: 'sys-booking' }">
                     <i class="bi bi-boxes" style="color: black!important;margin-right: 10px;"></i>
                     <span>Quản lý nhập hàng</span>
                   </router-link>

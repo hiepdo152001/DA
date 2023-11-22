@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\book_product;
 use App\Models\holiday;
 use App\Models\import_booking;
 use App\Models\products;
@@ -20,63 +21,48 @@ class BookingService
     $bill->user_id = $user->id;
     $bill->status = 0;
     $bill->save();
+    
     if (isset($payload['product_id']) && count($payload['product_id']) > 0) {
-        $productsData = [];
-
         foreach ($payload['product_id'] as $index => $productId) {
+            $amount = intval($payload['amount'][$index]);
+            $importPrice = $payload['import_price'][$index];
+            $product=null;
             if (is_integer($productId)) {
-                $product =  products::where('id', $productId)
-                ->where('branch_id', $user->branch_id)
-                ->first();
-                $product->amount = abs(intval($product->amount) + intval($payload['amount'][$index]));
-                $product -> import_price = ($product -> import_price + $payload['import_price'][$index]) /2;
+                $product = products::where('id', $productId)
+                    ->where('branch_id', $user->branch_id)
+                    ->first();
+            }
+                // Update existing product
+            if ($product != null) {
+                $product->amount += abs($amount);
+                $product->import_price = ($product->import_price + $importPrice) / 2;
                 $product->save();
             }
-            else{
-              $pro = products::create([
-                    'name'=> $payload['product_name'][$index],
-                    'import_price'=> $payload['import_price'][$index],
-                    'amount'=> $payload['amount'][$index],
-                    'branch_id'=> $user->branch_id,
-                    'status'=> 0,
+            else {
+                // Create new product
+                $product = products::create([
+                    'name' => $payload['product_name'][$index],
+                    'import_price' => $importPrice,
+                    'amount' => $amount,
+                    'branch_id' => $user->branch_id,
+                    'status' => 0,
                 ]);
-                $pro-> avatar = 'http://localhost:9000/mybucket/product/avatar/'. $pro->id . 'avatar.jpg';
-                $pro->save();
+    
+                $product->avatar = 'http://localhost:9000/mybucket/product/avatar/' . $product->id . 'avatar.jpg';
+                $product->save();
             }
+            // Attach the product to the import booking
+            $bill->products()->syncWithoutDetaching([$product->id => [
+                'amount' => $amount,
+                'import_price' => $importPrice,
+                'sum' => $payload['sum'][$index],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]]);
+            
         }
-
-       
     }
 }
-    
-    protected function syncProducts($bill, $productsData)
-    {
-        $syncData = [];
-    
-        foreach ($productsData as $productData) {
-            $product = products::find($productData['id']);
-    
-            if ($product) {
-                // Nếu sản phẩm đã tồn tại, cập nhật thông tin
-                $product->update($productData);
-            } else {
-                // Nếu sản phẩm chưa tồn tại, tạo mới
-                $newProduct = new products($productData);
-                $newProduct->save();
-                $product = $newProduct;
-            }
-    
-            $syncData[$product->id] = [
-                'amount' => $productData['amount'],
-                'import_price' => $productData['import_price'],
-            ];
-        }
-    
-        $bill->book_products()->sync($syncData);
-    }
-    
-
-    
 
     public function update($id,$payload){
         $holiday=import_booking::findOrFail($id);
@@ -92,16 +78,38 @@ class BookingService
         return $holiday->delete();
     }
 
-    public function get($id){
-        if($id===null ){
-            return import_booking::paginate(3);
-        }
-       
-        return import_booking::find($id);
+    public function all(){
+        $bookProducts = import_booking::with(['user', 'products'])->paginate(3);
+        return $bookProducts;
+        
     }
 
-    public function all(){
-       
-        return import_booking::all();
+    public function get($search,$user){
+        if($user-> branch_id === null){
+            return book_product::paginate(3);
+        }
+        else{
+
+        
+        if (!empty($search)) {
+            $users = book_product::where('branch_id', $user->branch_id)
+                ->where(function ($query) use ($search) {
+                    $query->where('id', $search)
+                        ->orWhere('name', 'like', '%' . $search . '%')
+                        ->orWhere('courier', 'like', '%' . $search . '%');
+                })
+                ->paginate(3);
+        
+            if ($users->isEmpty()) {
+                return book_product::where('branch_id', $user->branch_id)->paginate(3);
+            }
+        
+            return $users;
+        }
+        
+        return book_product::where('branch_id', $user->branch_id)->paginate(3);
+        }
     }
+
+   
 }

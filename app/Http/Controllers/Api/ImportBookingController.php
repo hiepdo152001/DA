@@ -38,16 +38,20 @@ class ImportBookingController extends Controller
       ],200);
    }
 
-     public function get($id=null){
-        $holidays= $this->bookingSerice->get($id);
-        return response()->json([
-         'data'=>$holidays
-        ],200);
-     }
-     public function all(){
-      $holidays= $this->bookingSerice->all();
+   public function get(Request $request){
+      $user=$this->getCurrentLoggedIn();
+      $search = $request->input('search');
+      $users= $this->bookingSerice->get($search,$user);
       return response()->json([
-       'data'=>$holidays
+          $users
+      ]);
+  }
+
+
+     public function all(){
+      $bills= $this->bookingSerice->all();
+      return response()->json([
+       'data'=>$bills
       ],200);
    }
     

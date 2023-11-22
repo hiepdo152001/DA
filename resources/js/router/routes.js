@@ -155,6 +155,11 @@ const route = [
                 name: 'sys-createHld',
                 component: () => import("../layouts/page/calendar/createHld.vue"),
             },
+            {
+                path: "booking",
+                name: 'sys-booking',
+                component: () => import("../layouts/page/admin-hcm/listImBook.vue"),
+            }
         ],
     },
     {
