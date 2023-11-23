@@ -22,10 +22,19 @@ export default{
         }
     },
     mounted(){
-        axios.get(`http://localhost:8000/api/user/by/${this.id}`)
-        .then(response=>{
-                    this.user=response.data.data;
-                });
-        }
+        if(this.id != null){
+            axios.get(`http://localhost:8000/api/user/by/${this.id}`)
+            .then(response=>{
+                        this.user=response.data.data;
+                    });
+            }
+        
+        else{
+            axios.get(`http://localhost:8000/api/user`)
+            .then(response=>{
+                        this.user=response.data.data;
+                    });
+            }
+    }
 }
 </script>

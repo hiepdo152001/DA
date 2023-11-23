@@ -24,7 +24,7 @@
         <div class="col-sm-2">
                 <router-link :to="{name:'import-product'}">
                     <button class="btn btn-primary waves-effect waves-themed" style="background-color: #886ab5;margin-top: 40px;">
-                    + Thêm sản phẩm
+                    + Thêm phiếu 
                     </button>
                 </router-link>
         </div>
@@ -59,8 +59,8 @@
           <td v-if=" bill.branch_id == 1 "> Hồ Chí Minh</td>
           <td v-if=" bill.branch_id == 2 "> Đà Nẵng</td>
           <td>{{ formatCurrency(bill.total_price) }}</td>
-          <td v-if=" bill.status == 0 "> Chưa thanh toán</td>
-          <td v-if=" bill.status == 1 "> Đã thanh toán</td>
+          <td v-if=" bill.status == 0 " class="status-pending"> Chưa thanh toán</td>
+          <td v-if=" bill.status == 1 " class="status-confirmed"> Đã thanh toán</td>
          
           
         <td>
@@ -71,7 +71,7 @@
             data-placement="top"
             title="view"
           >
-            <router-link :to="{ name: 'sys-user-view', params: { id: parseInt(bill.id) } }">
+            <router-link :to="{ name: 'view-import-booking', params: { id: parseInt(bill.id) } }">
               <i class="bi bi-eye" style="color: black !important;"></i>
             </router-link>
           </button>

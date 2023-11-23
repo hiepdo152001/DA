@@ -52,11 +52,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><strong>Thâm niên</strong></td>
-              <td>
-              </td>
-            </tr>
-            <tr>
               <td><strong>Số điện thoại</strong></td>
               <td>{{ user.phone }}</td>
             </tr>
@@ -82,10 +77,6 @@
             </tr>
             <tr>
               <td><strong>Số tài khoản</strong></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><strong>Số ngày phép còn lại</strong></td>
               <td></td>
             </tr>
           </tbody>

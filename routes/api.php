@@ -78,7 +78,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['prefix' => '/bill'], function () {
         Route::get('/', [ImportBookingController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
-        Route::get('/by/{id}', [ImportBookingController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
+        Route::get('/by/{id}', [ImportBookingController::class, 'getById'])->middleware('checkRole:systemAdmin,admin');
         Route::post('/{id}', [ImportBookingController::class, 'update'])->middleware('checkRole:systemAdmin,admin');
         Route::post('/', [ImportBookingController::class, 'create'])->middleware('checkRole:systemAdmin,admin');
         Route::get('/all', [ImportBookingController::class, 'all'])->middleware('checkRole:systemAdmin,admin');
