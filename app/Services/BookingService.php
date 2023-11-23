@@ -111,5 +111,11 @@ class BookingService
         }
     }
 
+    public function getById($id){
+        return import_booking::with(['user','products' => function ($query) {
+            $query->withPivot('amount', 'import_price', 'sum');
+        }])->find($id);
+    }
+
    
 }

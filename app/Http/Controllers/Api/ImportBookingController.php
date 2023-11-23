@@ -47,8 +47,14 @@ class ImportBookingController extends Controller
       ]);
   }
 
+  public function getById($id){
+   $im_book= $this->bookingSerice->getById($id);
+   return response()->json([
+       $im_book
+   ]);
+}
 
-     public function all(){
+   public function all(){
       $bills= $this->bookingSerice->all();
       return response()->json([
        'data'=>$bills

@@ -18,10 +18,10 @@ class book_product extends Model
         'sum',
     ];
     
-    // public function import_booking()
-    // {
-    //     return $this->belongsTo(import_booking::class, 'book_id');
-    // }
+    public function import_booking()
+    {
+        return $this->belongsTo(import_booking::class);
+    }
 
     // public function product()
     // {
