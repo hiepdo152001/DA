@@ -174,7 +174,6 @@
       mounted(){
         axios.get(`http://localhost:8000/api/user`).then(response=>{
               this.user=response.data.data;
-              console.log(this.user);
           });
       },
     methods:{

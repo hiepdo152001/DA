@@ -102,6 +102,7 @@
     mounted(){
       axios.get('http://localhost:8000/api/product?page=1').then(response =>{
         this.products=response.data.data;
+        console.log(this.products);
       });
       },
     methods:{

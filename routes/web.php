@@ -26,9 +26,9 @@ Route::get('/login',function(){
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 ->name('home');
-Route::get('/admin-hcm', [App\Http\Controllers\HomeController::class, 'index'])->name('admin')->middleware('checkRole:systemAdmin,admin');
+Route::get('/admin', [App\Http\Controllers\HomeController::class, 'index'])->name('admin')->middleware('checkRole:systemAdmin,admin');
 Route::get('/system', [App\Http\Controllers\HomeController::class, 'index'])->name('systemAdmin')->middleware('checkRole:systemAdmin');
 Route::get('/user', [App\Http\Controllers\HomeController::class, 'index'])->name('calendars')->middleware('checkRole:user,manager,hr');
 
-Route::get('/admin-hcm/booking', [App\Http\Controllers\HomeController::class, 'index'])->name('admin')->middleware('checkRole:systemAdmin,admin');
+Route::get('/admin/booking', [App\Http\Controllers\HomeController::class, 'index'])->name('admin')->middleware('checkRole:systemAdmin,admin');
 

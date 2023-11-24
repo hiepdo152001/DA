@@ -57,7 +57,7 @@ const route = [
     },
     
     {
-        path: "/admin-hcm",
+        path: "/admin",
         name: 'admin-h',
         component: () => import("../layouts/page/admin-hcm/admin.vue"),
         children:[
@@ -67,9 +67,14 @@ const route = [
                 component: () => import("../layouts/page/calendar/calendar.vue"),
             },
             {
-                path: "",
+                path: "list/user",
                 name: 'admin-hcm-list-user',
-                component: () => import("../layouts/page/systemAdmin/user/list.vue"),
+                component: () => import("../layouts/page/admin-hcm/listUser.vue"),
+            },
+            {
+                path: "register",
+                name: 'register-user',
+                component: () => import("../layouts/page/admin-hcm/register.vue"),
             },
             {
                 path: "statistical",
@@ -105,6 +110,12 @@ const route = [
                 path: "product/import",
                 name: 'import-product',
                 component: () => import("../layouts/page/admin-hcm/importProduct.vue"),
+             
+            },
+            {
+                path: "import-booking/view/:id",
+                name: 'view-import-booking',
+                component: () => import("../layouts/page/admin-hcm/viewimBook.vue"),
              
             },
             {

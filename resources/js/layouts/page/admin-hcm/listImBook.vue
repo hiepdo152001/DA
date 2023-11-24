@@ -80,15 +80,15 @@
       </tbody>
     </table>
     </div>
-        <div class="page">
-            <Bootstrap5Pagination :data="bills" @pagination-change-page="getBills" />
-        </div>
+    <div class="page">
+      <Bootstrap5Pagination :data="bills" @pagination-change-page="Bills" />
+    </div>
     </div>
 </template>
 <script>
 import { reactive, ref } from 'vue';
 import axios from 'axios';
-import { Bootstrap5Pagination } from "laravel-vue-pagination";
+import {Bootstrap5Pagination} from "laravel-vue-pagination";
 export default{
 name:"list-bills",
 components:{
@@ -110,9 +110,9 @@ data(){
     }
 },
 mounted(){
-    axios.get(`http://localhost:8000/api/bill/all?page=1`)
+    axios.get(`http://localhost:8000/api/bill/get?page=1`)
     .then(response => {
-      this.bills = response.data.data.data;
+      this.bills=response.data[0].data;
       console.log(this.bills);
     });
 
@@ -120,24 +120,23 @@ mounted(){
 },
 methods:{
     formatCurrency(value) {
-      // Định dạng giá trị về tiền tệ VNĐ
       return parseFloat(value).toLocaleString('vi-VN', {
         style: 'currency',
         currency: 'VND'
       });
     },
-    getBills(page =1){
-        axios.get(`http://localhost:8000/api/bill/all?page=${page}`).then(response=>{
-            this.bills = response.data.data.data;
+    Bills(page =1){
+        axios.get(`http://localhost:8000/api/bill/get?page=${page}`).then(response=>{
+          this.bills = response.data[0].data;
         });
     },
-    SearchUser(page =1){
-        axios.get(`http://localhost:8000/api/user/all?page=${page}`,
-        {params: { search: this.input.search }},
-        ).then(response=>{
-            this.users=response.data[0];
-        });
-    }
+    // SearchUser(page =1){
+    //     axios.get(`http://localhost:8000/api/user/all?page=${page}`,
+    //     {params: { search: this.input.search }},
+    //     ).then(response=>{
+    //         this.users=response.data[0];
+    //     });
+    // }
 }
 }
 </script>
