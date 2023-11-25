@@ -7,7 +7,7 @@
           <th>Email</th>
           <th>Chi nhanh</th>
           <th>Chức vụ</th>
-          <th>Trạng thái</th>
+          <th>Tác vụ</th>
           <th></th>
         </tr>
       </thead>
@@ -27,7 +27,7 @@
           <td v-if="u.role_id === 6"> Khách </td>
           <td>
           <button
-            v-if="u.status === 1"
+            v-if="u.status === 0"
             class="btn"
             type="button"
             @click="deletes(u.id)"
@@ -38,7 +38,7 @@
             <i class="bi bi-lock-fill" style="color: black !important"></i>
           </button>
           <button
-            v-if="u.status === 0"
+            v-if="u.status === 1"
             class="btn"
             type="button"
             @click="active(u.id)"

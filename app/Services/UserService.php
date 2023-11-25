@@ -39,6 +39,15 @@ class UserService
         return $user;
         
     }
+
+    public function register(array $payload)
+    {
+        $payload['password'] = Hash::make($payload['password']);
+        $payload['status'] = 0;
+        return User::create($payload);
+    }
+
+
     public function getByEmail($email)
     {
         $user = User::where('email', $email)->first();
@@ -84,30 +93,33 @@ class UserService
     }
 
     public function get($search,$user){
-        if($user-> branch_id === null){
-            return User::paginate(3);
-        }
-        else{
-
-        
         if (!empty($search)) {
-            $users = User::where('branch_id', $user->branch_id)
-                ->where(function ($query) use ($search) {
+            if($user->branch_id == null){
+                $user = User::where(function ($query) use ($search) {
                     $query->where('id', $search)
                         ->orWhere('name', 'like', '%' . $search . '%')
                         ->orWhere('email', 'like', '%' . $search . '%');
                 })
                 ->paginate(3);
-        
-            if ($users->isEmpty()) {
-                return User::where('branch_id', $user->branch_id)->paginate(3);
             }
-        
-            return $users;
+            else{
+                $user = User::where('branch_id', $user->branch_id)
+                ->where(function ($query) use ($search) {
+                    $query->where('id', $search)
+                        ->orWhere('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+                })->paginate(3);
+            }
+        }else{
+            if($user-> branch_id === null ){
+                $user = User::paginate(3);
+            }
+            else{
+            $user = User::where('branch_id', $user->branch_id)->paginate(3);
+            }
         }
-        
-        return User::where('branch_id', $user->branch_id)->paginate(3);
-        }
+        return $user;   
+       
     }
 
     public function getManager($branch_id)

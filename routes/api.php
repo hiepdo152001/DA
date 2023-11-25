@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/by/{id}', [UserController::class, 'getById']);
         Route::get('/all', [UserController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
         Route::put('/{id}', [UserController::class, 'update']);
+        Route::post('/register', [AuthController::class, 'register']);
         Route::post('/{id}', [UserController::class, 'updateAvatar']);
         Route::put('/{id}/deActive', [UserController::class, 'deactive']);
         Route::put('/{id}/active', [UserController::class, 'active']);

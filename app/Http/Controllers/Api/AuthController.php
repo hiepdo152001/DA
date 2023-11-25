@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Models\social_accounts as ModelsSocial_accounts;
 use App\Models\User;
+use App\Notifications\RegisterNotify;
 use App\Services\AuthServices;
 use App\Services\SocialService;
 use App\Services\UserService;
@@ -59,11 +61,14 @@ class AuthController extends Controller
             }
             if (Auth::attempt(['email'=> $googleUser->email, 'password'=>'123456'])) {
                 $user=$this->userService->getByEmail($googleUser->getEmail());
+                if($user-> status === 1){
+                    return  redirect()->intended('/login');
+                }
                 $token=$user->createToken('authToken')->plainTextToken;
                 $cookies= cookie::make('api_token',$token,60*24);
                 return  redirect()->intended('/home')->withCookie($cookies);
             }
-             return  redirect()->intended('/login');
+            return redirect()->back();
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -77,5 +82,17 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        $user = $this->userService->register($request->all());
+        $user->notify(new RegisterNotify($user));
+
+        return response()->json([
+            'status' =>  true,
+            'message' => 'User Create Successfully',
+            'token' => $user->createToken("API TOKEN")->plainTextToken
+        ], 200);
     }
 }

@@ -9,7 +9,9 @@ class AuthServices
 {
     public function check($email)
     {
-        $check = User::where('email', $email)->value('email');
-        return $check;
+        return  User::where('email', $email)->value('email');
+        
     }
+
+    
 }
