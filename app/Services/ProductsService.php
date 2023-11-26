@@ -101,4 +101,16 @@ class ProductsService
         return products::all();
     }
 
+    public function alls($search){
+        if(!empty($search)){
+            return products::where(function ($query) use ($search) {
+                $query->where('name', $search)
+                    ->orWhere('price', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            })
+            ->paginate(6);
+        }
+        return products::where('status',1)->paginate(10);
+    }
+
 }

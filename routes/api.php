@@ -75,6 +75,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/{id}', [ProductsController::class, 'update'])->middleware('checkRole:systemAdmin,admin');
         Route::post('/', [ProductsController::class, 'create'])->middleware('checkRole:systemAdmin,admin');
         Route::get('/all', [ProductsController::class, 'all'])->middleware('checkRole:systemAdmin,admin');
+        
     });
 
     Route::group(['prefix' => '/bill'], function () {
@@ -89,6 +90,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 Route::get('/login', [AuthController::class, 'googleLoginUrl']);
 Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/alls', [ProductsController::class, 'alls']);
 Route::fallback(function () {
     return response()->json([
         'message' => 'Page Not Found. If error persists, contact info@website.com'

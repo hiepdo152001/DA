@@ -39,6 +39,7 @@
                 <th>Giá Nhập</th>
                 <th>Giá Bán</th>
                 <th>Miêu tả</th>
+                <td>Trạng thái</td>
                 <th></th>
               </tr>
             </thead>
@@ -52,6 +53,8 @@
                 <td>{{ product.import_price }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.description }}</td>
+                <td  v-if=" product.status === 0 "><span class="status pending">Chưa bày bán</span> </td>
+                <td  v-if=" product.status === 1 "><span class="status agree">Đang bày bán</span></td>
                 <td>
                   <button
                     class="btn btn-primary btn-sm waves-effect waves-themed"
@@ -64,7 +67,7 @@
                     <i class="bi bi-eye-fill" style="color: black;"></i>
                   </router-link>
                   </button>
-                  <button
+                  <!-- <button
                     class="btn btn-primary btn-sm waves-effect waves-themed" 
                     type="button"
                     data-toggle="tooltip"
@@ -73,7 +76,7 @@
                     v-on:click="handleDelete(product.id)"
                   >
                     <i class="bi bi-trash-fill" style="color: red;"></i>
-                  </button> 
+                  </button>  -->
                 </td>
                
               </tr>
@@ -113,3 +116,11 @@
   }
   }
 </script>
+<style>
+.pending{
+  background-color: #a26304;
+}
+.agree{
+  background-color: #4caf50;
+}
+</style>

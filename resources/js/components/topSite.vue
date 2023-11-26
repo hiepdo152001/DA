@@ -108,11 +108,6 @@
             <a class="dropdown-item">Đổi mật khẩu</a>
           </router-link>
         </li>
-        <li>
-          <router-link :to="{ name: '' }">
-            <a class="dropdown-item">Danh sách yêu cầu</a>
-          </router-link>
-        </li>
         <li style="padding-left: 20px">
           <form>
             <form @submit.prevent="logout">

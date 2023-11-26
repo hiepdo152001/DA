@@ -45,5 +45,12 @@ class ProductsController extends Controller
         ],200);
     }
 
+    public function alls(Request $request){
+        $products= $this->products->alls($request->input('search'));
+        return response()->json([
+            $products
+        ],200);
+    }
+
     
 }

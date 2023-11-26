@@ -60,7 +60,7 @@ class AuthController extends Controller
                 $user=$this->userService->create($googleUser);
                 $this->socialService->create($googleUser,$user);
             }
-            if (Auth::attempt(['email'=> $googleUser->email, 'password'=>''])) {
+            if (Auth::attempt(['email'=> $googleUser->email, 'password'=>'Aa123@#@#@***'])) {
                 
                 if($user-> status === 1){
                     return  redirect()->intended('/login');

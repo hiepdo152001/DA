@@ -166,7 +166,7 @@ html {
 
 .login-body {
     width: 448px;
-    height: 660px;
+    height: 200px;
     background-color: rgba(0, 0, 0, 0.75);
     position: absolute;
     left: 0;
@@ -297,13 +297,5 @@ html {
     text-decoration: underline;
 }
 
-.login-footer {
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
-    height: 220px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    padding: 30px 0;
-}
+
 </style>

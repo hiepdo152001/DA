@@ -383,7 +383,7 @@ methods: {
     formAvt.append('checkAvt',this.checkAvt);
     formAvt.append('checkDetail',this.checkDetail);
     axios.post(`http://localhost:8000/api/product/${this.id}`,formAvt).then(response=>{
-      window.location.href = "http://localhost:8000/admin-hcm";        
+      window.location.href = "http://localhost:8000/admin/product";        
     }).catch(console.error());
   },
 }

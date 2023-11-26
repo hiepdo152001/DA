@@ -28,7 +28,7 @@ class UserService
         $user = User::create([
             'email' => $googleUser->email,
             'name' => $googleUser->name,
-            'password' => Hash::make(''),
+            'password' => Hash::make('Aa123@#@#@***'),
             'status'=>0
         ]);
         if($googleUser->avatar){
