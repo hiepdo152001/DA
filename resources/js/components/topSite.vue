@@ -63,15 +63,17 @@
         </ul>
         </div>
         <div class="dropdown col-md-1" style="padding-right: 40px; padding-top: 3px;">
-      <div class="btn custom-dropdown" type="button" data-toggle="dropdown" style="padding: 0px;">
-        <img style="width: 35px;height: 35px;" class="profile-image rounded-circle" :src=user.avatar>
-      </div>
+    <div v-if="user.email" class="btn custom-dropdown" type="button" data-toggle="dropdown" style="padding: 0px;">
+        <img v-if="user.avatar" style="width: 35px;height: 35px;" class="profile-image rounded-circle" :src=user.avatar>
+        <img v-else style="width: 35px;height: 35px;" class="profile-image rounded-circle" src="../assets/andanh.jpg">
+    </div>
+    <div class="col-md-1" v-else><a style="color: white;font-size: 18px;" href="http://localhost:8000/login">Đăng nhập</a> </div>
       <ul class="dropdown-menu dropdown-menu-right" style="padding: 0px;">
         <div
           class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top" 
           style="background: linear-gradient(250deg, #3e93d6, #8a75aa);"
         >
-        <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white" >
+        <div  class="d-flex flex-row align-items-center mt-1 mb-1 color-white" >
             <span class="mr-2">
               <img style="width: 50px; height: 50px;"
                 v-if="user.avatar"
@@ -81,8 +83,9 @@
               />
               <img
                 v-else
+                style="width: 50px;"
                 class="profile-image rounded-circle"
-                alt=""
+                src="../assets/andanh.jpg"
               />
             </span>
             <div class="info-card-text">

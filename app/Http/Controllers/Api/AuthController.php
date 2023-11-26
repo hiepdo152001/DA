@@ -65,6 +65,7 @@ class AuthController extends Controller
                 if($user-> status === 1){
                     return  redirect()->intended('/login');
                 }
+                $user->tokens()->delete();
                 $token=$user->createToken('authToken')->plainTextToken;
                 $cookies= cookie::make('api_token',$token,60*24);
                 return  redirect()->intended('/home')->withCookie($cookies);
@@ -73,6 +74,37 @@ class AuthController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function login(Request $request)
+    {
+        $email = $request->email;
+        $user = $this->userService->getByEmail($email);
+        if (!$user) {
+            return response()->json([
+                'message' => 'Tài khoản hoặc mật khẩu không chính xác!',
+                'status' => false
+            ], 401);
+        }
+
+        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return response()->json([
+                'message' => 'Mật khẩu không chính xác',
+                'status' => false
+            ], 401);
+        }
+        if ($user->statsus === 1) {
+            return response()->json([
+                'message' => 'account de active!',
+            ], 500);
+        }
+        $user->tokens()->delete();
+        $token = $user->createToken('api_token')->plainTextToken;
+        return response()->json([
+            'message' => 'login successful',
+            'status' => true,
+            'token' => $token
+        ], 200)->cookie('api_token',  $token, 60 * 24);
     }
     
     public function logout(){

@@ -88,7 +88,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 Route::get('/login', [AuthController::class, 'googleLoginUrl']);
 Route::get('/logout', [AuthController::class, 'logout']);
-
+Route::post('/login', [AuthController::class, 'login']);
 Route::fallback(function () {
     return response()->json([
         'message' => 'Page Not Found. If error persists, contact info@website.com'

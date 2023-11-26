@@ -1,28 +1,43 @@
 <template>
-    <div class="login-container">
+    <div class="login-container" >
         <div class="login-header">
-            <a href="/">KMA Shope</a>
+            <a style="color: #886ab5;" href="http://localhost:8000/home">KMA Shope</a>
         </div>
 
         <div class="login-body">
             <!-- Form Login -->
-            <div class="login-form-container">
+            <div class="login-form-container" style="background-color: #fff;   ">
                 <div class="login-form-header">
-                    <h4>Login</h4>
+                    <h3 style="color: #886ab5;">Login</h3>
                 </div>
 
                 <div class="login-form">
-                    <input
-                        type="text"
+
+                   <form @submit.prevent="login">
+                        <div class="form-group">
+                            <label style="color: #886ab5;" for="email">Email</label>
+                            <input type="text" style="color: black;"
                         class="login-form-input"
                         placeholder="Email or phone number"
-                    />
-                    <input
-                        type="password"
+                        v-model="form.email"
+                            required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label style="color: #886ab5;;" for="password">Password</label>
+                            <input
+                            style="color: black;"
+                            type="password"
                         class="login-form-input"
                         placeholder="Password"
-                    />
-                    <button class="login-form-button">Sign In</button>
+                        v-model="form.password"
+                            />
+                        </div>
+                        <div class="alert alert-danger" v-if="check">
+                            {{ check }}
+                        </div>
+                        <button style="margin-left: 120px; background-color: #886ab5;;" type="submit" class="btn btn-dark">Login</button>
+                        </form>
 
                     <div class="login-form-help">
                         <div class="login-form-rememberMe">
@@ -42,7 +57,7 @@
                 <div class="login-form-other">
                     <a href="auth/google/url" class="login-fb">
                         <i class="bi bi-google"></i>
-                        <span class="login-fb-text">Login with Google</span>
+                        <span class="login-fb-text" style="color: #886ab5;font-weight: 700;">Login with Google</span>
                     </a>
 
                     <div class="login-form-signupnow">
@@ -63,81 +78,47 @@
             </div>
         </div>
 
-        <div class="login-overlay"></div>
+        <div class="login-overlay" style=" background-color: rgb(236, 231, 231);"></div>
 
-        <div class="login-footer"></div>
+        
     </div>
 </template>
 <script>
 import { reactive, ref } from "vue";
-
+import axios from "axios";
+import { message } from "ant-design-vue";
 export default {
-    setup() {
-        const registerActive = ref(false);
-        const errors = ref([]);
-        const check = ref("");
-        const errorregis = ref([]);
-        const checkEmail = ref("");
-        const checkPassword = ref("");
-        const formregis = reactive({
-            name: "",
-            email: "",
-            password: "",
-        });
-        const formlogin = reactive({
-            email: "admin@gmail.com",
-            password: "12345678",
-        });
-        const login = async () => {
-            try {
-                let res = await ApiService.post(API_LOGIN, formlogin);
-                if (res.data.status === true) {
-                    jwtService.setToken(JSON.stringify(res.data.token));
-                    window.location.href = HOME_CALENDAR;
-                }
-            } catch (error) {
-                if (error.response.status === 401) {
-                    for (const key in error.response.data) {
-                        errors.value = error.response.data;
-                    }
-                    check.value = errors.value.message;
-                }
-            }
-        };
-        const register = async () => {
-            try {
-                let res = await ApiService.post(API_REGISTER, formregis);
-                if (res.data.status === true) {
-                    alert(res.data.message);
-                    window.location.href = APP_URL;
-                }
-            } catch (error) {
-                if (error.response.status === 422) {
-                    checkEmail.value = "";
-                    checkPassword.value = "";
-                    for (const key in error.response.data.error) {
-                        errorregis.value = error.response.data.error;
-                    }
-                    if (errorregis.value.hasOwnProperty("email"))
-                        checkEmail.value = errorregis.value.email[0];
-                }
-                if (errorregis.value.hasOwnProperty("password")) {
-                    checkPassword.value = errorregis.value.password[0];
-                }
-            }
-        };
-        return {
-            login,
-            formlogin,
-            register,
-            formregis,
-            errorregis,
-            check,
-            registerActive,
-            checkEmail,
-            checkPassword,
-        };
-    },
+  setup() {
+    const errors = ref([]);
+    const check = ref("");
+    const form = reactive({
+      email: "admin@gmail.com",
+      password: "12345678",
+    });
+    const login = async () => {
+        message.value='';
+      try {
+        const res = await axios.post('http://localhost:8000/api/login', form);
+        if (res.data.status === true) {
+          window.location.href = 'http://localhost:8000/home';
+        }
+      } catch (error) {
+        console.log(error); 
+        if (error.response.status === 401) {
+          for (const key in error.response.data) {
+            errors.value = error.response.data;
+          }
+          check.value = errors.value.message;
+        }
+      }
+    };
+    return {
+      form,
+      login,
+      errors,
+      check,
+    };
+  },
 };
 </script>
 <style>
@@ -213,7 +194,7 @@ html {
     padding: 0 16px;
     color: #fff;
     font-size: 1.6rem;
-    background-color: #333333;
+    background-color: rgb(236, 231, 231);;
     border: 1px solid #333333;
     border-radius: 4px;
     outline: none;
