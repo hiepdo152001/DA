@@ -117,6 +117,9 @@
         </div>
     </div>
 </template>
+<script>
+
+</script>
 <style>
 .fullsize-menubar {
     width: 100%;

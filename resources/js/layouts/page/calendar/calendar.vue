@@ -43,8 +43,14 @@ export default {
   },
   setup() {
     const calendarRef = ref(null);
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    
     const showCheckOutButton = ref(true);
     const off = ref(false);
+    if(dayOfWeek === 0 || dayOfWeek === 6){
+      off.value=true;
+    }
     onMounted(async () => {
       const calendarApi = calendarRef.value.getApi();
       AppService.get('http://localhost:8000/api/calendar/holiday/all').then(response=>{

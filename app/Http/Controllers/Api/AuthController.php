@@ -55,12 +55,13 @@ class AuthController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
             $check = $this->authService->check($googleUser->email);
+            $user=$this->userService->getByEmail($googleUser->getEmail());
             if (!$check) {
                 $user=$this->userService->create($googleUser);
                 $this->socialService->create($googleUser,$user);
             }
-            if (Auth::attempt(['email'=> $googleUser->email, 'password'=>'123456'])) {
-                $user=$this->userService->getByEmail($googleUser->getEmail());
+            if (Auth::attempt(['email'=> $googleUser->email, 'password'=>''])) {
+                
                 if($user-> status === 1){
                     return  redirect()->intended('/login');
                 }

@@ -87,7 +87,7 @@
     },
     methods:{
       handleDelete(id){
-        if(confirm("delete holiday ????")){
+        if(confirm("delete category ????")){
           axios.delete(`http://localhost:8000/api/category/${id}`).then(response=>{
             const index = this.data.findIndex(item => item.id === id);
             if (index !== -1) {

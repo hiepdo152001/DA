@@ -88,7 +88,7 @@ class ProductsService
 
     public function get($id){
         if($id===null ){
-            return products::paginate(3);
+            return products::paginate(6);
         }
        
         return products::with(['sizes' => function ($query) {

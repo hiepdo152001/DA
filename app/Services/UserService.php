@@ -28,7 +28,8 @@ class UserService
         $user = User::create([
             'email' => $googleUser->email,
             'name' => $googleUser->name,
-            'password' => Hash::make('123456'),
+            'password' => Hash::make(''),
+            'status'=>0
         ]);
         if($googleUser->avatar){
             $imageData = file_get_contents($googleUser->avatar); 
