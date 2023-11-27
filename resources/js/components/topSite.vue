@@ -99,7 +99,7 @@
           </div>
         </div>
         <li>
-          <router-link :to="{ name: 'test' }">
+          <router-link :to="{ name: '' }">
             <a class="dropdown-item">Profile</a>
           </router-link>
         </li>

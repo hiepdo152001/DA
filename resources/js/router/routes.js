@@ -11,9 +11,14 @@ const route = [
         component: () => import("../layouts/page/home/home.vue"),
         children:[
             {
-                path: "test",
-                name: 'test',
-                component: () => import("../layouts/page/user/profile.vue"),
+                path: "",
+                name: 'list-product',
+                component: () => import("../../js/components/listProduct.vue"),
+            },
+            {
+                path: "product/:id",
+                name: 'view-products',
+                component: () => import("../../js/components/detailProduct.vue"),
             },
         ]
     },

@@ -71,7 +71,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['prefix' => '/product'], function () {
         Route::get('/', [ProductsController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
-        Route::get('/by/{id}', [ProductsController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
+        
         Route::post('/{id}', [ProductsController::class, 'update'])->middleware('checkRole:systemAdmin,admin');
         Route::post('/', [ProductsController::class, 'create'])->middleware('checkRole:systemAdmin,admin');
         Route::get('/all', [ProductsController::class, 'all'])->middleware('checkRole:systemAdmin,admin');
@@ -91,6 +91,7 @@ Route::get('/login', [AuthController::class, 'googleLoginUrl']);
 Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/alls', [ProductsController::class, 'alls']);
+Route::get('/product/by/{id}', [ProductsController::class, 'get']);
 Route::fallback(function () {
     return response()->json([
         'message' => 'Page Not Found. If error persists, contact info@website.com'

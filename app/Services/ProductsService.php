@@ -110,7 +110,7 @@ class ProductsService
             })
             ->paginate(6);
         }
-        return products::where('status',1)->paginate(10);
+        return products::where('status',1)->paginate(4);
     }
 
 }
