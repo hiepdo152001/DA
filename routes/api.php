@@ -42,12 +42,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
         Route::group(['prefix' => '/requests'], function () {
             Route::get('/', [ContactController::class, 'getByUserLogin']);
-            Route::post('/', [ContactController::class, 'create'])->middleware('checkRole:systemAdmin,admin,hr,manager,user');
-            Route::get('/manager', [ContactController::class, 'getManager'])->middleware('checkRole:systemAdmin,admin,hr,manager');
-            Route::get('/{id}', [ContactController::class, 'get'])->middleware('checkRole:systemAdmin,admin,hr,manager,user');
-            Route::put('/{id}', [ContactController::class, 'edit'])->middleware('checkRole:systemAdmin,admin,hr,manager,user');
-            Route::delete('/{id}', [ContactController::class, 'delete'])->middleware('checkRole:systemAdmin,admin,hr,manager,user');
-            Route::get('/member/{type}', [ContactController::class, 'getStatus'])->middleware('checkRole:systemAdmin,admin,hr,manager,user');
+            Route::post('/', [ContactController::class, 'create']);
+            Route::get('/manager', [ContactController::class, 'getManager'])->middleware('checkRole:systemAdmin,admin');
+            Route::get('/{id}', [ContactController::class, 'get']);
+            Route::post('/edit/{id}', [ContactController::class, 'edit'])->middleware('checkRole:systemAdmin,admin,user,IB,Sale');
+            Route::delete('/{id}', [ContactController::class, 'delete'])->middleware('checkRole:systemAdmin,admin,user,IB,Sale');
         });
     });
     Route::group(['prefix' => '/user'], function () {
@@ -57,8 +56,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::put('/{id}', [UserController::class, 'update']);
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/{id}', [UserController::class, 'updateAvatar']);
-        Route::put('/{id}/deActive', [UserController::class, 'deactive']);
-        Route::put('/{id}/active', [UserController::class, 'active']);
+        Route::put('/{id}/deActive', [UserController::class, 'deactive'])->middleware('checkRole:systemAdmin,admin');;
+        Route::put('/{id}/active', [UserController::class, 'active'])->middleware('checkRole:systemAdmin,admin');
     });
 
     Route::group(['prefix' => '/category'], function () {

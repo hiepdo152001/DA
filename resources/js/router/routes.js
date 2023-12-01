@@ -33,6 +33,16 @@ const route = [
                 component: () => import("../layouts/page/calendar/calendar.vue"),
             },
             {
+                path: "profile",
+                name: 'user-proflies',
+                component: () => import("../layouts/page/admin-hcm/profile.vue"),
+            },
+            {
+                path: "edit/:id",
+                name: 'edit-user',
+                component: () => import("../components/editUser.vue"),
+            },
+            {
                 path: "createReq",
                 name: 'createReq-user',
                 component: () => import("../layouts/page/user/createReq.vue"),
@@ -178,52 +188,6 @@ const route = [
             }
         ],
     },
-    {
-        path: "/system",
-        name: 'sys',
-        component: () => import("../layouts/page/systemAdmin/view.vue"),
-        children:[
-            {
-                path: "user",
-                name: 'sys-user',
-                component: () => import("../layouts/page/systemAdmin/user/manager.vue"),
-                children:[
-                    
-        
-                    
-                    
-                   
-                ]
-            },
-            {
-                path: "admin-hcm",
-                name: 'admin-hcm',
-                component: () => import("../layouts/page/admin-hcm/admin.vue"),
-                children:[
-                    
-                    // {
-                    //     path: "calendar",
-                    //     name: 'calendar',
-                    //     component: () => import("../layouts/page/calendar/view.vue"),
-                     
-                    // },
-                ]
-            },
-            {
-                path: "",
-                name: 'sys-calendar-view',
-                component: () => import("../layouts/page/calendar/view.vue"),
-                children:[
-                   
-                ]
-             
-            },
-            
-        ]
-      
-    },
-    
-
     ];
 
 export default route;

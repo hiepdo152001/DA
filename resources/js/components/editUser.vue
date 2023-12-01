@@ -1,6 +1,6 @@
 <template>
-    <div class="col-sm-12">
-      <div class="panel">
+    <div class="col-sm-12" >
+      <div class="panel" style="margin: 100px 100px;">
         <div class="panel-container">
           <div class="panel-content">
             <form
@@ -19,13 +19,14 @@
             <div class="form-row">
               <div class="col-sm-6">
                 <img
+                style="width: 100px; margin-bottom: 20px;"
                   class="profile-image rounded-circle"
                   :src="form.avatar"
                   alt=""
                 />
                 
                 <br />
-                <input type="file" ref="fileInput" @change="handleFileUpload" />
+                <input v-if="user.id == id" type="file" ref="fileInput" @change="handleFileUpload" />
               </div>
             </div>
           </div>
@@ -81,15 +82,16 @@
               <div class="form-group">
                 <div class="col-md-2">
                   <div class="form-group">
-                    <label class="form-label">Bộ phận</label>
+                    <label class="form-label">Chi nhánh</label>
                   </div>
                   <select
                     class="form-control"
                     aria-label="Default select example"
                     v-model="form.branch_id"
+                    :disabled="form.role_id > 2"
                   >
                   <option  value="1">HCM</option>
-                    <option value="2">HN</option>
+                  <option value="2">HN</option>
                     
                   </select>
                 </div>
@@ -101,12 +103,13 @@
                     class="form-control"
                     aria-label="Default select example"
                     v-model="form.role_id"
+                    :disabled="form.role_id > 2"
                   >
-                    <option  value="1">User</option>
+                    <option v-if="form.role_id === 1" value="1">System Admin</option>
                     <option value="2">Admin</option>
-                    <option value="3">System Admin</option>
-                    <option value="4">Guest</option>
-                    <option value="5">Manager</option>
+                    <option value="3">Thủ kho</option>
+                    <option value="4">Nhân viên bán hàng</option>
+                    <option value="5">Nhân viên thường</option>
                   </select>
                 </div>
                 <div class="col-md-4">
@@ -122,7 +125,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-md-6">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label class="form-label">Số diện thoại</label>
                   </div>
@@ -131,6 +134,28 @@
                     class="form-control"
                     required
                     v-model="form.phone"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">Địa chỉ thường trú</label>
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    required
+                    v-model="form.address"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">Số CCCD</label>
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    required
+                    v-model="form.cccd"
                   />
                 </div>
               </div>
@@ -176,26 +201,31 @@
     const fileInput = ref(null);
     const router = useRouter();
     const id = router.currentRoute.value.params.id;
-    const selectedFile = ref(null); // Sử dụng selectedFile để lưu tệp được chọn
+    const selectedFile = ref(null); 
+    const user=ref([]);
     return {
       form,
       fileInput,
       id,
-      selectedFile, // Đổi tên thành selectedFile
+      selectedFile, 
+      user
     }
   },
   mounted() {
+    axios.get(`http://localhost:8000/api/user`).then(response => {
+        this.user = response.data.data;
+        console.log(this.user);
+    });
     axios.get(`http://localhost:8000/api/user/by/${this.id}`)
       .then(response => {
-        const user = response.data.data;
-        console.log(user);
+        const users = response.data.data;
         Object.assign(this.form, {
-          ...user,
-          birth_day: user.birth_day.substring(0, 10),
+          ...users,
+          birth_day:users.birth_day ? users.birth_day.substring(0, 10) : '',
         });
-        this.form.gender = user.gender;
-        console.log(this.form.gender);
+        this.form.gender = users.gender;
       });
+      
   },
   methods: {
     handleFileUpload(event) {
@@ -222,7 +252,7 @@
         formData.append("image_data", this.selectedFile);
         axios.post(`http://localhost:8000/api/user/${this.id}`, formData, )
           .then(response => {
-            console.log(response);
+            window.location.href = 'http://localhost:8000/home';
           })
           .catch(error => {
             console.error(error);

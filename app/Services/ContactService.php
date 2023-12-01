@@ -37,12 +37,16 @@ class ContactService
 
     public function create($userId, $request)
     {
+        $thangHienTai = (new DateTime())->format('m');
+        $namHienTai = (new DateTime())->format('Y'); 
         $contact = Contact::create([
             'content'=> $request->content,
             'phone'=>$request->phone,
             'reason'=>$request->reason,
             'time_start'=>$request->time_start,
             'time_end'=>$request->time_end,
+            'month'=> $thangHienTai,
+            'year'=> $namHienTai,
             'user_id'=>$userId,
             'type'=>1,
             'status' => 1,
@@ -60,13 +64,13 @@ class ContactService
     }
 
     public function getManager($branch_id,$role_id){
-        if($role_id===3){
+        if($role_id === 2){
             return Contact::select('contacts.*', 'users.name as user_name')
                     ->join('users', 'users.id', '=', 'contacts.user_id')
-                    ->where('contacts.status',2)
+                    ->where('contacts.status',1)
                     ->where('users.branch_id',$branch_id)
                     ->orWhere('contacts.status',1)
-                    ->where('users.role_id',4)
+                    ->where('users.role_id',2)
                     ->where('users.branch_id',$branch_id)
                     ->get();
         }
@@ -74,7 +78,6 @@ class ContactService
                     ->join('users', 'users.id', '=', 'contacts.user_id')
                     ->where('contacts.status',1)
                     ->where('users.branch_id',$branch_id)
-                    ->where('users.role_id',5)
                     ->get();
     }
 
@@ -147,7 +150,7 @@ class ContactService
 
             return ['leave_days' => $user->leave_days - $daysOn, 'month' => $month];
         }
-        return ['leave_days' => 0, 'flag' => $user->leave_days, 'month' => $month];
+        return ['leave_days' => 0, 'flag' => $daysOn - $user->leave_days , 'month' => $month];
     }
 
     public function overTime($newContact, $month)

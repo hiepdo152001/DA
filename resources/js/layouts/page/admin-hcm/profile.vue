@@ -1,5 +1,5 @@
 <template>
-<profile-component :user="user"/>
+<profile-component :user="user" />
 </template>
 <script>
 import ProfileComponent from '../../../components/profile.vue';
@@ -27,9 +27,9 @@ export default{
             .then(response=>{
                         this.user=response.data.data;
                     });
-            }
-        
+        }
         else{
+            
             axios.get(`http://localhost:8000/api/user`)
             .then(response=>{
                         this.user=response.data.data;

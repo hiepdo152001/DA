@@ -29,7 +29,8 @@ class UserService
             'email' => $googleUser->email,
             'name' => $googleUser->name,
             'password' => Hash::make('Aa123@#@#@***'),
-            'status'=>0
+            'status'=> 0,
+            'role_id'=> 6,
         ]);
         if($googleUser->avatar){
             $imageData = file_get_contents($googleUser->avatar); 
@@ -45,6 +46,8 @@ class UserService
     {
         $payload['password'] = Hash::make($payload['password']);
         $payload['status'] = 0;
+        $payload['role_id'] = 6;
+
         return User::create($payload);
     }
 
@@ -126,7 +129,7 @@ class UserService
     public function getManager($branch_id)
     {
         $user = User::where('branch_id', $branch_id)
-            ->where('role_id', 5)
+            ->where('role_id', 2)
             ->first();
         return $user;
     }
@@ -161,7 +164,7 @@ class UserService
         if ($user === null) {
             return $user;
         }
-        $user->status = 0;
+        $user->status = 1;
         $user->save();
         return $user;
     }
@@ -169,7 +172,7 @@ class UserService
     public function active($id)
     {
         $user = User::find($id);
-        $user->status = 1;
+        $user->status = 0;
         $user->save();
         return $user;
     }

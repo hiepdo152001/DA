@@ -32,13 +32,13 @@
               </router-link>
             </a-menu-item>
 
-            <a-menu-item key="request"  :class="{ 'd-none': user.role_id <= 3 }">
+            <a-menu-item key="request"  >
               <router-link :to="{ name: 'request-user' }">
                 <i class="fal fa-share-square"></i>
                       <span>Yêu cầu của tôi</span>
               </router-link>
             </a-menu-item>
-            <a-menu-item key="request-member" :class="{ 'd-none': user.role_id > 4 }" >
+            <a-menu-item key="request-member" :class="{ 'd-none': user.role_id > 2 }" >
               <router-link :to="{ name: 'request-member' }">
                 <i class="fal fa-share-square"></i>
                       <span>Yêu cầu cần duyệt</span>
@@ -85,7 +85,7 @@
           </div>
         </div>
         <li>
-          <router-link :to="{ name: 'test-sys'}">
+          <router-link :to="{ name: 'user-proflies'}">
             <a class="dropdown-item">Thông tin cá nhân</a>
           </router-link>
         </li>

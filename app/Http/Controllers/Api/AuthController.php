@@ -60,11 +60,10 @@ class AuthController extends Controller
                 $user=$this->userService->create($googleUser);
                 $this->socialService->create($googleUser,$user);
             }
+            if($user-> status === 1){
+                return  redirect()->intended('/login');
+            }
             if (Auth::attempt(['email'=> $googleUser->email, 'password'=>'Aa123@#@#@***'])) {
-                
-                if($user-> status === 1){
-                    return  redirect()->intended('/login');
-                }
                 $user->tokens()->delete();
                 $token=$user->createToken('authToken')->plainTextToken;
                 $cookies= cookie::make('api_token',$token,60*24);
@@ -86,17 +85,17 @@ class AuthController extends Controller
                 'status' => false
             ], 401);
         }
-
-        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if ($user->status === 1) {
+            return response()->json([
+                'message' => 'Tài khoản đã bị đóng băng!',
+            ], 500);
+        }
+        $credentials = $request->only('email', 'password');
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Mật khẩu không chính xác',
                 'status' => false
             ], 401);
-        }
-        if ($user->statsus === 1) {
-            return response()->json([
-                'message' => 'account de active!',
-            ], 500);
         }
         $user->tokens()->delete();
         $token = $user->createToken('api_token')->plainTextToken;
@@ -118,7 +117,7 @@ class AuthController extends Controller
     }
 
     public function register(RegisterRequest $request)
-    {
+    {   $user_login=$this->getCurrentLoggedIn();
         $user = $this->userService->register($request->all());
         $user->notify(new RegisterNotify($user));
 

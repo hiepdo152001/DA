@@ -11,9 +11,10 @@
       },
       methods:{
         CreateReq(data,id){
-            axios.put(`http://localhost:8000/api/calendar/requests/${id}`,data).then(res=>{
-              this.$router.push({ path: '/user/request-member' });
-                   })
+            axios.post(`http://localhost:8000/api/calendar/requests/edit/${id}`,data).then(res=>{
+              console.log(res);
+              this.$router.push({ path: '/user/request' });
+                   });
         }
       }
     

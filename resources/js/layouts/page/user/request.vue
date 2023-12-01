@@ -2,11 +2,7 @@
     <div class="panel" style="margin: 50px 30px;">
       <div class="panel-hdr">
         <h2 class="title" style="padding-top: 10px">Yêu cầu của tôi</h2>
-        <div>
-          <h2 style="padding: 10px 20px 0px 0px">
-            Số ngày phép còn lại:
-          </h2>
-        </div>
+        
       </div>
 
       <div class="panel-container">
@@ -31,8 +27,7 @@
             <tbody>
               <tr v-for="datas in data" :key="datas.id">
                 <status :datas="datas" />
-                <td v-if="datas.status === 1 "> Quản lý</td>
-                <td v-if="datas.status !== 1 "> Admin</td>
+                <td > Admin</td>
                 <td>{{ datas.time_start }} ~ {{ datas.time_end }}</td>
                 <td>
                   <button

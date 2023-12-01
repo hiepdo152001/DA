@@ -2,14 +2,13 @@
      <div class="panel" style="margin: 50px 30px;">
      <div class="panel-hdr">
           <h2 class="title" style="padding-top: 10px">Yêu cầu của tôi</h2>
-          <div>
-          <h2 style="padding: 10px 20px 0px 0px">
-               Số ngày phép còn lại:
-          </h2>
-          </div>
+          
      </div>
      <div class="panel-content">
           <div class="col-md-6">
+               <div class="alert alert-danger" v-if="checktime != '' ">
+          {{ checktime }}
+        </div>
           <form v-on:submit.prevent="CreateReq">
                <div class="form-row">
                <div class="col-md-9" style="margin-top: 15px">
@@ -242,7 +241,7 @@ export default {
           const router= useRouter();
           const user=ref([]);
           const check = ref(0); 
-          
+          const checktime=ref("")
           const id = router.currentRoute.value.params.id;
           const active="days_on";
           return {
@@ -251,20 +250,24 @@ export default {
                 id,
                 check,
                 user,
-                router
+                router,
+                checktime
           };
      },
      mounted(){
           axios.get(`http://localhost:8000/api/user`)
           .then(response=>{
                     this.user=response.data.data;
+                    Object.assign(this.data, {
+                         ...this.user,
+                    });
           });
           if(this.id){
           axios.get(`http://localhost:8000/api/calendar/requests/${this.id}`)
           .then(response=>{
                this.data=response.data.data;
                if (this.$route.fullPath.includes("edit-request")) {
-                    if(response.data.data.status !==1 || this.user.id !== response.data.data.user_id){
+                    if(response.data.data.status != 1 || this.user.id != this.data.user_id){
                          this.check = 1; 
                     }
                
@@ -279,10 +282,15 @@ export default {
                this.active = ApiService.Onchange(event, this.active);
           },
           CreateReq(){
-            const idParam = this.id ? [this.data, this.id] : [this.data];
-            this.$emit('CreateReq', ...idParam);
-               
+          if ( this.data.time_start > this.data.time_end) {
+               this.checktime ="Thời gian bắt đầu không được lớn hơn thời gian kết thúc";
           }
+          else{
+               const idParam = this.id ? [this.data, this.id] : [this.data];
+               this.$emit('CreateReq', ...idParam);
+                    
+               }
+     }
      },
 }
 </script>

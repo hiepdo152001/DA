@@ -40,8 +40,20 @@
             <td><p>{{ req.reason }}</p></td>
           </tr>
         </tbody>
+
       </table>
-      
+       <button
+                    class="btn btn-primary btn-sm waves-effect waves-themed"
+                    type="button"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Delete"
+                    v-if="req.status == 1"
+                    v-on:click="handleDelete(req.id)"
+                    style="margin-bottom: 30px;margin-left: 50px;"
+                  >
+                    <span>Hủy</span>
+                  </button> 
     </div>
   </div>
 </div>
@@ -72,7 +84,16 @@ export default{
         .then(response=>{
                     this.req=response.data.data;
                 });
-  }   
+  },
+    methods:{
+      handleDelete(id){
+        if(confirm('ban co muon xoa no!')){
+          axios.delete(`http://localhost:8000/api/calendar/requests/${id}`).then(res=>{
+            this.$router.push({ path: '/user/request' });
+          });
+        }
+      }
+    }   
 
   }
 </script>

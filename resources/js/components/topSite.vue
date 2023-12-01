@@ -158,36 +158,6 @@
             </div>
         </div>
         <!---thongnv-->
-        <div class="size-menubar small_show bar-menu">
-            <div class="container">
-                <div class="col-xs-12">
-                    <div class="menu-btn-no-modal row small-menu-item">
-                        <div class="col-xs-3">
-                            <a href="/shops/group/giay-cao-ban-chay.html"
-                                ><span style="color: black">• Bán chạy</span></a
-                            >
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="/shops/group/giay-cao-the-thao.html"
-                                ><span style="color: black">• Thể thao</span></a
-                            >
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="/shops/group/giay-cao-cong-so.html"
-                                ><span style="color: black">• Công sở</span></a
-                            >
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="/shops/group/giay-cao-tre-trung.html"
-                                ><span style="color: black"
-                                    >• Thời trang</span
-                                ></a
-                            >
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="clearfix"></div>

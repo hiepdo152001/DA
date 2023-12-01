@@ -1,12 +1,24 @@
 <template>
-    <div class="panel" style="margin: 35px;">
+    <div class="panel" style="margin: 100px 100px;">
     <div>
       <div>
         <div class="panel-hdr">
           <h2 >Thông tin cá nhân</h2>
         </div>
-        <div class="col-6">
-          <router-link :to="{ name: 'sys-edit-user',params: { id: ids } }">
+        <div class="col-6" v-if="check">
+          <router-link :to="{ name: 'sys-edit-user',params: { id: parseInt( user.id) } }">
+            <button
+              class="btn  btn-sm waves-effect waves-themed"
+              style="margin: 15px 0px 0px 25px;color: #fff;
+                background-color: #886ab5;
+                border-color: #886ab5;"
+            >
+              <i class="bi bi-pencil" style="padding: 0px 5px 0px 5px;"></i>
+            </button>
+          </router-link>
+        </div>
+        <div class="col-6" v-else>
+          <router-link :to="{ name: 'edit-user',params: { id: parseInt( user.id) } }">
             <button
               class="btn  btn-sm waves-effect waves-themed"
               style="margin: 15px 0px 0px 25px;color: #fff;
@@ -40,7 +52,12 @@
             </tr>
             <tr>
               <td><strong>Vị trí</strong></td>
-              <td></td>
+              <td v-if="user.role_id === 1">Quản trị hệ thống </td>
+              <td v-if="user.role_id === 2">Quản trị chi nhánh</td>
+              <td v-if="user.role_id === 3">Thủ kho</td>
+              <td v-if="user.role_id === 4">Nhân viên bán hàng</td>
+              <td v-if="user.role_id === 5"> Nhân viên </td>
+              <td v-if="user.role_id === 6"> Khách </td>
             </tr>
             <tr>
               <td><strong>Giới tính</strong></td>
@@ -49,7 +66,7 @@
             </tr>
             <tr>
               <td><strong>Địa chỉ thường trú</strong></td>
-              <td></td>
+              <td>{{ user.address }}</td>
             </tr>
             <tr>
               <td><strong>Số điện thoại</strong></td>
@@ -61,23 +78,11 @@
             </tr>
             <tr>
               <td><strong>Số CCCD</strong></td>
-              <td></td>
+              <td>{{ user.cccd }}</td>
             </tr>
             <tr>
-              <td><strong>Email cá nhân</strong></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><strong>Mã số thuế</strong></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><strong>Tên ngân hàng</strong></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><strong>Số tài khoản</strong></td>
-              <td></td>
+              <td><strong>Số ngày nghỉ phép</strong></td>
+              <td>{{ user.leave_days }}</td>
             </tr>
           </tbody>
         </table>
@@ -85,24 +90,27 @@
     </div>
 </template>
 <script>
+import { ref } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
 export default {
     name:"comp-profile",
     props:{
         user:{
             type: Object,
             required: true,
-        },
-        id:{
-          type: Number,
-            required: true,
         }
     },
-    data(){
-    const ids=this.id;
-    return {
-       ids
+    data() {
+      const router = useRouter();
+      const id = router.currentRoute.value.path;
+      const check=ref();
+      return {
+        id,check
+      }
+    },
+    mounted() {
+      this.check = this.id.toLowerCase().includes("admin");
     }
-},
-   
 };
 </script>

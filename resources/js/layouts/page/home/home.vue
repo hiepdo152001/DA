@@ -51,33 +51,7 @@
                 </div>
 
                 <div style="clear: both"></div>
-                <div id="search_block_top">
-                    <!-- <form
-                        action="/"
-                        method="get"
-                        id="searchbox"
-                        @submit.prevent="SearchProducts"
-                    >
-                        <fieldset>
-                            
-                            <input
-                                placeholder="Search"
-                                class="search_query"
-                                type="text"
-                                v-model="input.search"
-                                id="topmenu_search_query"
-                                maxlength="60"
-                            />
-                            <button
-                                class="btn btn-default button-search"
-                                type="submit"
-                                id="topmenu_search_submit"
-                            >
-							<span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </fieldset>
-                    </form> -->
-                </div>
+                
             </div>
         </div>
     </div>
@@ -240,13 +214,7 @@ html[xmlns] .clearfix {
     margin-bottom: 0;
 }
 
-#search_block_top {
-    margin-top: 73px;
-    margin-left: 0;
-    float: right;
-    text-align: center;
-    width: 100%;
-}
+
 .shopping_cart {
     position: relative;
     padding: 10px 10px 10px 10px;
@@ -258,13 +226,7 @@ html[xmlns] .clearfix {
 .shopping_cart a {
     color: #fff;
 }
-#search_block_top #searchbox {
-    float: right;
-    width: 100%;
-}
-form#searchbox {
-    position: relative;
-}
+
 fieldset {
     min-width: 0;
     padding: 0;
@@ -305,16 +267,7 @@ textarea {
     font: inherit;
     color: inherit;
 }
-#search_block_top #topmenu_search_query {
-    display: inline;
-    padding: 5px 30px 5px 10px;
-    height: 30px;
-    line-height: 30px;
-    background: #fff;
-    margin-right: 1px;
-    border: 2px solid #a7051a;
-    width: 100%;
-}
+
 button,
 input,
 select,
@@ -323,20 +276,7 @@ textarea {
     font-size: inherit;
     line-height: inherit;
 }
-#search_block_top .btn.button-search {
-    background: none;
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    border: none;
-    color: #a7051a;
-    width: 34px;
-    top: 6px;
-    right: 13px;
-    text-align: center;
-    padding: 4px 0 4px 0;
-}
+
 </style>
 <style>
 .fullsize-menubar {

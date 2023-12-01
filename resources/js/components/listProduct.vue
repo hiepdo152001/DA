@@ -1,4 +1,31 @@
 <template>
+    <div id="search_block_top">
+        <form
+            action="/"
+            method="get"
+            id="searchbox"
+            @submit.prevent="SearchProducts"
+        >
+            <fieldset>
+                
+                <input
+                    placeholder="Search"
+                    class="search_query"
+                    type="text"
+                    v-model="input.search"
+                    id="topmenu_search_query"
+                    maxlength="60"
+                />
+                <button
+                    class="btn btn-default button-search"
+                    type="submit"
+                    id="topmenu_search_submit"
+                >
+  <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </fieldset>
+        </form>
+    </div>
     <div class="container col-md-9  px-4 px-lg-5 mt-5">
                 <div class="d-flex " style="flex-wrap: wrap!important">
                 <div v-for="(product, index) in products.data" class="col-md-3  box-product"  :style="{ 'padding-bottom': index >= 0 && index < 4 ? '30px' : '0' }">
@@ -98,6 +125,43 @@ import { ref,reactive} from "vue";
 }
 
 /*san pham*/
-
-
+#search_block_top {
+    position: absolute;
+    margin-top: -39px!important;
+    margin-left: 0;
+    float: right;
+    text-align: center;
+    width: 100%;
+}
+#search_block_top #searchbox {
+    float: right;
+    width: 15%;
+}
+form#searchbox {
+    position: relative;
+}
+#search_block_top #topmenu_search_query {
+    display: inline;
+    padding: 5px 30px 5px 10px;
+    height: 30px;
+    line-height: 30px;
+    background: #fff;
+    margin-right: 1px;
+    border: 2px solid #a7051a;
+    width: 100%;
+}
+#search_block_top .btn.button-search {
+    background: none;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    color: #a7051a;
+    width: 34px;
+    top: 6px;
+    right: 13px;
+    text-align: center;
+    padding: 4px 0 4px 0;
+}
 </style>

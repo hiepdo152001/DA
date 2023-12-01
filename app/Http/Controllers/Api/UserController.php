@@ -88,9 +88,12 @@ class UserController extends Controller
     public function update($id, Request $userequest)
     {
         $user = $this->userService->getById($id);
-
-        $this->userService->edit($id, $userequest->except(['avatar']));
-
+        if($user->role_id > 2){
+            $this->userService->edit($id, $userequest->except(['avatar','role_id','branch_id']));
+        }
+        else{
+            $this->userService->edit($id, $userequest->except(['avatar']));
+        }
         return response()->json([
             'status' => true,
             'message' => 'update successful'

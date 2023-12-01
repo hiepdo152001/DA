@@ -110,6 +110,12 @@ export default {
           }
           check.value = errors.value.message;
         }
+        else if (error.response.status === 500) {
+          for (const key in error.response.data) {
+            errors.value = error.response.data;
+          }
+          check.value = errors.value.message;
+        }
       }
     };
     return {

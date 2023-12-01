@@ -79,35 +79,14 @@ class ContactController extends Controller
         ], 200);
     }
 
-    public function getStatus($type)
-    {
-        $user = $this->getCurrentLoggedIn();
-
-        $statuses = [
-            'pending' => 1,
-            'confirmed' => 2,
-            'approved' => 3,
-            'declined' => 4,
-            'canceled' => 5,
-        ];
-        $status = $statuses[$type] ?? 1;
-
-        $department_id = $user->department_id;
-        $requests = $this->contacts->get($department_id, $status);
-        return response()->json([
-            'data' => $requests,
-        ], 200);
-    }
-
     public function edit($id, Request $request)
-    {       
+    {   
         $user = $this->getCurrentLoggedIn();
         $contact = $this->contacts->getById($id);
         $newContact = $this->contacts->edit($id, $request->all());
-        if ($newContact->status === '3') {
+        if ($newContact->status === 2) {
             $times = new DateTime($newContact->time_start);
             $month = $times->format("m");
-
             $payload = $this->contacts->handleRequest($newContact, $user, $month);
             $newContact = $this->contacts->edit($id, $payload);
             $this->users->edit($contact->user_id, $payload);

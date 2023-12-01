@@ -2,11 +2,7 @@
     <div class="panel" style="margin: 50px 30px;">
       <div class="panel-hdr">
         <h2 class="title" style="padding-top: 10px">Yêu cầu cần duyệt</h2>
-        <div>
-          <h3 style="padding: 10px 20px 0px 0px">
-            Số ngày phép còn lại:
-          </h3>
-        </div>
+        
       </div>
       <div class="panel-container">
         <div class="panel-content">
@@ -44,8 +40,31 @@
                     <i class="bi bi-eye-fill" style="color: black;"></i>
                   </router-link>
                   </button>
+                      <button
+                  class="btn btn-primary"
+                  type="button"
+                  @click="confirm(contact.id)"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Xác nhận"
+                  style="margin-right: 30px"
+                >
+                  Xác nhận
+                </button>
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  @click="cancel(contact.id)"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Từ chối"
+                >
+                  Từ chối
+                </button>
                 </td>
+                
               </tr>
+              
             </tbody>
           </table>
         </div>
@@ -54,7 +73,7 @@
   </template>
 <script>
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref,reactive } from 'vue';
 import status from '../../../components/status.vue';
 export default{
   name:'req-member',
@@ -71,6 +90,32 @@ export default{
     axios.get(`http://localhost:8000/api/calendar/requests/manager`).then(res=>{
       this.contacts=res.data[0];
       });
+  },
+  methods:{
+    cancel(id){
+      const form = reactive({
+      status: 3,
+      });
+      if(confirm('Đồng ý với yêu cầu này?')){
+        axios.post(`http://localhost:8000/api/calendar/requests/edit/${id}`,form).then(res=>{
+      console.log(res);
+      this.$router.push({ path: '/user/request' });
+            });
+      }
+      
+    },
+    confirm(id){
+      const form = reactive({
+      status: 2,
+      });
+      if(confirm('Từ chối yêu cầu?')){
+        axios.post(`http://localhost:8000/api/calendar/requests/edit/${id}`,form).then(res=>{
+        this.$router.push({ path: '/user/request' });
+            });
+      }
+      
+    }
+
   }
   
 }

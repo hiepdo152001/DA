@@ -96,7 +96,7 @@
               </div>
             </div>
             <li>
-              <router-link :to="{ name: 'test-sys'}">
+              <router-link :to="{ name: 'user-proflie'}">
                 <a class="dropdown-item">Thông tin cá nhân</a>
               </router-link>
             </li>

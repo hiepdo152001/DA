@@ -7,6 +7,7 @@
           <th>Email</th>
           <th>Chi nhanh</th>
           <th>Chức vụ</th>
+          <th>Trạng thái</th>
           <th>Tác vụ</th>
           <th></th>
         </tr>
@@ -25,6 +26,8 @@
           <td v-if="u.role_id === 4">Quản lý  </td>
           <td v-if="u.role_id === 5"> Nhân viên </td>
           <td v-if="u.role_id === 6"> Khách </td>
+          <td v-if="u.status === 1"><span class="statuss status-canceled" > Đã đóng băng </span></td>
+          <td v-if="u.status === 0"> <span class="statuss status-approved"> Hoạt động</span> </td>
           <td>
           <button
             v-if="u.status === 0"
@@ -85,20 +88,23 @@ export default {
   },
   methods: {
     deletes(id) {
+      if(confirm('Bạn có muốn "ĐÓNG BĂNG" tài khoản này?')){
       axios.put(`http://localhost:8000/api/user/${id}/deActive`, "").then((response) => {
         if (response.status === 202) {
+          console.log(response);
           const indexToUpdate = this.users.findIndex((user) => user.id === response.data[0].id);
-          if (indexToUpdate !== -1 && confirm('Bạn có muốn thay đổi trạng thái?')) {
+          if (indexToUpdate !== -1 ) {
             this.users[indexToUpdate]=response.data[0];
           }
         }
       });
+    }
     },
     active(id) {
       axios.put(`http://localhost:8000/api/user/${id}/active`, "").then((response) => {
         if (response.status === 202) {
           const indexToUpdate = this.users.findIndex((user) => user.id === response.data[0].id);
-          if (indexToUpdate !== -1 && confirm('Bạn có muốn thay đổi trạng thái?')) {
+          if (indexToUpdate !== -1 && confirm('Bạn có muốn "MỞ KHÓA" tài khoản này?')) {
             this.users[indexToUpdate]=response.data[0];
           }
         }
@@ -108,3 +114,21 @@ export default {
 };
 
 </script>
+<style>
+.status-approved{
+background-color:  #1dc9b7;
+}
+.status-canceled{
+background-color:  #c53511;
+}
+.statuss {
+    border-radius: 15px;
+    width: 75%;
+    margin: auto;
+    padding: 4px 10px;
+    text-align: center;
+    font-weight: 600;
+    color: white;
+    font-size: 12px;
+  }
+</style>

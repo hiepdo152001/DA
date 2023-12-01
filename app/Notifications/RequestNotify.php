@@ -39,6 +39,7 @@ class RequestNotify extends Notification
     public function toMail(object $notifiable): MailMessage
     {   $data=$this->toArray($this->contact);
         return (new MailMessage)
+                    ->line('new contact')
                     ->line($data['content'])
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');

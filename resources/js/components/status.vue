@@ -3,10 +3,8 @@
     <td v-if="datas.content === 'days_off'">Nghỉ phép không lương</td>
     <td v-if="datas.content === 'over_time'">Làm thêm giờ</td>
     <td v-if="datas.status === 1 "><span class="status status-pending">Đang xử lý</span></td>
-    <td v-if="datas.status === 2 "><span class="status status-confirmed">Xác nhận</span></td>
-    <td v-if="datas.status === 3 "><span class="status status-approved">Đồng ý</span></td>
-    <td v-if="datas.status === 4 "><span class="status status-declined">Từ chối </span></td>
-    <td v-if="datas.status === 5 "><span class="status status-canceled">Hủy</span></td>
+    <td v-if="datas.status === 2 "><span class="status status-confirmed">Đồng ý</span></td>
+    <td v-if="datas.status === 3"><span class="status status-declined">Từ chối </span></td>
 </template>
 <script>
 export default{
