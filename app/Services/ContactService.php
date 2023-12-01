@@ -150,7 +150,7 @@ class ContactService
 
             return ['leave_days' => $user->leave_days - $daysOn, 'month' => $month];
         }
-        return ['leave_days' => 0, 'flag' => $daysOn - $user->leave_days , 'month' => $month];
+        return ['leave_days' => 0, 'flag' =>$user->leave_days - $daysOn , 'month' => $month];
     }
 
     public function overTime($newContact, $month)
