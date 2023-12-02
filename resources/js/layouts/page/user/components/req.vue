@@ -118,7 +118,7 @@
                class="rules take-leave"
                :class="{ 'd-none': active !== 'days_on'  }"
           >
-               <strong> a, Khi xin nghỉ phép chú ý: </strong>
+               <strong>Khi xin nghỉ phép chú ý: </strong>
                <ul>
                <li>Nếu còn ngày phép: Xin nghỉ phép có lương.</li>
                <li>Nếu không còn ngày phép: Xin nghỉ phép không lương.</li>
@@ -128,41 +128,6 @@
                lương.
                </li>
                </ul>
-               <strong> b, Đối với việc xin nghỉ phép cần đảm bảo yêu cầu: </strong>
-               <ul>
-               <li>Nghỉ 0,5 ngày: Tạo request trước ít nhất 1 ngày làm việc.</li>
-               <li>Nghỉ 1 ngày: Tạo request trước ít nhất 2 ngày làm việc.</li>
-               <li>
-               Nghỉ 1,5 ngày đến 2 ngày: Tạo request trước ít nhất 3 ngày làm
-               việc.
-               </li>
-               <li>
-               Nghỉ 2,5 ngày đến 3: Tạo request trước ít nhất 5 ngày làm việc.
-               </li>
-               <li>
-               Nghỉ từ 3,5 ngày trở lên: Tạo request trước ít nhất 7 ngày làm
-               việc.
-               </li>
-               <li>
-               Không xin nghỉ liền tiếp 5 ngày làm việc kể cả xin có lương hay
-               không có lương.
-               </li>
-               </ul>
-               <strong>
-               c, Đối với việc xin nghỉ phép nhưng có việc đột xuất không đảm bảo
-               được thời gian báo trước theo yêu cầu tại mục b, nhân sự có thể chọn
-               option "Tạo bù" để được xem xét.
-               </strong>
-               <div>
-               <strong> Lưu ý: </strong>
-               <br />
-               - Chỉ áp dụng cho trường hợp đột xuất, không có kế hoạch trước
-               <br />
-
-               - Có thể tạo sau nhiều nhất 04 ngày kể từ ngày phát sinh request
-               nghỉ tuy nhiên khi phát sinh việc nghỉ phải tạo request luôn hoặc
-               thông báo trước với leader
-               </div>
           </div>
           <div
                class="rules forgot-to-check"
