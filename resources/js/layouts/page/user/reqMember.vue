@@ -47,7 +47,7 @@
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Xác nhận"
-                  style="margin-right: 30px"
+                  style="margin-right: 30px;margin-left: 20px;background-color:  #1dc9b7;"
                 >
                   Xác nhận
                 </button>
@@ -58,6 +58,7 @@
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Từ chối"
+                  style="background-color:  #c53511;"
                 >
                   Từ chối
                 </button>

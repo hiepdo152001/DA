@@ -1,6 +1,7 @@
 <template>
+    <div class="col-12">
     <TopSite />
-    <div id="header" class="small_hide">
+    <div id="header" >
         <div class="container">
             <div id="logo" class="col-md-3">
                 <a
@@ -38,13 +39,16 @@
                                     class="glyphicon glyphicon-share-alt"
                                 ></span></span
                             ><a
-                                onclick="popup_cart(this)"
                                 href="javascript:void(0)"
                                 title="Giỏ hàng"
                                 rel="nofollow"
                                 data-toggle="modal"
                                 data-target="#introVideo"
-                                ><b> Giỏ hàng</b><span> (0)</span></a
+                                >
+                                <router-link :to="{name:'view-order'}">
+                                    <b> Giỏ hàng</b>
+                                </router-link>
+                                <span> (0)</span></a
                             >
                         </div>
                     </div>
@@ -70,7 +74,7 @@
                                 </a>
                             </li>
                             <li class="li-niveau1 advtm_menu_21">
-                                <a s="a-niveau1">
+                                <a href="http://localhost:8000/home" style="margin-top: 5px;">
                                     <span
                                         class="advtm_menu_span advtm_menu_span_21"
                                     >
@@ -81,6 +85,7 @@
                                             width="18"
                                             height="18"
                                             class="adtm_menu_icon"
+                                            style="width: 30px;height: 30px;"
                                         />
                                     </span>
                                 </a>
@@ -177,6 +182,7 @@
         <router-view></router-view>
         <div class="col-md-1"></div>
 	</div>
+</div>
 </template>
 
 <script setup>

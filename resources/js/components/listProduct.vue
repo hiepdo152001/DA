@@ -47,9 +47,9 @@
                         
                         <!-- Product actions-->
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="display: flex; margin: auto;">
-                            <div class="icon" style="background: #CC1417">
+                            <div class="icon" style="background: #CC1417; margin-right: 10px;">
                                 
-                                <a onclick="AddToCart('${base }', ${products.id}, 1);" >add to cart</a>
+                                <a  @click="AddToCart(product.id)" style="cursor: pointer;" >add to cart</a>
                             </div>
                             <div class="icon" style="background: #5CDBDB">
                             <a href="" >Đặt Hàng</a>
@@ -108,6 +108,12 @@ import { ref,reactive} from "vue";
 				this.products=response.data[0];
 			});
 		}
+        ,
+        AddToCart(id){
+            axios.post(`http://localhost:8000/api/order/create/${id}`,[]).then(response=>{
+              console.log(response);
+            });
+        }
   }
   }
 </script>

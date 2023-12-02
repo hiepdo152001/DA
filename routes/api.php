@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CalendarController;
+use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\ImportBookingController;
@@ -42,7 +43,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
         Route::group(['prefix' => '/requests'], function () {
             Route::get('/', [ContactController::class, 'getByUserLogin']);
-            Route::post('/', [ContactController::class, 'create']);
+            Route::post('/', [ContactController::class, 'create'])->middleware('checkRole:systemAdmin,admin,user,IB,Sale');
             Route::get('/manager', [ContactController::class, 'getManager'])->middleware('checkRole:systemAdmin,admin');
             Route::get('/{id}', [ContactController::class, 'get']);
             Route::post('/edit/{id}', [ContactController::class, 'edit'])->middleware('checkRole:systemAdmin,admin,user,IB,Sale');
@@ -70,20 +71,27 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['prefix' => '/product'], function () {
         Route::get('/', [ProductsController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
-        
-        Route::post('/{id}', [ProductsController::class, 'update'])->middleware('checkRole:systemAdmin,admin');
-        Route::post('/', [ProductsController::class, 'create'])->middleware('checkRole:systemAdmin,admin');
-        Route::get('/all', [ProductsController::class, 'all'])->middleware('checkRole:systemAdmin,admin');
+        Route::post('/{id}', [ProductsController::class, 'update'])->middleware('checkRole:systemAdmin,admin,IB');
+        Route::post('/', [ProductsController::class, 'create'])->middleware('checkRole:systemAdmin,admin,IB');
+        Route::get('/all', [ProductsController::class, 'all'])->middleware('checkRole:systemAdmin,admin,IB');
         
     });
 
     Route::group(['prefix' => '/bill'], function () {
-        Route::get('/get', [ImportBookingController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
-        Route::get('/by/{id}', [ImportBookingController::class, 'getById'])->middleware('checkRole:systemAdmin,admin');
-        Route::post('/{id}', [ImportBookingController::class, 'update'])->middleware('checkRole:systemAdmin,admin');
-        Route::post('/', [ImportBookingController::class, 'create'])->middleware('checkRole:systemAdmin,admin');
-        Route::get('/all', [ImportBookingController::class, 'all'])->middleware('checkRole:systemAdmin,admin');
+        Route::get('/get', [ImportBookingController::class, 'get'])->middleware('checkRole:systemAdmin,admin,IB');
+        Route::get('/by/{id}', [ImportBookingController::class, 'getById'])->middleware('checkRole:systemAdmin,admin,IB');
+        Route::post('/{id}', [ImportBookingController::class, 'update'])->middleware('checkRole:systemAdmin,admin,IB');
+        Route::post('/', [ImportBookingController::class, 'create'])->middleware('checkRole:systemAdmin,admin,IB');
+        Route::get('/all', [ImportBookingController::class, 'all'])->middleware('checkRole:systemAdmin,admin,IB');
     });
+   
+});
+Route::group(['prefix' => '/order'], function () {
+    Route::get('/get', [CartController::class, 'get']);
+    Route::get('/by/{id}', [CartController::class, 'getById']);
+    Route::post('/update/{id}', [CartController::class, 'update']);
+    Route::post('/create/{id}', [CartController::class, 'create']);
+    Route::delete('/{id}', [CartController::class, 'delete']);
     
 });
 Route::get('/login', [AuthController::class, 'googleLoginUrl']);

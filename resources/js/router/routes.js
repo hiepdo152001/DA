@@ -20,6 +20,11 @@ const route = [
                 name: 'view-products',
                 component: () => import("../../js/components/detailProduct.vue"),
             },
+            {
+                path: "order",
+                name: 'view-order',
+                component: () => import("../../js/components/cart.vue"),
+            },
         ]
     },
     {

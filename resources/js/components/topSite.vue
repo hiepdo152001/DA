@@ -164,8 +164,8 @@
     <div class="mobile pushy" :class="{ 'pushy-left': check === false }">
         <nav class="navigation">
             <ul class="main">
-                <li class="main">
-                    <a href="/" title="↑ 9-10CM" class="main"
+                <!-- <li class="main">
+                    <a href="http://localhost:8000/home" 
                         ><img
                             src="../assets/home.png"
                             alt=""
@@ -176,7 +176,7 @@
                         />
                         Home</a
                     >
-                </li>
+                </li> -->
                 <li class="main">
                     <a
                         href="https://giaycaochonam.com/news/giay-tang-chieu-cao-nam/gioi-thieu-ve-giay-tang-chieu-cao-nam-t-men-32.html"

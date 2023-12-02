@@ -26,7 +26,10 @@ Route::get('/login',function(){
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 ->name('home');
-Route::get('/admin', [App\Http\Controllers\HomeController::class, 'index'])->name('admin')->middleware('checkRole:systemAdmin,admin');
+
+Route::get('/home/order', [App\Http\Controllers\HomeController::class, 'index'])
+->name('home');
+Route::get('/admin', [App\Http\Controllers\HomeController::class, 'index'])->name('admin')->middleware('checkRole:systemAdmin,admin,IB,Sale');
 Route::get('/admin/list/user', [App\Http\Controllers\HomeController::class, 'index'])->name('admin')->middleware('checkRole:systemAdmin,admin');
 Route::get('/system', [App\Http\Controllers\HomeController::class, 'index'])->name('systemAdmin')->middleware('checkRole:systemAdmin');
 Route::get('/user', [App\Http\Controllers\HomeController::class, 'index'])->name('calendars')->middleware('checkRole:systemAdmin,admin,IB,Sale,user');
