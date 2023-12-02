@@ -28,12 +28,14 @@ class CalendarService
         $dateNow = date('Y-m-d H:i:s');
         $day = date('d', strtotime($dateNow));
         $month_keep = date('m', strtotime($dateNow));
+        $year_keep = date('y', strtotime($dateNow));
 
         $time_keep = timeKeep::create([
             'user_id' => $id,
             'time_in' => $dateNow,
             'day' => $day,
             'month' => $month_keep,
+            'year' => $year_keep
         ]);
 
         return $time_keep;
@@ -150,12 +152,17 @@ class CalendarService
     public function getWorkTime($id)
     {
         $dateNow = date('Y-m-d H:i:s');
-        $month_keep = date('m', strtotime('-1 month', strtotime($dateNow)));
+        $lastMonth = strtotime('-1 month', strtotime($dateNow));
+        $month = date('m', $lastMonth);
+        $year = date('Y', $lastMonth);
+        
         $timeKeep = timeKeep::where('user_id', $id)
-            ->where('month', $month_keep)
+            ->where('month', $month)
+            ->where('year',$year)
             ->sum('work_time');
         $timeContact = Contact::where('user_id', $id)
-            ->where('month', $month_keep)
+            ->where('month', $month)
+            ->where('year',$year)
             ->sum('flag');
         return $timeKeep + $timeContact;
     }

@@ -177,5 +177,11 @@ class UserService
         return $user;
     }
     
+    public function leaveDays($id)
+    {
+        $user = User::find($id);
+        $user->leave_days = $user->leave_days + 1;
+        $user->save();
+    }
     
 }
