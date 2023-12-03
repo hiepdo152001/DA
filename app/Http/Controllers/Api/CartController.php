@@ -102,7 +102,6 @@ class CartController extends Controller
             $amount = $request['value'];
             $key = array_search($id, array_column($cart, 'id'));
             $cart[$key]['quantity'] += $amount;
-            $cart[$key]['price'] = $product->price *  $cart[$key]['quantity'];
             $request->session()->put('cart', $cart);
             $totalPrice = collect($cart)->pluck('price')->sum();
             $request->session()->put('total', $totalPrice);

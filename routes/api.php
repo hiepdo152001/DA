@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BillsController;
 use App\Http\Controllers\Api\HolidayController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -92,6 +93,14 @@ Route::group(['prefix' => '/order'], function () {
     Route::post('/update/{id}', [CartController::class, 'update']);
     Route::post('/create/{id}', [CartController::class, 'create']);
     Route::delete('/{id}', [CartController::class, 'delete']);
+    
+});
+Route::group(['prefix' => '/bills'], function () {
+    Route::get('/get', [BillsController::class, 'get'])->middleware('checkRole:systemAdmin,admin,Sale');
+    Route::get('/by/{id}', [BillsController::class, 'getById'])->middleware('checkRole:systemAdmin,admin,Sale');
+    Route::post('/update/{id}', [BillsController::class, 'update'])->middleware('checkRole:systemAdmin,admin,Sale');
+    Route::post('/create', [BillsController::class, 'create']);
+    Route::delete('/{id}', [BillsController::class, 'delete'])->middleware('checkRole:systemAdmin,admin,Sale');
     
 });
 Route::get('/login', [AuthController::class, 'googleLoginUrl']);

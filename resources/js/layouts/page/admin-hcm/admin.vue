@@ -81,7 +81,7 @@
                 </a-menu-item>
                 </a-sub-menu>
                 <a-menu-item key="yeu-cau-cua-toi">
-                  <router-link :to="{name: 'category'}">
+                  <router-link :to="{name: 'bills'}">
                     <i class="bi bi-list" style="color: black!important;margin-right: 10px;"></i>
                   <span>Quản lý bán hàng</span>
                   </router-link>

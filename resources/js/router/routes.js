@@ -25,6 +25,11 @@ const route = [
                 name: 'view-order',
                 component: () => import("../../js/components/cart.vue"),
             },
+            {
+                path: "bills",
+                name: 'view-bills',
+                component: () => import("../../js/components/bill.vue"),
+            },
         ]
     },
     {
@@ -106,6 +111,13 @@ const route = [
                 path: "product",
                 name: 'product',
                 component: () => import("../layouts/page/admin-hcm/product.vue"),
+             
+            }
+            ,
+            {
+                path: "bills",
+                name: 'bills',
+                component: () => import("../layouts/page/admin-hcm/bills.vue"),
              
             },
             {

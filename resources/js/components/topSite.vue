@@ -67,7 +67,7 @@
         <img v-if="user.avatar" style="width: 35px;height: 35px;" class="profile-image rounded-circle" :src=user.avatar>
         <img v-else style="width: 35px;height: 35px;" class="profile-image rounded-circle" src="../assets/andanh.jpg">
     </div>
-    <div class="col-md-1" v-else><a style="color: white;font-size: 18px;" href="http://localhost:8000/login">Đăng nhập</a> </div>
+    <div class="" style="width: 90px;" v-else><a style="color: white;font-size: 18px;" href="http://localhost:8000/login">Đăng nhập</a> </div>
       <ul class="dropdown-menu dropdown-menu-right" style="padding: 0px;">
         <div
           class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top" 

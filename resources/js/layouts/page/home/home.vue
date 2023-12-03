@@ -1,7 +1,7 @@
 <template>
     <div class="col-12">
     <TopSite />
-    <div id="header" >
+    <div id="header" style="padding-top: 0px!important;">
         <div class="container">
             <div id="logo" class="col-md-3">
                 <a
@@ -48,7 +48,7 @@
                                 <router-link :to="{name:'view-order'}">
                                     <b> Giỏ hàng</b>
                                 </router-link>
-                                <span> (0)</span></a
+                                <span> (4)</span></a
                             >
                         </div>
                     </div>

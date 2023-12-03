@@ -105,10 +105,11 @@ class ProductsService
         if(!empty($search)){
             return products::where(function ($query) use ($search) {
                 $query->where('name', $search)
+                    ->where('status',1)
                     ->orWhere('price', 'like', '%' . $search . '%')
                     ->orWhere('description', 'like', '%' . $search . '%');
             })
-            ->paginate(6);
+            ->paginate(4);
         }
         return products::where('status',1)->paginate(4);
     }
