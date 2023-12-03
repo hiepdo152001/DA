@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Console\Command;
 
@@ -37,7 +38,7 @@ class LeaveDaysUpdate extends Command
      */
     public function handle()
     {
-        $users = \App\Models\User::all();
+        $users = User::whereIn('role_id', [3, 4, 5])->get();
         foreach ($users as $user) {
             $this->userService->leaveDays($user->id);
         }
