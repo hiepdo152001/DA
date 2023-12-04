@@ -97,7 +97,8 @@
 				<button @click="updateQuantity(ci.product_id, 1)" v-if="ci.quantity >= 1" class="quantity-button" style="margin-left: 10px;"> + </button>
 				</td>
 				<td class="border-0 align-middle">
-				  <button class="btn btn-danger " @click="deletes(ci.id)" >Delete</button>
+				  <button v-if="checks ==1" class="btn btn-danger " @click="deletes(ci.id)" >Delete</button>
+				  <button v-if="checks ==0" class="btn btn-danger " @click="deletes(ci.product_id)" >Delete</button>
 				</td>
 			  </tr>
 			</tbody>

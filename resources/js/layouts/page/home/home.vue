@@ -48,7 +48,7 @@
                                 <router-link :to="{name:'view-order'}">
                                     <b> Giỏ hàng</b>
                                 </router-link>
-                                <span> (4)</span></a
+                                <span> ({{ data.total }})</span></a
                             >
                         </div>
                     </div>
@@ -185,8 +185,41 @@
 </div>
 </template>
 
-<script setup>
+<script >
 import TopSite from "../../../components/topSite.vue";
+import axios from "axios";
+import { reactive } from "vue";
+import { useStore } from "vuex";
+export default {
+    components:{
+        TopSite
+    },
+  data() {
+    return {
+      data: reactive({
+        total: 0,
+      }),
+    };
+  },
+  computed: {},
+  mounted() {
+    this.fetchCartData();
+  },
+  methods: {
+    fetchCartData() {
+      axios.get(`http://localhost:8000/api/order/get`).then((response) => {
+        if (response.data.check === 'notuser') {
+          this.data.total = response.data.data.length;
+          console.log(this.data.total);
+        } else {
+          this.data.total = response.data.data.order[0].order_details.length;
+          console.log(this.data.total);
+        }
+      });
+    },
+  },
+};
+
 </script>
 <style>
 #header {
