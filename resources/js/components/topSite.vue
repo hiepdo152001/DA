@@ -99,12 +99,12 @@
           </div>
         </div>
         <li>
-          <router-link :to="{ name: '' }">
+          <router-link :to="{ name: 'guest-profile' }">
             <a class="dropdown-item">Profile</a>
           </router-link>
         </li>
         <li>
-          <router-link :to="{ name: '' }">
+          <router-link :to="{ name: 'change-password' }">
             <a class="dropdown-item">Đổi mật khẩu</a>
           </router-link>
         </li>

@@ -269,6 +269,7 @@
 			if(confirm("Bạn có muốn xóa sản phẩm khỏi giỏ hàng?")){
           	axios.delete(`http://localhost:8000/api/order/${productId}`).then(response=>{
 			this.fetchCartData();
+			window.location.reload();
 			});
 			}
 		},

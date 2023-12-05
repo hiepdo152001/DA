@@ -30,6 +30,21 @@ const route = [
                 name: 'view-bills',
                 component: () => import("../../js/components/bill.vue"),
             },
+            {
+                path: "profile",
+                name: 'guest-profile',
+                component: () => import("../layouts/page/home/guest_profile.vue"),
+            },
+            {
+                path: "edit",
+                name: 'edit-guest',
+                component: () => import("../layouts/page/home/editGuest.vue"),
+            },
+            {
+                path: "change-password",
+                name: 'change-password',
+                component: () => import("../layouts/page/home/changePassword.vue"),
+            },
         ]
     },
     {

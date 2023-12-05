@@ -52,8 +52,8 @@
                                 <a  @click="AddToCart(product.id)" style="cursor: pointer;" >add to cart</a>
                             </div>
                             <div class="icon" style="background: #5CDBDB">
-                            <a href="" >Đặt Hàng</a>
-                        </div>
+                            <a href="http://localhost:8000/home/order" @click="AddToCart(product.id)" style="cursor: pointer;" >Đặt Hàng</a>
+                            </div>
                         </div>
                         </div>
                 </div>

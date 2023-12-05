@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\ImportBookingController;
 use App\Http\Controllers\Api\ProductsController;
+use App\Http\Controllers\Api\StatisticalController;
 use App\Http\Controllers\Controller;
 
 /*
@@ -55,11 +56,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/', [UserController::class, 'profile']);
         Route::get('/by/{id}', [UserController::class, 'getById']);
         Route::get('/all', [UserController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
+        Route::put('/password', [UserController::class, 'changePassword']);
         Route::put('/{id}', [UserController::class, 'update']);
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/{id}', [UserController::class, 'updateAvatar']);
         Route::put('/{id}/deActive', [UserController::class, 'deactive'])->middleware('checkRole:systemAdmin,admin');;
         Route::put('/{id}/active', [UserController::class, 'active'])->middleware('checkRole:systemAdmin,admin');
+        
     });
 
     Route::group(['prefix' => '/category'], function () {
@@ -85,7 +88,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/', [ImportBookingController::class, 'create'])->middleware('checkRole:systemAdmin,admin,IB');
         Route::get('/all', [ImportBookingController::class, 'all'])->middleware('checkRole:systemAdmin,admin,IB');
     });
-   
+
+    Route::group(['prefix' => '/statistical'], function () {
+        Route::get('/get', [StatisticalController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
+    });
 });
 Route::group(['prefix' => '/order'], function () {
     Route::get('/get', [CartController::class, 'get']);

@@ -27,6 +27,10 @@ Route::get('/login',function(){
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 ->name('home');
 
+Route::get('/home/profile', [App\Http\Controllers\HomeController::class, 'index'])
+->name('home');
+Route::get('/home/edit', [App\Http\Controllers\HomeController::class, 'index'])
+->name('home');
 Route::get('/home/order', [App\Http\Controllers\HomeController::class, 'index'])
 ->name('home');
 Route::get('/home/bills', [App\Http\Controllers\HomeController::class, 'index'])
