@@ -1,5 +1,5 @@
 <template>
-	<div style="    position: absolute; margin-top: -32px; right: 150px; color: white;">
+	<div style="position: absolute; margin-top: -32px; right: 150px; color: white;">
 		<router-link :to="{ name: 'view-bills' }">
             <span style="color: white!important; font-size: 20px;">Đơn hàng</span>
           </router-link>
@@ -48,7 +48,7 @@
 				<td  scope="row" class="border-0">
 				  <div class="p-2">
 					<img
-					  :src="ci.product.avatar"
+					  :src="ci.bill_details[0].product.avatar"
 					  style="width: 80px; height:80px;"
 					/>
 				  </div>
@@ -56,47 +56,37 @@
 					<h5 class="mb-0">
 					  <a href="#" class="text-dark d-inline-block align-middle">
 						<!-- Sử dụng {{ ci.productName }} để hiển thị tên sản phẩm -->
-						{{ ci.product.name }}
+						{{ ci.bill_details[0].product.name }}
 					  </a>
 					</h5>
 				  </div>
 				</td>
 				<td class="border-0 align-middle">
 				  <span >
-					<span v-if="status == 1" class="status-approved" style="color: white;"> Giao hàng thành công </span>
-					<span v-if="status == 0" class="status-canceled" style="color: white;"> Đang giao hàng </span>
+					<span v-if="ci.status == 1" class="status-approved" style="color: white;"> Giao hàng thành công </span>
+					<span v-if="ci.status == 0" class="status-canceled" style="color: white;"> Đang giao hàng </span>
+					<span v-if="ci.status == 2" class="status-approved" style="color: white;">Hoàn tất </span>
 				  </span>
 				</td>
 				<td class="border-0 align-middle" style="color: brown;font-size: 20px;">
-				  <strong >{{ formatCurrency(ci.product.price) }}</strong>
+				  <strong >{{ formatCurrency(ci.bill_details[0].product.price) }}</strong>
 				</td>
 				<td class="border-0 align-middle" >
-				<strong><span :id="'quanlity_' + ci.id">{{ ci.quantity }}</span></strong>
+				<strong><span :id="'quanlity_' + ci.id">{{ ci.bill_details[0].quantity }}</span></strong>
 				</td>
                 <td class="border-0 align-middle" style="color: brown;font-size: 20px;">
-                    <strong >{{ formatCurrency(ci.subtotal) }}</strong>
+                    <strong >{{ formatCurrency(ci.bill_details[0].subtotal) }}</strong>
                     
                 </td>
-				<td class="border-0 align-middle" v-if="status == 0">
+				<td class="border-0 align-middle" v-if="ci.status == 0">
 				  <button class="btn btn-danger " @click="deletes(ci.id)" >Hủy</button>
 				</td>
-                <td class="border-0 align-middle" v-if="status !=0">
+                <td class="border-0 align-middle" v-if="ci.status ==1">
 				  <button class="btn btn-danger " @click="update(ci.id)" >Đã thanh toán</button>
 				</td>
 			  </tr>
 			</tbody>
 		  </table>
-		</div>
-		<!-- End -->
-  
-		<!-- Hiển thị tổng tiền -->
-		<div style="width: 300px; margin: auto; display: flex;">
-		  <a style="margin-top: 30px;font-size: 20px;"> : &nbsp</a>
-		  <h1 id="totalPrice" style="color: red;">
-			<!-- Sử dụng {{ cart.totalPrice }} để hiển thị tổng tiền -->
-			<!-- {{ formatCurrency(total) }} -->
-			
-		  </h1>
 		</div>
 	  </div>
 	</section>
@@ -136,8 +126,7 @@
 	methods: {
 		fetchCartData(){
 		axios.get(`http://localhost:8000/api/bills/get`).then((response) => {
-			
-            this.cart= response.data.data.bill_details;
+            this.cart= response.data.data;
             this.status= response.data.data.status;
             this.total=response.data.data.total_amount;
             console.log(this.total);
@@ -166,6 +155,13 @@
 		deletes(productId) {
 			if(confirm("Bạn có muốn xóa sản phẩm khỏi giỏ hàng?")){
           	axios.delete(`http://localhost:8000/api/order/${productId}`).then(response=>{
+			this.fetchCartData();
+			});
+			}
+		},
+		update(productId){
+			if(confirm("Bạn đã nhận hàng và thanh toán ?")){
+          	axios.get(`http://localhost:8000/api/bills/update/${productId}`).then(response=>{
 			this.fetchCartData();
 			});
 			}

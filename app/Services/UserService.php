@@ -31,6 +31,7 @@ class UserService
             'password' => Hash::make('Aa123@#@#@***'),
             'status'=> 0,
             'role_id'=> 6,
+            'leave_days' =>0,
         ]);
         if($googleUser->avatar){
             $imageData = file_get_contents($googleUser->avatar); 
@@ -179,9 +180,18 @@ class UserService
     
     public function leaveDays($id)
     {
-        $user = User::find($id);
+        $user = User::where('id',$id)->where('status',0);
         $user->leave_days = $user->leave_days + 1;
         $user->save();
+    }
+
+    public function newPassword(string $email, string $password)
+    {
+         $user = User::where('email', $email)
+         ->where('status',0)->update([
+            'password' => Hash::make($password)
+        ]);
+        return $user;
     }
     
 }

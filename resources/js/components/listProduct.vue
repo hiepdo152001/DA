@@ -49,10 +49,10 @@
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="display: flex; margin: auto;">
                             <div class="icon" style="background: #CC1417; margin-right: 10px;">
                                 
-                                <a  @click="AddToCart(product.id)" style="cursor: pointer;" >add to cart</a>
+                                <a href="/home"  @click="AddToCart(product.id)" style="cursor: pointer;" >add to cart</a>
                             </div>
                             <div class="icon" style="background: #5CDBDB">
-                            <a href="http://localhost:8000/home/order" @click="AddToCart(product.id)" style="cursor: pointer;" >Đặt Hàng</a>
+                            <a href="/home/order" @click="AddToCart(product.id)" style="cursor: pointer;" >Đặt Hàng</a>
                             </div>
                         </div>
                         </div>

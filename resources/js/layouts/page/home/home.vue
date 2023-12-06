@@ -6,7 +6,7 @@
             <div id="logo" class="col-md-3">
                 <a
                     title="TOP +1000 MẪU GIÀY TĂNG CHIỀU CAO NAM ĐẸP NHẤT - MIỄN PHÍ GIAO HÀNG - KIỂM TRA ĐI THỬ TRƯỚC KHI NHẬN - BẢO HÀNH 12 THÁNG 1 ĐỔI 1 - GIÀY TĂNG CHIỀU CAO NAM ĐỘN ĐẾ NÂNG GÓT T-MEN"
-                    href="/"
+                    href="/home"
                     ><img
                         class="img-responsive"
                         src="../../../assets/logo.png"
@@ -65,19 +65,8 @@
                 <div id="adtm_menu_inner" class="clearfix">
                     <div class="container">
                         <ul id="menu">
-                            <li class="li-niveau1 advtm_menu_toggle">
-                                <a class="a-niveau1 adtm_toggle_menu_button">
-                                    <span
-                                        class="advtm_menu_span adtm_toggle_menu_button_text"
-                                        >Menu</span
-                                    >
-                                </a>
-                            </li>
-                            <li class="li-niveau1 advtm_menu_21">
-                                <a href="http://localhost:8000/home" style="margin-top: 5px;">
-                                    <span
-                                        class="advtm_menu_span advtm_menu_span_21"
-                                    >
+                            <li class="li-niveau1 advtm_menu_21" >
+                                <a href="http://localhost:8000/home" style="margin-top: 5px;margin-right: 10px;">
                                         <img
                                             src="../../../assets/home.png"
                                             alt=""
@@ -87,7 +76,6 @@
                                             class="adtm_menu_icon"
                                             style="width: 30px;height: 30px;"
                                         />
-                                    </span>
                                 </a>
                             </li>
                             <li class="li-niveau1 advtm_menu_10 sub">

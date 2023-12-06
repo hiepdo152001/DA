@@ -100,7 +100,7 @@
         </div>
         <li>
           <router-link :to="{ name: 'guest-profile' }">
-            <a class="dropdown-item">Profile</a>
+            <a class="dropdown-item">Thông tin cá nhân</a>
           </router-link>
         </li>
         <li>

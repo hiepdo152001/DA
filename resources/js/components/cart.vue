@@ -17,6 +17,9 @@
 		</div>
 	  <div v-else class="container px-4 px-lg-5 mt-5">
 		<!-- Shopping cart table -->
+		<div class="alert alert-danger" v-if="error != '' ">
+                {{ error }}
+        </div >
 		<div class="table-responsive">
 		  <table class="table">
 			<thead>
@@ -191,6 +194,8 @@
 		const cart=ref([]);
 		var total=ref();
 		var checks=ref();
+		var error = ref("");
+		const user =ref([]);
 		const selectedProductIds= ref([]);
 		const formUser = reactive({
 		  name: "",
@@ -199,13 +204,16 @@
 		  phone: "",
 		  branch_id : 1,
 		  keyProduct: [],	
+		  error
 		})
 	  return {
 		cart,
 		total,
 		checks,
 		selectedProductIds,
-		formUser
+		formUser,
+		user,
+		error
 	  }
 	},
 	computed: {
@@ -229,6 +237,11 @@
 	},
 	mounted() {
 	  this.fetchCartData();
+	  axios.get(`http://localhost:8000/api/user`).then(response => {
+        this.user = response.data.data;
+		console.log(this.user);
+	  });
+	  console.log(this.error);
 	},
 	methods: {
 		fetchCartData(){
@@ -276,10 +289,20 @@
 		Buy(){
 			// Khởi tạo đối tượng FormData từ this.formUser (nếu this.formUser chưa phải là FormData)
 			this.formUser.keyProduct=this.selectedProductIds;
-			if(this.checks == 1){
-				if(this.$route.path.includes("hcm")){
-				this.formUser.branch_id = 2;
+			this.error="";
+			if(this.selectedProductIds.length == 0){
+				this.error = "Bạn cần chọn sản phẩm để mua!"
+				console.log(this.error);
 			}
+			else if(this.user.address == null|| this.user.phone == null){
+				this.error = "Bạn cần cập nhật đầy đủ thông tin!"
+				console.log(this.error);
+			}
+			else{
+				if(this.checks == 1){
+					if(this.$route.path.includes("hcm")){
+					this.formUser.branch_id = 2;
+				}
 			axios.post(`http://localhost:8000/api/bills/create`,this.formUser).then((response) => {
 				if(response.data.message == 'success'){
 					alert('Mua hàng thành công');
@@ -296,6 +319,8 @@
 				}
 				});
 			}
+			}
+			
 		}
 	},
   };

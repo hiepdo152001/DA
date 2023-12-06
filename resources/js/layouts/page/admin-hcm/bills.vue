@@ -6,7 +6,7 @@
   
       <div class="panel-container">
         <div class="panel-content">
-            <router-link :to="{name:'view-category'}">
+            <router-link :to="{name:'add-Bills'}">
             <button class="btn btn-primary waves-effect waves-themed" style="background-color: #886ab5;">
               + Thêm đơn hàng
             </button>
@@ -17,6 +17,7 @@
             <thead>
               <tr>
                 <th>Người mua </th>
+                <th>Địa chỉ</th>
                 <th>Sản phẩm</th>
                 <th>Trạng thái</th>
                 <th>Giá</th>
@@ -27,7 +28,8 @@
             </thead>
             <tbody>
               <tr v-for="(category, index) in data" :key="index" >
-                <td>{{ category.name }}</td>
+                <td>{{ category.name }} <br> sdt: {{ category.phone }}</td>
+                <td>{{ category.address }}</td>
                 <td>
                   <img :src="category.bill_details[0].product.avatar" alt="" style="width: 50px;height: 50px;">
                 </td>

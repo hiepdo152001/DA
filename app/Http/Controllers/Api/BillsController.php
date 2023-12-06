@@ -85,17 +85,17 @@ class BillsController extends Controller
          'message'=> "success"
        ],200);
     }
-    public function update($id, Request $request){
-        $holiday= $this->billsService->update($id,$request->all());
+    public function update($id){
+        $bill= $this->billsService->update($id);
         return response()->json([
-         'data'=>$holiday
+         'data'=>$bill
         ],200);
      }
 
      public function delete($id){
-      $holiday= $this->billsService->delete($id);
+      $bill= $this->billsService->delete($id);
       return response()->json([
-       'data'=>$holiday
+       'data'=>$bill
       ],200);
    }
 

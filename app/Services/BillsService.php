@@ -17,13 +17,11 @@ class BillsService
         
     }
 
-    public function update($id,$payload){
-        $holiday=bills::findOrFail($id);
-        // $holiday->title=$payload->title;
-        // $holiday->time_start=$payload->time_start;
-        // $holiday->time_end=$payload->time_end;
-        $holiday->update($payload);
-        return $holiday;
+    public function update($id){
+        $bill=bills::findOrFail($id);
+        $bill->status=2;
+        $bill->save();
+        return $bill;
     }
 
     public function delete($id){
@@ -36,7 +34,7 @@ class BillsService
             $orderDetails = bills::with('billDetails.product')->paginate(3);
             return $orderDetails;
         }
-        $orderDetails = bills::with('billDetails.product')->where('user_id', $user->id)->first();
+        $orderDetails = bills::with('billDetails.product')->where('user_id', $user->id)->get();
 
         return $orderDetails;
     }

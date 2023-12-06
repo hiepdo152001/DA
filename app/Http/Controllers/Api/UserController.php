@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangePassword;
 use App\Models\social_accounts as ModelsSocial_accounts;
 use App\Models\User;
 use App\Services\AuthServices;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Hash;
 use Psy\Readline\Hoa\Console;
 
 class UserController extends Controller
@@ -140,4 +142,48 @@ class UserController extends Controller
         return response()->json([$user], 202);
     }
 
+    public function changePassword(ChangePassword $request)
+    {
+        $email = $request->email;
+        $users=$this->getCurrentLoggedIn();
+        $user = $this->userService->getByEmail($email);
+        if ($user === null) {
+            return response()->json([
+                'status' => false,
+                'message' => 'email not found!',
+            ], 404);
+        }
+        if($users){
+            if($users->email !== $email ){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Email không chính xác!',
+                ], 404);
+            }
+            if (!Hash::check($request->old_password, $users->password)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Mật khẩu cũ không chính xác!',
+                ], 404);
+            }
+            $this->userService->newPassword($users->email, $request->new_password);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'change password successful!',
+            ], 200);
+        }
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Mật khẩu cũ không chính xác!',
+            ], 404);
+        }
+
+        $this->userService->newPassword($user->email, $request->new_password);
+        return response()->json([
+            'status' => true,
+            'message' => 'Thay đổi mật khẩu thành công!',
+        ], 200);
+    }
 }
