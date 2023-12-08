@@ -17,24 +17,29 @@ class BillsService
         
     }
 
-    public function update($id){
+    public function update($id,$status){
         $bill=bills::findOrFail($id);
-        $bill->status=2;
+        $bill->status=$status;
         $bill->save();
         return $bill;
     }
 
     public function delete($id){
-        $holiday= bills::find($id);
-        return $holiday->delete();
+        
+        $bill= billsDetails::find($id);
+        $bill_id = $bill->bills_id;
+        $bills= bills::find($bill_id);
+        $bills->total_amount -=  $bill->subtotal;
+        $bills->save();
+        return $bill->delete();
     }
 
     public function get($user){
-        if($user->role_id <3 || $user->role_id == 4){
+        if($user->role_id < 3 || $user->role_id == 4){
             $orderDetails = bills::with('billDetails.product')->paginate(3);
             return $orderDetails;
         }
-        $orderDetails = bills::with('billDetails.product')->where('user_id', $user->id)->get();
+        $orderDetails = bills::with('billDetails.product')->where('user_id', $user->id)->where('status', '!=',2)->get();
 
         return $orderDetails;
     }

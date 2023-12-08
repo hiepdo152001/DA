@@ -3,6 +3,28 @@ const route = [
         path: "/login",
         name: 'login',
         component: () => import("../layouts/auth/viewWeb.vue"),
+        children:[
+            {
+                path: "",
+                name: 'logins',
+                component: () => import("../layouts/auth/login.vue"),
+            },
+            {
+                path: "register",
+                name: 'register-guest',
+                component: () => import("../layouts/auth/register.vue"),
+            },
+            {
+                path: "register",
+                name: 'register-guest',
+                component: () => import("../layouts/auth/register.vue"),
+            },
+            {
+                path: "password",
+                name: 'password-guest',
+                component: () => import("../layouts/auth/password.vue"),
+            },
+        ]
       
     },
     {
@@ -92,6 +114,11 @@ const route = [
                 name: 'request-member',
                 component: () => import("../layouts/page/user/reqMember.vue"),
             },
+            {
+                path: "change-password",
+                name: 'change-password-user',
+                component: () => import("../layouts/page/user/changePassword.vue"),
+            },
 
         ]
     },
@@ -142,9 +169,16 @@ const route = [
              
             },
             {
-                path: "category/view",
+                path: "category",
                 name: 'view-category',
                 component: () => import("../layouts/page/admin-hcm/categoryView.vue"),
+             
+            },
+            
+            {
+                path: "add/bill",
+                name: 'add-Bills',
+                component: () => import("../layouts/page/admin-hcm/addBills.vue"),
              
             },
             {
@@ -217,7 +251,12 @@ const route = [
                 path: "booking",
                 name: 'sys-booking',
                 component: () => import("../layouts/page/admin-hcm/listImBook.vue"),
-            }
+            },
+            {
+                path: "change-password",
+                name: 'admin-password',
+                component: () => import("../layouts/page/user/changePassword.vue"),
+            },
         ],
     },
     ];

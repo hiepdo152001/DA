@@ -30,17 +30,6 @@
                 <td v-if="category.status ===2">Hủy bỏ</td>
                 <td>
                   <button
-                    class="btn btn-primary btn-sm waves-effect waves-themed"
-                    type="button"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="View"
-                  >
-                  <router-link :to="{name:'sys-holidayview', params: { id: category.id }}">
-                    <i class="bi bi-eye-fill" style="color: black;"></i>
-                  </router-link>
-                  </button>
-                  <button
                     class="btn btn-primary btn-sm waves-effect waves-themed" 
                     type="button"
                     data-toggle="tooltip"

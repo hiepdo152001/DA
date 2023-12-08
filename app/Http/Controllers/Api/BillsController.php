@@ -85,8 +85,8 @@ class BillsController extends Controller
          'message'=> "success"
        ],200);
     }
-    public function update($id){
-        $bill= $this->billsService->update($id);
+    public function update($id,Request $request){
+        $bill= $this->billsService->update($id,$request->status);
         return response()->json([
          'data'=>$bill
         ],200);

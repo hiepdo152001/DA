@@ -82,32 +82,31 @@ class BookingService
    // Trong Controller hoặc Service
 public function get($search, $user)
 {
-    // if ($user->branch_id === null) {
+    if ($user->role_id === 1) {
         $results = import_booking::with(['user', 'products' => function ($query) {
             $query->withPivot('amount', 'import_price', 'sum');
         }])->paginate(2);
-    // } elpaginatese {
-    //     // Nếu branch_id của user không null
-    //     if (!empty($search)) {
-    //         $results = book_product::where('branch_id', $user->branch_id)
-    //             ->where(function ($query) use ($search) {
-    //                 $query->where('id', $search)
-    //                     ->orWhere('name', 'like', '%' . $search . '%')
-    //                     ->orWhere('courier', 'like', '%' . $search . '%');
-    //             })
-    //             ->paginate(3);
+    } else {
+        // Nếu branch_id của user không null
+        if (!empty($search)) {
+            $results = import_booking::where('branch_id', $user->branch_id)
+                ->where(function ($query) use ($search) {
+                    $query->where('id', $search)
+                        ->orWhere('name', 'like', '%' . $search . '%')
+                        ->orWhere('courier', 'like', '%' . $search . '%');
+                })->with(['user', 'products' => function ($query) {
+                    $query->withPivot('amount', 'import_price', 'sum');
+                }])
+                ->paginate(2);
 
-    //         if ($results->isEmpty()) {
-    //             // Nếu không có kết quả từ tìm kiếm, truy vấn import_booking
-    //             $results = import_booking::with(['user', 'products' => function ($query) {
-    //                 $query->withPivot('amount', 'import_price', 'sum');
-    //             }])->paginate(3);
-    //         }
-    //     } else {
-    //         // Truy vấn book_product nếu không có tìm kiếm
-    //         $results = book_product::where('branch_id', $user->branch_id)->paginate(3);
-    //     }
-    // }
+        } else {
+            $results = import_booking::where('branch_id', $user->branch_id)
+            ->with(['user', 'products' => function ($query) {
+                $query->withPivot('amount', 'import_price', 'sum');
+            }])
+            ->paginate(2);
+        }
+    }
 
     return $results;
 }

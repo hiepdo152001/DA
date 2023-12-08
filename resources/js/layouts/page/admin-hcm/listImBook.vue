@@ -43,11 +43,10 @@
           <th>Chi nhanh</th>
           <th>Chi phí hóa đơn</th>
           <th>Trạng thái</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="bill in bills  " :key="bill.id" class="contact-row">
+        <tr v-for="bill in bills.data  " :key="bill.id" class="contact-row">
           <td>{{ bill.name }}</td>
           <th>{{ bill.user.name }}</th>
           <td>{{ bill.daily_name }} </td>
@@ -59,10 +58,6 @@
           <td v-if=" bill.branch_id == 1 "> Hồ Chí Minh</td>
           <td v-if=" bill.branch_id == 2 "> Đà Nẵng</td>
           <td>{{ formatCurrency(bill.total_price) }}</td>
-          <td v-if=" bill.status == 0 " class="status-pending"> Chưa thanh toán</td>
-          <td v-if=" bill.status == 1 " class="status-confirmed"> Đã thanh toán</td>
-         
-          
         <td>
           <button
             class="btn"
@@ -81,7 +76,7 @@
     </table>
     </div>
     <div class="page">
-      <Bootstrap5Pagination :data="bills" @pagination-change-page="Bills" />
+      <Bootstrap5Pagination :data="bills" @pagination-change-page="get" />
     </div>
     </div>
 </template>
@@ -112,8 +107,8 @@ data(){
 mounted(){
     axios.get(`http://localhost:8000/api/bill/get?page=1`)
     .then(response => {
-      this.bills=response.data[0].data;
-      console.log(this.bills);
+      this.bills=response.data[0];
+      console.log(response.data[0]);
     });
 
     
@@ -125,18 +120,18 @@ methods:{
         currency: 'VND'
       });
     },
-    Bills(page =1){
+    get(page =1){
         axios.get(`http://localhost:8000/api/bill/get?page=${page}`).then(response=>{
-          this.bills = response.data[0].data;
+          this.bills = response.data[0];
         });
     },
-    // SearchUser(page =1){
-    //     axios.get(`http://localhost:8000/api/user/all?page=${page}`,
-    //     {params: { search: this.input.search }},
-    //     ).then(response=>{
-    //         this.users=response.data[0];
-    //     });
-    // }
+    SearchUser(page =1){
+        axios.get(`http://localhost:8000/api/bill/get?page=${page}`,
+        {params: { search: this.input.search }},
+        ).then(response=>{
+          this.bills = response.data[0];
+        });
+    }
 }
 }
 </script>

@@ -306,7 +306,7 @@
 			axios.post(`http://localhost:8000/api/bills/create`,this.formUser).then((response) => {
 				if(response.data.message == 'success'){
 					alert('Mua hàng thành công');
-					this.$router.push('./');
+					this.$router.push('/home/bills');
 				}
 			});
 			}

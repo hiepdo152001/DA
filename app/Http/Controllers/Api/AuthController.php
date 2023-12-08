@@ -71,7 +71,7 @@ class AuthController extends Controller
             }
             return redirect()->back();
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+                        return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -117,7 +117,7 @@ class AuthController extends Controller
     }
 
     public function register(RegisterRequest $request)
-    {   $user_login=$this->getCurrentLoggedIn();
+    {   
         $user = $this->userService->register($request->all());
         $user->notify(new RegisterNotify($user));
 

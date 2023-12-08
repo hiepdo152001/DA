@@ -271,7 +271,7 @@ export default {
         },
         logout(){
         axios.get(`http://localhost:8000/api/logout`).then(response=>{
-          location.reload('');
+            window.location.href = 'http://localhost:8000/home';
         });
       }
     }

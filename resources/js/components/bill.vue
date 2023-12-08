@@ -43,18 +43,18 @@
 			</thead>
 			<tbody>
 			  <!-- Sử dụng v-for để lặp qua danh sách sản phẩm trong giỏ hàng -->
-				 <tr v-for="(ci, index) in cart" :key="index">
+				 <tr v-for="(ci, index) in cart.data" :key="index">
       <!-- Kiểm tra xem ci có phải là phần tử cuối cùng không -->
 				<td  scope="row" class="border-0">
 				  <div class="p-2">
-					<img
+					<img v-if="hasBillDetails(ci)"
 					  :src="ci.bill_details[0].product.avatar"
 					  style="width: 80px; height:80px;"
 					/>
 				  </div>
 				  <div class="ml-3 d-inline-block align-middle">
 					<h5 class="mb-0">
-					  <a href="#" class="text-dark d-inline-block align-middle">
+					  <a v-if="hasBillDetails(ci)" href="#" class="text-dark d-inline-block align-middle">
 						<!-- Sử dụng {{ ci.productName }} để hiển thị tên sản phẩm -->
 						{{ ci.bill_details[0].product.name }}
 					  </a>
@@ -62,27 +62,28 @@
 				  </div>
 				</td>
 				<td class="border-0 align-middle">
-				  <span >
+				  <span v-if="hasBillDetails(ci)" >
 					<span v-if="ci.status == 1" class="status-approved" style="color: white;"> Giao hàng thành công </span>
-					<span v-if="ci.status == 0" class="status-canceled" style="color: white;"> Đang giao hàng </span>
+					<span v-if="ci.status == 0" class="status-approved" style="color: white;"> Đang giao hàng </span>
+					<span v-if="ci.status == 3" class="status-canceled" style="color: white;"> Chờ phản hồi hủy đơn </span>
 					<span v-if="ci.status == 2" class="status-approved" style="color: white;">Hoàn tất </span>
 				  </span>
 				</td>
-				<td class="border-0 align-middle" style="color: brown;font-size: 20px;">
+				<td v-if="hasBillDetails(ci)" class="border-0 align-middle" style="color: brown;font-size: 20px;">
 				  <strong >{{ formatCurrency(ci.bill_details[0].product.price) }}</strong>
 				</td>
-				<td class="border-0 align-middle" >
+				<td v-if="hasBillDetails(ci)" class="border-0 align-middle" >
 				<strong><span :id="'quanlity_' + ci.id">{{ ci.bill_details[0].quantity }}</span></strong>
 				</td>
-                <td class="border-0 align-middle" style="color: brown;font-size: 20px;">
+                <td v-if="hasBillDetails(ci)" class="border-0 align-middle" style="color: brown;font-size: 20px;">
                     <strong >{{ formatCurrency(ci.bill_details[0].subtotal) }}</strong>
                     
                 </td>
-				<td class="border-0 align-middle" v-if="ci.status == 0">
-				  <button class="btn btn-danger " @click="deletes(ci.id)" >Hủy</button>
+				<td class="border-0 align-middle" v-if="ci.status == 0 && hasBillDetails(ci)">
+				  <button class="btn btn-danger " @click="update(ci.id,3)" >Hủy</button>
 				</td>
-                <td class="border-0 align-middle" v-if="ci.status ==1">
-				  <button class="btn btn-danger " @click="update(ci.id)" >Đã thanh toán</button>
+                <td class="border-0 align-middle" v-if="ci.status ==1 && hasBillDetails(ci)">
+				  <button class="btn btn-danger " @click="update(ci.id,2)" >Đã thanh toán</button>
 				</td>
 			  </tr>
 			</tbody>
@@ -127,14 +128,15 @@
 		fetchCartData(){
 		axios.get(`http://localhost:8000/api/bills/get`).then((response) => {
             this.cart= response.data.data;
+			console.log(this.cart);
             this.status= response.data.data.status;
             this.total=response.data.data.total_amount;
-            console.log(this.total);
-            console.log(this.cart);
-		
 	  	});
 		}
 		,
+      hasBillDetails(category) {
+      return category.bill_details  && category.bill_details.length >0;
+      },
 		formatCurrency(value) {
 			return parseFloat(value).toLocaleString('vi-VN', {
 				style: 'currency',
@@ -159,9 +161,19 @@
 			});
 			}
 		},
-		update(productId){
-			if(confirm("Bạn đã nhận hàng và thanh toán ?")){
-          	axios.get(`http://localhost:8000/api/bills/update/${productId}`).then(response=>{
+		update(productId,status){
+			var message ='';
+			if(status ==2){
+				message = "Bạn đã nhận hàng và thanh toán ?";
+			}
+			if(status == 3){
+				message =" Bạn muốn hủy đơn hàng?";
+			}
+			if(confirm(message)){
+				var data= {
+				'status' : status
+			}
+          	axios.post(`http://localhost:8000/api/bills/update/${productId}`,data).then(response=>{
 			this.fetchCartData();
 			});
 			}

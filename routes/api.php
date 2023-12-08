@@ -25,6 +25,12 @@ use App\Http\Controllers\Controller;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::post('/user/register', [AuthController::class, 'register']);
+Route::put('/user/password', [UserController::class, 'changePassword']);
+Route::get('/login', [AuthController::class, 'googleLoginUrl']);
+Route::get('/logout', [AuthController::class, 'logout']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/alls', [ProductsController::class, 'alls']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => '/calendar'], function () {
         Route::group(['prefix' => '/time-keep'], function () {
@@ -56,9 +62,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/', [UserController::class, 'profile']);
         Route::get('/by/{id}', [UserController::class, 'getById']);
         Route::get('/all', [UserController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
-        Route::put('/password', [UserController::class, 'changePassword']);
+        
         Route::put('/{id}', [UserController::class, 'update']);
-        Route::post('/register', [AuthController::class, 'register']);
+        
         Route::post('/{id}', [UserController::class, 'updateAvatar']);
         Route::put('/{id}/deActive', [UserController::class, 'deactive'])->middleware('checkRole:systemAdmin,admin');;
         Route::put('/{id}/active', [UserController::class, 'active'])->middleware('checkRole:systemAdmin,admin');
@@ -87,11 +93,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/{id}', [ImportBookingController::class, 'update'])->middleware('checkRole:systemAdmin,admin,IB');
         Route::post('/', [ImportBookingController::class, 'create'])->middleware('checkRole:systemAdmin,admin,IB');
         Route::get('/all', [ImportBookingController::class, 'all'])->middleware('checkRole:systemAdmin,admin,IB');
+        
     });
 
     Route::group(['prefix' => '/statistical'], function () {
         Route::get('/get', [StatisticalController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
     });
+    Route::get('/bills/get', [BillsController::class, 'get']);
+    Route::get('/sta', [StatisticalController::class, 'get'])->middleware('checkRole:systemAdmin,admin');
 });
 Route::group(['prefix' => '/order'], function () {
     Route::get('/get', [CartController::class, 'get']);
@@ -102,17 +111,13 @@ Route::group(['prefix' => '/order'], function () {
     
 });
 Route::group(['prefix' => '/bills'], function () {
-    Route::get('/get', [BillsController::class, 'get'])->middleware('checkRole:systemAdmin,admin,Sale');
     Route::get('/by/{id}', [BillsController::class, 'getById'])->middleware('checkRole:systemAdmin,admin,Sale');
-    Route::post('/update/{id}', [BillsController::class, 'update'])->middleware('checkRole:systemAdmin,admin,Sale');
+    Route::post('/update/{id}', [BillsController::class, 'update']);
     Route::post('/create', [BillsController::class, 'create']);
     Route::delete('/{id}', [BillsController::class, 'delete'])->middleware('checkRole:systemAdmin,admin,Sale');
     
 });
-Route::get('/login', [AuthController::class, 'googleLoginUrl']);
-Route::get('/logout', [AuthController::class, 'logout']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/alls', [ProductsController::class, 'alls']);
+
 Route::get('/product/by/{id}', [ProductsController::class, 'get']);
 Route::fallback(function () {
     return response()->json([

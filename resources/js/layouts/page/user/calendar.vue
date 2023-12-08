@@ -90,13 +90,8 @@
           </router-link>
         </li>
         <li>
-          <router-link :to="{ name: '' }">
+          <router-link :to="{ name: 'change-password-user' }">
             <a class="dropdown-item">Đổi mật khẩu</a>
-          </router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: '' }">
-            <a class="dropdown-item">Danh sách yêu cầu</a>
           </router-link>
         </li>
         <li style="padding-left: 20px">
@@ -137,7 +132,7 @@ export default{
     methods:{
       logout(){
         axios.get(`http://localhost:8000/api/logout`).then(response=>{
-          location.reload('');
+          window.location.href = 'http://localhost:8000/login';
         });
       }
     }

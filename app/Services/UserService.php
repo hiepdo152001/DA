@@ -48,6 +48,7 @@ class UserService
         $payload['password'] = Hash::make($payload['password']);
         $payload['status'] = 0;
         $payload['role_id'] = 6;
+        $payload['leave_days']=0;
 
         return User::create($payload);
     }
