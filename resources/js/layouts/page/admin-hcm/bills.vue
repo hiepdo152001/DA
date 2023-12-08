@@ -35,9 +35,9 @@
                   <img v-if="category.bill_details[0]" :src="category.bill_details[0].product.avatar" alt="" style="width: 50px;height: 50px;">
                 </td>
                <td v-if="category.status ===3 && hasBillDetails(category)" class="status-canceled">Hủy bỏ</td>
-               <td v-if="category.status ===2" class="status-approved" style="color: red;">Hoàn thành</td>
-               <td v-if="category.status ===1" class="status-confirmed" style="color: rgb(255, 136, 0);">Đang giao hàng</td>
-                <td v-if="category.status === 0 " class="status-pending">Chờ lấy hàng</td> 
+               <td v-if="category.status ===2  && hasBillDetails(category)" class="status-approved" style="color: red;">Hoàn thành</td>
+               <td v-if="category.status ===1  && hasBillDetails(category)" class="status-confirmed" style="color: rgb(255, 136, 0);">Đang giao hàng</td>
+                <td v-if="category.status === 0  && hasBillDetails(category)" class="status-pending">Chờ lấy hàng</td> 
                 <td v-if="hasBillDetails(category)">
                   {{ formatCurrency(category.bill_details[0].product.price) }}
                 </td>
