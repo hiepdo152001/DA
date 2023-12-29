@@ -26,6 +26,7 @@ use App\Http\Controllers\Controller;
 |
 */
 Route::post('/user/register', [AuthController::class, 'register']);
+Route::post('/user/pass', [AuthController::class, 'pass']);
 Route::put('/user/password', [UserController::class, 'changePassword']);
 Route::get('/login', [AuthController::class, 'googleLoginUrl']);
 Route::get('/logout', [AuthController::class, 'logout']);

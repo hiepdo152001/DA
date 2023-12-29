@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Notifications\PassNotification;
 use DateTime;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UserService
 {
@@ -51,6 +53,21 @@ class UserService
         $payload['leave_days']=0;
 
         return User::create($payload);
+    }
+
+    public function pass(array $payload)
+    {
+        $email= $payload['email'];
+        $phone =$payload['phone'];
+        $user= User::where('email',$email)
+                    ->where('phone',$phone)->first();
+        if(!$user){
+            return null;
+        }
+        $randomString = Str::random(8);
+        $user->password = Hash::make($randomString);
+        $user->notify(new PassNotification($randomString));
+        return $user->save();
     }
 
 

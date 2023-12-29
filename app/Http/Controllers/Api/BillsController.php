@@ -59,7 +59,7 @@ class BillsController extends Controller
          $bill = bills::create([
             'user_id' => $user->id,
             'total_amount' => 0,
-            'branch_id' => $user->branch_id
+            'branch_id' => $request->branch_id
          ]);
          $total_amount =0;
          foreach ($cart as $cartKey => $cartValue) {

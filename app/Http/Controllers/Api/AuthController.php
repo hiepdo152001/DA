@@ -124,7 +124,21 @@ class AuthController extends Controller
         return response()->json([
             'status' =>  true,
             'message' => 'User Create Successfully',
-            'token' => $user->createToken("API TOKEN")->plainTextToken
+        ], 200);
+    }
+
+    public function pass(Request $request)
+    {   
+        $user = $this->userService->pass($request->all());
+        if(!$user){
+            return response()->json([
+                'status' =>  true,
+                'message' => 'Email hoặc số điện thoại không hợp lệ',
+            ], 404);
+        }
+        return response()->json([
+            'status' =>  true,
+            'message' => 'User Create Successfully',
         ], 200);
     }
 }

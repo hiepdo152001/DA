@@ -61,7 +61,7 @@ class CartController extends Controller
          if (!$order) {
             $order = $user->order()->create([
                'total_amount' => 1,
-               'branch_id' => $user->branch_id,
+               'branch_id' => $request->branch_id,
                // Các trường khác theo yêu cầu của bạn
             ]);
          }
